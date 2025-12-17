@@ -6,6 +6,7 @@ import { stripePromise } from '../lib/stripe';
 import { createPaymentIntent } from '../services/payment';
 import { useAuth } from '../contexts/AuthContext';
 import { CartItem } from '../types';
+import { getCitiesForCountry, getPostalCodeInfo, getCountryData } from '../data/europeanAddresses';
 
 interface CheckoutPageProps {
   cart: CartItem[];
@@ -40,6 +41,11 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
   const shipping = subtotal >= 50 ? 0 : 5.99;
   const tax = subtotal * 0.08;
   const total = subtotal + shipping + tax;
+
+  // Get European address data
+  const cities = getCitiesForCountry(formData.country);
+  const postalCodeInfo = getPostalCodeInfo(formData.country);
+  const countryData = getCountryData(formData.country);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const value = e.target.type === 'checkbox' ? (e.target as HTMLInputElement).checked : e.target.value;
@@ -353,11 +359,12 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
+                        placeholder="Enter city name"
                       />
                     </div>
                     <div>
                       <label htmlFor="state" className="block text-sm font-medium text-text-primary mb-2">
-                        State *
+                        State/Region *
                       </label>
                       <select
                         id="state"
@@ -367,43 +374,23 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                         required
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
                       >
-                        <option value="">Select {formData.country === 'US' ? 'State' : 'Region'}</option>
-                        {formData.country === 'US' ? (
-                          <>
-                            <option value="AL">Alabama</option>
-                            <option value="AK">Alaska</option>
-                            <option value="AZ">Arizona</option>
-                            <option value="CA">California</option>
-                            <option value="CO">Colorado</option>
-                            <option value="FL">Florida</option>
-                            <option value="NY">New York</option>
-                            <option value="TX">Texas</option>
-                            {/* Add more states as needed */}
-                          </>
-                        ) : (
-                          <>
-                            <option value="Berlin">Berlin</option>
-                            <option value="Bavaria">Bavaria</option>
-                            <option value="North Rhine-Westphalia">North Rhine-Westphalia</option>
-                            <option value="Baden-Württemberg">Baden-Württemberg</option>
-                            <option value="Madrid">Madrid</option>
-                            <option value="Catalonia">Catalonia</option>
-                            <option value="Andalusia">Andalusia</option>
-                            <option value="Île-de-France">Île-de-France</option>
-                            <option value="Lombardy">Lombardy</option>
-                            <option value="Lazio">Lazio</option>
-                            <option value="England">England</option>
-                            <option value="Scotland">Scotland</option>
-                            <option value="Wales">Wales</option>
-                          </>
-                        )}
+                        <option value="">Select State/Region</option>
+                        {cities.map((city) => (
+                          <option key={city.name} value={city.name}>
+                            {city.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="zipCode" className="block text-sm font-medium text-text-primary mb-2">
-                        {formData.country === 'GB' ? 'Postcode' : formData.country === 'CH' ? 'Postleitzahl' : 'Postal Code'} *
+                        {formData.country === 'GB' ? 'Postcode' : 
+                         formData.country === 'CH' ? 'Postleitzahl' : 
+                         formData.country === 'NL' ? 'Postcode' : 
+                         formData.country === 'IE' ? 'Eircode' :
+                         'Postal Code'} *
                       </label>
                       <input
                         type="text"
@@ -412,32 +399,15 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                         value={formData.zipCode}
                         onChange={handleChange}
                         required
-                        pattern={(() => {
-                          const europeanCountries = ['DE', 'FR', 'ES', 'IT', 'NL', 'BE', 'AT', 'CH', 'SE', 'NO', 'DK', 'FI'];
-                          return europeanCountries.includes(formData.country) ? '[0-9]{4,6}' : '[0-9]{5}';
-                        })()}
+                        pattern={postalCodeInfo.pattern}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
-                        placeholder={(() => {
-                          const placeholders: Record<string, string> = {
-                            'DE': '12345',
-                            'FR': '75001',
-                            'ES': '28001',
-                            'IT': '00100',
-                            'NL': '1012',
-                            'BE': '1000',
-                            'AT': '1010',
-                            'CH': '8001',
-                            'SE': '11111',
-                            'NO': '0123',
-                            'DK': '1000',
-                            'FI': '00100',
-                            'GB': 'SW1A 1AA',
-                            'PL': '00-001',
-                            'PT': '1000-001'
-                          };
-                          return placeholders[formData.country] || '12345';
-                        })()}
+                        placeholder={postalCodeInfo.placeholder}
                       />
+                      {countryData && (
+                        <p className="text-xs text-gray-500 mt-1">
+                          VAT Rate: {(countryData.vatRate * 100).toFixed(1)}% | Currency: {countryData.currency}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label htmlFor="country" className="block text-sm font-medium text-text-primary mb-2">
