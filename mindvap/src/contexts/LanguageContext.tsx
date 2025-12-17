@@ -366,6 +366,32 @@ const translations = {
     'error.payment': 'Payment failed. Please try again.',
     'error.unknown': 'An unexpected error occurred.',
     
+    // Chat
+    'chat.welcome': 'Hi! How can we help you today?',
+    'chat.quickReplies.trackOrder': 'Track my order',
+    'chat.quickReplies.productQuestions': 'Product questions',
+    'chat.quickReplies.shippingInfo': 'Shipping info',
+    'chat.quickReplies.other': 'Other',
+    'chat.quickReplies.contactSupport': 'Contact support',
+    'chat.header': 'Customer Support',
+    'chat.inputPlaceholder': 'Type your message...',
+    'chat.speakToHuman': 'Speak to a human',
+    'chat.openAriaLabel': 'Open chat support',
+    'chat.minimizeAriaLabel': 'Minimize chat',
+    'chat.closeAriaLabel': 'Close chat',
+    'chat.comingSoon': 'Chat functionality coming soon!',
+    // Chat Bot Responses
+    'chat.response.orderTracking': 'Please provide your order number and we\'ll help you track it. You can also check your order status in your account dashboard.',
+    'chat.response.shipping': 'We offer standard shipping (5-7 days) and express shipping (2-3 days). Free shipping on orders over $50 (€75 in Europe).',
+    'chat.response.returns': 'Our return policy allows returns within 30 days of purchase. Items must be in original condition. Contact support@mindvap.com for return instructions.',
+    'chat.response.payment': 'We accept all major credit cards securely through Stripe. Your payment information is encrypted and protected.',
+    'chat.response.product': 'Our herbal blends are carefully crafted using premium ingredients. Each product page contains detailed information about ingredients, benefits, and usage.',
+    'chat.response.ageVerification': 'Yes, you must be 21 years or older to purchase our herbal products. This is required by law and we take age verification seriously.',
+    'chat.response.international': 'Yes, we ship internationally! We currently ship to 30+ European countries with European shipping rates and VAT calculations.',
+    'chat.response.contact': 'You can reach our support team at support@mindvap.com or through this chat. We typically respond within 2-4 hours during business hours.',
+    'chat.response.pricing': 'Our prices vary by product and quantity. You can find all pricing information on our product pages. We offer competitive rates and free shipping on orders over $50.',
+    'chat.response.fallback': 'Thanks for your message! A support agent will respond shortly. You can also email us at support@mindvap.com.',
+    
     // Authentication - merged from auth.ts
     ...authTranslations.en
   },
@@ -710,6 +736,32 @@ const translations = {
     'error.payment': 'Pago fallido. Por favor intenta de nuevo.',
     'error.unknown': 'Ocurrió un error inesperado.',
     
+    // Chat
+    'chat.welcome': '¡Hola! ¿Cómo podemos ayudarte hoy?',
+    'chat.quickReplies.trackOrder': 'Rastrear mi pedido',
+    'chat.quickReplies.productQuestions': 'Preguntas sobre productos',
+    'chat.quickReplies.shippingInfo': 'Información de envío',
+    'chat.quickReplies.other': 'Otro',
+    'chat.quickReplies.contactSupport': 'Contactar soporte',
+    'chat.header': 'Soporte al Cliente',
+    'chat.inputPlaceholder': 'Escribe tu mensaje...',
+    'chat.speakToHuman': 'Hablar con una persona',
+    'chat.openAriaLabel': 'Abrir soporte de chat',
+    'chat.minimizeAriaLabel': 'Minimizar chat',
+    'chat.closeAriaLabel': 'Cerrar chat',
+    'chat.comingSoon': '¡Funcionalidad de chat próximamente!',
+    // Chat Bot Responses
+    'chat.response.orderTracking': 'Por favor proporciona tu número de pedido y te ayudaremos a rastrearlo. También puedes verificar el estado de tu pedido en el panel de tu cuenta.',
+    'chat.response.shipping': 'Ofrecemos envío estándar (5-7 días) y envío express (2-3 días). Envío gratis en pedidos superiores a $50 (€75 en Europa).',
+    'chat.response.returns': 'Nuestra política de devoluciones permite devoluciones dentro de 30 días de compra. Los artículos deben estar en condición original. Contacta support@mindvap.com para instrucciones de devolución.',
+    'chat.response.payment': 'Aceptamos todas las tarjetas de crédito de forma segura a través de Stripe. Tu información de pago está encriptada y protegida.',
+    'chat.response.product': 'Nuestras mezclas de hierbas están cuidadosamente elaboradas usando ingredientes premium. Cada página de producto contiene información detallada sobre ingredientes, beneficios y uso.',
+    'chat.response.ageVerification': 'Sí, debes tener 21 años o más para comprar nuestros productos de hierbas. Esto es requerido por ley y tomamos la verificación de edad en serio.',
+    'chat.response.international': '¡Sí, enviamos internacionalmente! Actualmente enviamos a más de 30 países europeos con tarifas de envío europeas y cálculos de IVA.',
+    'chat.response.contact': 'Puedes contactar a nuestro equipo de soporte en support@mindvap.com o a través de este chat. Típicamente respondemos dentro de 2-4 horas durante horarios de negocio.',
+    'chat.response.pricing': 'Nuestros precios varían según el producto y cantidad. Puedes encontrar toda la información de precios en nuestras páginas de productos. Ofrecemos tarifas competitivas y envío gratis en pedidos superiores a $50.',
+    'chat.response.fallback': '¡Gracias por tu mensaje! Un agente de soporte responderá pronto. También puedes enviarnos un email a support@mindvap.com.',
+    
     // Authentication - merged from auth.ts
     ...authTranslations.es
   },
@@ -1053,6 +1105,32 @@ const translations = {
     'error.network': 'Errore di rete. Per favore riprova.',
     'error.payment': 'Pagamento fallito. Per favore riprova.',
     'error.unknown': 'Si è verificato un errore inaspettato.',
+    
+    // Chat
+    'chat.welcome': 'Ciao! Come possiamo aiutarti oggi?',
+    'chat.quickReplies.trackOrder': 'Traccia il mio ordine',
+    'chat.quickReplies.productQuestions': 'Domande sui prodotti',
+    'chat.quickReplies.shippingInfo': 'Informazioni spedizione',
+    'chat.quickReplies.other': 'Altro',
+    'chat.quickReplies.contactSupport': 'Contatta supporto',
+    'chat.header': 'Assistenza Clienti',
+    'chat.inputPlaceholder': 'Scrivi il tuo messaggio...',
+    'chat.speakToHuman': 'Parla con una persona',
+    'chat.openAriaLabel': 'Apri assistenza chat',
+    'chat.minimizeAriaLabel': 'Minimizza chat',
+    'chat.closeAriaLabel': 'Chiudi chat',
+    'chat.comingSoon': 'Funzionalità chat in arrivo!',
+    // Chat Bot Responses
+    'chat.response.orderTracking': 'Per favore fornisci il tuo numero di ordine e ti aiuteremo a rastrearlo. Puoi anche controllare lo stato del tuo ordine nella dashboard del tuo account.',
+    'chat.response.shipping': 'Offriamo spedizione standard (5-7 giorni) e spedizione express (2-3 giorni). Spedizione gratuita su ordini superiori a $50 (€75 in Europa).',
+    'chat.response.returns': 'La nostra politica di reso permette resi entro 30 giorni dall\'acquisto. Gli articoli devono essere in condizione originale. Contatta support@mindvap.com per istruzioni di reso.',
+    'chat.response.payment': 'Accettiamo tutte le principali carte di credito in modo sicuro attraverso Stripe. Le tue informazioni di pagamento sono crittografate e protette.',
+    'chat.response.product': 'Le nostre miscele di erbe sono accuratamente realizzate usando ingredienti premium. Ogni pagina del prodotto contiene informazioni dettagliate su ingredienti, benefici e uso.',
+    'chat.response.ageVerification': 'Sì, devi avere 21 anni o più per acquistare i nostri prodotti di erbe. Questo è richiesto dalla legge e prendiamo sul serio la verifica dell\'età.',
+    'chat.response.international': 'Sì, spediamo internazionalmente! Attualmente spediamo in oltre 30 paesi europei con tariffe di spedizione europee e calcoli IVA.',
+    'chat.response.contact': 'Puoi contattare il nostro team di supporto a support@mindvap.com o attraverso questa chat. Típicamente rispondiamo entro 2-4 ore durante gli orari di lavoro.',
+    'chat.response.pricing': 'I nostri prezzi variano per prodotto e quantità. Puoi trovare tutte le informazioni sui prezzi nelle nostre pagine prodotto. Offriamo tariffe competitive e spedizione gratuita su ordini superiori a $50.',
+    'chat.response.fallback': 'Grazie per il tuo messaggio! Un agente di supporto risponderà a breve. Puoi anche inviarci un\'email a support@mindvap.com.',
     
     // Authentication - merged from auth.ts
     ...authTranslations.it

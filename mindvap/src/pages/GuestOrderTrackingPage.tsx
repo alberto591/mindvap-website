@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Search, Package, CheckCircle, Clock, Truck, AlertCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { getMockOrders } from '../services/payment.mock';
 
 interface Order {
   id: string;
@@ -44,41 +45,76 @@ export default function GuestOrderTrackingPage() {
     setOrder(null);
 
     try {
-      // Search for order by order number and email
-      const { data: orderData, error: orderError } = await supabase
-        .from('orders')
-        .select(`
-          id,
-          order_number,
-          status,
-          total_amount,
-          currency,
-          customer_email,
-          shipping_address,
-          created_at,
-          updated_at,
-          order_items (
+      // First, search through mock orders
+      const mockOrders = getMockOrders();
+      const mockOrder = mockOrders.find((mock: any) =>
+        mock.orderNumber === searchData.orderNumber.trim() &&
+        mock.customerEmail === searchData.email.trim()
+      );
+
+      if (mockOrder) {
+        console.log('🎭 Found mock order:', mockOrder.orderNumber);
+        
+        // Convert mock order to expected format
+        const mockOrderData: Order = {
+          id: mockOrder.id,
+          order_number: mockOrder.orderNumber,
+          status: mockOrder.status,
+          total_amount: mockOrder.totalAmount,
+          currency: mockOrder.currency,
+          customer_email: mockOrder.customerEmail,
+          shipping_address: mockOrder.shippingAddress,
+          created_at: mockOrder.createdAt,
+          updated_at: mockOrder.updatedAt,
+          order_items: mockOrder.cartItems.map((item: any, index: number) => ({
+            id: `mock_item_${index}`,
+            product_name: item.product_name,
+            quantity: item.quantity,
+            price_at_time: item.price,
+            product_image_url: item.product_image_url
+          }))
+        };
+
+        setOrder(mockOrderData);
+      } else {
+        console.log('🎭 No mock order found, searching database...');
+        
+        // Search for order by order number and email in database
+        const { data: orderData, error: orderError } = await supabase
+          .from('orders')
+          .select(`
             id,
-            product_name,
-            quantity,
-            price_at_time,
-            product_image_url
-          )
-        `)
-        .eq('order_number', searchData.orderNumber.trim())
-        .eq('customer_email', searchData.email.trim())
-        .single();
+            order_number,
+            status,
+            total_amount,
+            currency,
+            customer_email,
+            shipping_address,
+            created_at,
+            updated_at,
+            order_items (
+              id,
+              product_name,
+              quantity,
+              price_at_time,
+              product_image_url
+            )
+          `)
+          .eq('order_number', searchData.orderNumber.trim())
+          .eq('customer_email', searchData.email.trim())
+          .single();
 
-      if (orderError) {
-        if (orderError.code === 'PGRST116') {
-          setError('Order not found. Please check your order number and email address.');
-        } else {
-          setError('Error retrieving order information. Please try again.');
+        if (orderError) {
+          if (orderError.code === 'PGRST116') {
+            setError('Order not found. Please check your order number and email address.');
+          } else {
+            setError('Error retrieving order information. Please try again.');
+          }
+          return;
         }
-        return;
-      }
 
-      setOrder(orderData);
+        setOrder(orderData);
+      }
     } catch (err: any) {
       console.error('Error searching for order:', err);
       setError('An unexpected error occurred. Please try again.');

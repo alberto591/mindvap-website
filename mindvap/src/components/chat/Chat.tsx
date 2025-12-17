@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MessageCircle, X, Minimize2, Send, Clock } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface Message {
   id: string;
@@ -12,6 +13,7 @@ interface Message {
 
 export default function Chat() {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
@@ -22,55 +24,60 @@ export default function Chat() {
     if (isOpen && messages.length === 0) {
       const welcomeMessage: Message = {
         id: '1',
-        text: 'Hi! How can we help you today?',
+        text: t('chat.welcome'),
         sender: 'bot',
         timestamp: new Date(),
-        quickReplies: ['Track my order', 'Product questions', 'Shipping info', 'Other']
+        quickReplies: [
+          t('chat.quickReplies.trackOrder'),
+          t('chat.quickReplies.productQuestions'),
+          t('chat.quickReplies.shippingInfo'),
+          t('chat.quickReplies.other')
+        ]
       };
       setMessages([welcomeMessage]);
     }
-  }, [isOpen, messages.length]);
+  }, [isOpen, messages.length, t]);
 
   const generateBotResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase();
     
     if (message.includes('track') || message.includes('order')) {
-      return 'Please provide your order number and we\'ll help you track it. You can also check your order status in your account dashboard.';
+      return t('chat.response.orderTracking');
     }
     
     if (message.includes('shipping')) {
-      return 'We offer standard shipping (5-7 days) and express shipping (2-3 days). Free shipping on orders over $50 (€75 in Europe).';
+      return t('chat.response.shipping');
     }
     
     if (message.includes('return') || message.includes('refund')) {
-      return 'Our return policy allows returns within 30 days of purchase. Items must be in original condition. Contact support@mindvap.com for return instructions.';
+      return t('chat.response.returns');
     }
     
     if (message.includes('payment') || message.includes('stripe') || message.includes('card')) {
-      return 'We accept all major credit cards securely through Stripe. Your payment information is encrypted and protected.';
+      return t('chat.response.payment');
     }
     
     if (message.includes('product') || message.includes('herb')) {
-      return 'Our herbal blends are carefully crafted using premium ingredients. Each product page contains detailed information about ingredients, benefits, and usage.';
+      return t('chat.response.product');
     }
     
     if (message.includes('age') || message.includes('21') || message.includes('verification')) {
-      return 'Yes, you must be 21 years or older to purchase our herbal products. This is required by law and we take age verification seriously.';
+      return t('chat.response.ageVerification');
     }
     
     if (message.includes('international') || message.includes('europe')) {
-      return 'Yes, we ship internationally! We currently ship to 30+ European countries with European shipping rates and VAT calculations.';
+      return t('chat.response.international');
     }
     
     if (message.includes('contact') || message.includes('email') || message.includes('support')) {
-      return 'You can reach our support team at support@mindvap.com or through this chat. We typically respond within 2-4 hours during business hours.';
+      return t('chat.response.contact');
     }
     
     if (message.includes('price') || message.includes('cost') || message.includes('money')) {
-      return 'Our prices vary by product and quantity. You can find all pricing information on our product pages. We offer competitive rates and free shipping on orders over $50.';
+      return t('chat.response.pricing');
     }
     
-    return 'Thanks for your message! A support agent will respond shortly. You can also email us at support@mindvap.com.';
+    return t('chat.response.fallback');
   };
 
   const handleSendMessage = (text: string) => {
@@ -94,7 +101,12 @@ export default function Chat() {
         text: generateBotResponse(text),
         sender: 'bot',
         timestamp: new Date(),
-        quickReplies: ['Track my order', 'Shipping info', 'Product questions', 'Contact support']
+        quickReplies: [
+          t('chat.quickReplies.trackOrder'),
+          t('chat.quickReplies.shippingInfo'),
+          t('chat.quickReplies.productQuestions'),
+          t('chat.quickReplies.contactSupport')
+        ]
       };
 
       setMessages(prev => [...prev, botResponse]);
@@ -118,7 +130,7 @@ export default function Chat() {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 bg-brand text-white w-14 h-14 rounded-full shadow-lg hover:bg-brand-light transition-all duration-300 flex items-center justify-center z-50 hover:scale-110"
-          aria-label="Open chat support"
+          aria-label={t('chat.openAriaLabel')}
         >
           <MessageCircle className="w-6 h-6" />
         </button>
@@ -129,19 +141,19 @@ export default function Chat() {
         <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl z-50 flex flex-col animate-in slide-in-from-bottom-4 duration-300">
           {/* Chat Header */}
           <div className="bg-brand text-white p-4 rounded-t-lg flex items-center justify-between">
-            <h3 className="font-semibold text-lg">Customer Support</h3>
+            <h3 className="font-semibold text-lg">{t('chat.header')}</h3>
             <div className="flex gap-2">
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-white hover:text-gray-200 transition-colors"
-                aria-label="Minimize chat"
+                aria-label={t('chat.minimizeAriaLabel')}
               >
                 <Minimize2 className="w-4 h-4" />
               </button>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-white hover:text-gray-200 transition-colors"
-                aria-label="Close chat"
+                aria-label={t('chat.closeAriaLabel')}
               >
                 <X className="w-4 h-4" />
               </button>
@@ -202,7 +214,7 @@ export default function Chat() {
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Type your message..."
+                placeholder={t('chat.inputPlaceholder')}
                 className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent text-sm"
                 disabled={isTyping}
               />
@@ -217,10 +229,10 @@ export default function Chat() {
             
             {/* Agent Transfer Button */}
             <button
-              onClick={() => handleSendMessage('Speak to a human')}
+              onClick={() => handleSendMessage(t('chat.speakToHuman'))}
               className="w-full mt-2 text-xs text-gray-500 hover:text-brand transition-colors py-1"
             >
-              → Speak to a human
+              → {t('chat.speakToHuman')}
             </button>
           </div>
         </div>

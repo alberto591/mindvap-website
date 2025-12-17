@@ -16,6 +16,7 @@ import ShippingReturnsPage from './pages/ShippingReturnsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import GuestOrderTrackingPage from './pages/GuestOrderTrackingPage';
+import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 
 // Account Management Pages
 import AccountDashboardPage from './pages/AccountDashboardPage';
@@ -29,7 +30,7 @@ import SecurityPage from './pages/SecurityPage';
 import PrivacyPage from './pages/PrivacyPage';
 
 // Chat Component
-import Chat from './components/chat/Chat';
+// import Chat from './components/chat/Chat'; // TEMPORARILY HIDDEN - Will implement in future
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -125,6 +126,7 @@ function App() {
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms-of-service" element={<TermsOfServicePage />} />
                 <Route path="/track-order" element={<GuestOrderTrackingPage />} />
+                <Route path="/checkout/success" element={<CheckoutSuccessPage />} />
                 
                 {/* Account Management Routes */}
                 <Route
@@ -202,7 +204,7 @@ function App() {
               </Routes>
             </main>
             <Footer />
-            <Chat />
+            {/* <Chat /> TEMPORARILY HIDDEN - Will implement in future */}
           </div>
         </Router>
       </AuthProvider>

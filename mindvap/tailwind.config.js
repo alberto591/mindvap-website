@@ -36,6 +36,7 @@ module.exports = {
 				},
 				// Brand Colors (Forest Green)
 				brand: {
+					DEFAULT: '#2D5F4F',
 					primary: '#2D5F4F',
 					hover: '#1F4438',
 					light: '#E8F0ED',

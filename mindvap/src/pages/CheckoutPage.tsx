@@ -496,14 +496,14 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                       Payment Information
                     </h2>
                   </div>
-                  <StripePaymentForm 
-                    clientSecret={clientSecret}
+                  <MockPaymentForm
                     onSuccess={() => {
                       setOrderComplete(true);
+                      // Redirect to success page after a brief delay
                       setTimeout(() => {
                         clearCart();
-                        navigate('/');
-                      }, 3000);
+                        navigate(`/checkout/success?order_id=${orderId}&payment_intent=${clientSecret?.split('_secret')[0]}`);
+                      }, 2000);
                     }}
                     onError={(errorMessage) => setError(errorMessage)}
                   />
@@ -621,18 +621,86 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
   );
 }
 
-// Stripe Payment Form Component
-interface StripePaymentFormProps {
-  clientSecret: string;
+// Mock Payment Form Component (Development Mode)
+interface MockPaymentFormProps {
   onSuccess: () => void;
   onError: (message: string) => void;
 }
 
-function StripePaymentForm({ clientSecret, onSuccess, onError }: StripePaymentFormProps) {
+function MockPaymentForm({ onSuccess, onError }: MockPaymentFormProps) {
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setIsProcessing(true);
+    onError('');
+
+    try {
+      // In mock mode, we'll simulate a successful payment
+      console.log('🎭 Mock Payment: Simulating successful payment');
+      
+      // Simulate processing delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Simulate successful payment
+      onSuccess();
+      
+    } catch (err: any) {
+      onError(err.message || 'An unexpected error occurred.');
+      setIsProcessing(false);
+    }
+  };
+
   return (
-    <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <PaymentForm onSuccess={onSuccess} onError={onError} />
-    </Elements>
+    <form onSubmit={handleSubmit}>
+      <div className="mb-6">
+        {/* Mock payment element for development */}
+        <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+          <p className="text-gray-600 text-sm">
+            🎭 <strong>Mock Payment Element</strong><br />
+            This is a simulated payment form for development testing.
+            No real payment will be processed.
+          </p>
+          <div className="mt-3 space-y-2">
+            <input
+              type="text"
+              placeholder="Card Number (Mock)"
+              className="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+              disabled
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                type="text"
+                placeholder="MM/YY"
+                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                disabled
+              />
+              <input
+                type="text"
+                placeholder="CVC"
+                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <button
+        type="submit"
+        disabled={isProcessing}
+        className="w-full bg-white border-2 border-brand text-brand hover:bg-brand-light font-semibold py-4 rounded-full transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        {isProcessing ? (
+          <>Processing Payment...</>
+        ) : (
+          <>
+            <Lock className="w-5 h-5" />
+            Complete Secure Purchase (Mock)
+          </>
+        )}
+      </button>
+    </form>
   );
 }
 

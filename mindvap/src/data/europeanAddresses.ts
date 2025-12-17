@@ -92,7 +92,6 @@ export const GERMANY_CITIES: EuropeanCity[] = [
   { name: "Offenburg" },
   { name: "Stendal" },
   { name: "Schwerin" },
-  { name: "Erfurt" },
   { name: "Wittenberg" },
   { name: "Salzgitter" },
   { name: "Neubrandenburg" },
@@ -110,7 +109,7 @@ export const GERMANY_CITIES: EuropeanCity[] = [
   { name: "Weißenfels" }
 ];
 
-// Spain (ES)
+// Spain (ES) - Removed duplicates
 export const SPAIN_CITIES: EuropeanCity[] = [
   { name: "Madrid" },
   { name: "Barcelona" },
@@ -133,20 +132,20 @@ export const SPAIN_CITIES: EuropeanCity[] = [
   { name: "Granada" },
   { name: "Elche" },
   { name: "Oviedo" },
-  { name: "Santa Cruz" },
+  { name: "Santa Cruz de Tenerife" },
   { name: "Badalona" },
   { name: "Cartagena" },
   { name: "Terrassa" },
-  { name: "Jerez" },
+  { name: "Jerez de la Frontera" },
   { name: "Sabadell" },
   { name: "Móstoles" },
   { name: "Pamplona" },
   { name: "Almería" },
-  { name: "Alcalá" },
+  { name: "Alcalá de Henares" },
   { name: "San Sebastián" },
   { name: "Burgos" },
   { name: "Santander" },
-  { name: "Castellón" },
+  { name: "Castellón de la Plana" },
   { name: "Getafe" },
   { name: "Albacete" },
   { name: "Logroño" },
@@ -165,28 +164,15 @@ export const SPAIN_CITIES: EuropeanCity[] = [
   { name: "Getxo" },
   { name: "Melilla" },
   { name: "Ceuta" },
-  // Andalusia
-  { name: "Seville" },
-  { name: "Málaga" },
-  { name: "Córdoba" },
-  { name: "Granada" },
-  { name: "Jerez" },
+  // Major cities by region
   { name: "Marbella" },
-  { name: "Almería" },
-  { name: "Cádiz" },
-  { name: "Huelva" },
-  { name: "Jaén" },
-  // Catalonia
-  { name: "Barcelona" },
-  { name: "Hospitalet" },
-  { name: "Badalona" },
-  { name: "Terrassa" },
-  { name: "Sabadell" },
+  { name: "Algeciras" },
+  { name: "Linares" },
+  { name: "Ronda" },
+  { name: "Antequera" },
   { name: "Mataró" },
-  { name: "Santa Coloma" },
+  { name: "Santa Coloma de Gramenet" },
   { name: "Granollers" },
-  { name: "Tarragona" },
-  { name: "Lleida" },
   { name: "Girona" },
   { name: "Figueres" },
   { name: "Olot" },
@@ -194,33 +180,22 @@ export const SPAIN_CITIES: EuropeanCity[] = [
   { name: "Manresa" },
   { name: "Igualada" },
   { name: "Rubí" },
-  { name: "Vilanova" },
-  // Madrid
-  { name: "Madrid" },
-  { name: "Móstoles" },
-  { name: "Alcalá" },
+  { name: "Vilanova i la Geltrú" },
   { name: "Fuenlabrada" },
   { name: "Leganés" },
-  { name: "Getafe" },
   { name: "Alcorcón" },
-  { name: "Torrejón" },
+  { name: "Torrejón de Ardoz" },
   { name: "Parla" },
   { name: "Alcobendas" },
-  { name: "San Sebastián" },
   { name: "Majadahonda" },
-  { name: "Las Rozas" },
-  { name: "Collado" },
+  { name: "Las Rozas de Madrid" },
+  { name: "Collado Villalba" },
   { name: "Rivas-Vaciamadrid" },
   { name: "Valdemoro" },
   { name: "Aranjuez" },
-  { name: "Arganda" },
+  { name: "Arganda del Rey" },
   { name: "Colmenar Viejo" },
   { name: "Tres Cantos" },
-  // Valencia
-  { name: "Valencia" },
-  { name: "Alicante" },
-  { name: "Elche" },
-  { name: "Castellón" },
   { name: "Orihuela" },
   { name: "Torrevieja" },
   { name: "Gandia" },
@@ -239,7 +214,7 @@ export const SPAIN_CITIES: EuropeanCity[] = [
   { name: "Sueca" }
 ];
 
-// France (FR)
+// France (FR) - Removed duplicates
 export const FRANCE_CITIES: EuropeanCity[] = [
   { name: "Paris" },
   { name: "Marseille" },
@@ -265,7 +240,6 @@ export const FRANCE_CITIES: EuropeanCity[] = [
   { name: "Le Mans" },
   { name: "Tours" },
   { name: "Amiens" },
-  { name: "Toulon" },
   { name: "Clermont-Ferrand" },
   { name: "Villeurbanne" },
   { name: "Besançon" },
@@ -289,7 +263,6 @@ export const FRANCE_CITIES: EuropeanCity[] = [
   { name: "Pau" },
   { name: "Bayonne" },
   { name: "Limoges" },
-  { name: "Brest" },
   { name: "Béziers" },
   { name: "Bourges" },
   { name: "Tarbes" },
@@ -302,10 +275,8 @@ export const FRANCE_CITIES: EuropeanCity[] = [
   { name: "Saint-Raphaël" },
   { name: "Bormes-les-Mimosas" },
   { name: "Cassis" },
-  { name: "Aix-en-Provence" },
   { name: "Arles" },
   { name: "Avignon" },
-  { name: "Nîmes" },
   { name: "Uzès" },
   { name: "Alès" },
   { name: "Bagnols-sur-Cèze" },
@@ -316,7 +287,7 @@ export const FRANCE_CITIES: EuropeanCity[] = [
   { name: "Le Grau-du-Roi" }
 ];
 
-// Italy (IT)
+// Italy (IT) - Removed duplicates
 export const ITALY_CITIES: EuropeanCity[] = [
   { name: "Rome" },
   { name: "Milan" },
@@ -382,7 +353,6 @@ export const ITALY_CITIES: EuropeanCity[] = [
   { name: "Chioggia" },
   { name: "L'Aquila" },
   { name: "Viterbo" },
-  { name: "Foggia" },
   { name: "Agrigento" },
   { name: "Salerno" },
   { name: "Vibo Valentia" },
@@ -390,16 +360,12 @@ export const ITALY_CITIES: EuropeanCity[] = [
   { name: "Isernia" },
   { name: "Oristano" },
   { name: "Carbonia" },
-  { name: "Ragusa" },
   { name: "Syracuse" },
-  { name: "Caltanissetta" },
   { name: "Enna" },
-  { name: "Palermo" },
-  { name: "Trapani" },
-  { name: "Messina" }
+  { name: "Trapani" }
 ];
 
-// Netherlands (NL)
+// Netherlands (NL) - Removed duplicates
 export const NETHERLANDS_CITIES: EuropeanCity[] = [
   { name: "Amsterdam" },
   { name: "Rotterdam" },
@@ -424,9 +390,7 @@ export const NETHERLANDS_CITIES: EuropeanCity[] = [
   { name: "Ede" },
   { name: "Delft" },
   { name: "Alphen aan den Rijn" },
-  { name: "Alphen" },
   { name: "Hertogenbosch" },
-  { name: "Zvolle" },
   { name: "Oosterhout" },
   { name: "Purmerend" },
   { name: "Veenendaal" },
@@ -441,7 +405,6 @@ export const NETHERLANDS_CITIES: EuropeanCity[] = [
   { name: "Wijchen" },
   { name: "Lelystad" },
   { name: "Rijswijk" },
-  { name: "Oude IJsselmonde" },
   { name: "Kerkrade" },
   { name: "Doetinchem" },
   { name: "Barendrecht" },
@@ -456,8 +419,6 @@ export const NETHERLANDS_CITIES: EuropeanCity[] = [
   { name: "Nieuwegein" },
   { name: "Velsen" },
   { name: "Hoogvliet" },
-  { name: "Molenlanden" },
-  { name: "Vlaardingen" },
   { name: "Zundert" },
   { name: "Zuidplas" },
   { name: "Westland" },
@@ -474,7 +435,7 @@ export const NETHERLANDS_CITIES: EuropeanCity[] = [
   { name: "Tynaarlo" }
 ];
 
-// Belgium (BE)
+// Belgium (BE) - Removed duplicates
 export const BELGIUM_CITIES: EuropeanCity[] = [
   { name: "Brussels" },
   { name: "Antwerp" },
@@ -498,7 +459,7 @@ export const BELGIUM_CITIES: EuropeanCity[] = [
   { name: "Herstal" },
   { name: "Braine-l'Alleud" },
   { name: "Jette" },
-  { name: "Beringen" },
+  { name: " Beringen" },
   { name: "Ninove" },
   { name: "Geel" },
   { name: "Houthulst" },
@@ -529,14 +490,11 @@ export const BELGIUM_CITIES: EuropeanCity[] = [
   { name: "Schelle" },
   { name: "Hemiksem" },
   { name: "Stabroek" },
-  { name: "Kontich" },
   { name: "Rumst" },
   { name: "Klein-Brabant" },
-  { name: "Machelen" },
   { name: "Vilvoorde" },
   { name: "Steenokke" },
   { name: "Kampenhout" },
-  { name: "Zaventem" },
   { name: "Kraainem" },
   { name: "Wezembeek-Oppem" },
   { name: "Tervuren" },
@@ -544,21 +502,16 @@ export const BELGIUM_CITIES: EuropeanCity[] = [
   { name: "Wavre" },
   { name: "Ottignies" },
   { name: "Louvain-la-Neuve" },
-  { name: "Namur" },
   { name: "Jemeppe-sur-Sambre" },
   { name: "Sambreville" },
   { name: "Gembloux" },
   { name: "Fosses-la-Ville" },
-  { name: "Seraing" },
   { name: "Flémalle" },
-  { name: "Liège" },
-  { name: "Herstal" },
   { name: "Ans" },
-  { name: "Saint-Nicolas" },
-  { name: "Seraing" }
+  { name: "Saint-Nicolas" }
 ];
 
-// Austria (AT)
+// Austria (AT) - Removed duplicates
 export const AUSTRIA_CITIES: EuropeanCity[] = [
   { name: "Vienna" },
   { name: "Graz" },
@@ -602,31 +555,25 @@ export const AUSTRIA_CITIES: EuropeanCity[] = [
   { name: "Zwettl" },
   { name: "Horn" },
   { name: "Waidhofen an der Thaya" },
-  { name: "Gmünd" },
   { name: "Freistadt" },
   { name: "Perg" },
   { name: "Rohrbach" },
   { name: "Schärding" },
   { name: "Ried im Innkreis" },
-  { name: "Braunau am Inn" },
   { name: "Linz-Land" },
   { name: "Urfahr-Umgebung" },
   { name: "Eferding" },
   { name: "Grieskirchen" },
   { name: "Vöcklabruck" },
-  { name: "Gmunden" },
   { name: "Reutte" },
   { name: "Landeck" },
   { name: "Imst" },
   { name: "Innsbruck-Land" },
   { name: "Schwaz" },
-  { name: "Kitzbühel" },
-  { name: "Kufstein" },
-  { name: "Kitzbühel" },
-  { name: "Lienz" }
+  { name: "Kitzbühel" }
 ];
 
-// Switzerland (CH)
+// Switzerland (CH) - Removed duplicates
 export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Zurich" },
   { name: "Geneva" },
@@ -655,7 +602,6 @@ export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Frauenfeld" },
   { name: "Wettingen" },
   { name: "Aarau" },
-  { name: "Baden" },
   { name: "Olten" },
   { name: "Solothurn" },
   { name: "Carouge" },
@@ -674,7 +620,6 @@ export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Pratteln" },
   { name: "Binningen" },
   { name: "Reinach" },
-  { name: "Arbon" },
   { name: "Herisau" },
   { name: "Appenzell" },
   { name: "Gossau" },
@@ -683,7 +628,6 @@ export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Weinfelden" },
   { name: "Amriswil" },
   { name: "Romanshorn" },
-  { name: "Arbon" },
   { name: "Flawil" },
   { name: "Wattwil" },
   { name: "Lichtensteig" },
@@ -696,11 +640,9 @@ export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Neu Sankt Johann" },
   { name: "Hemberg" },
   { name: "Oberhelfenschwil" },
-  { name: "Wattwil" },
   { name: "Bütschwil" },
   { name: "Mosnang" },
   { name: "Degersheim" },
-  { name: "Flawil" },
   { name: "Zuzwil" },
   { name: "Uzwil" },
   { name: "Niederbüren" },
@@ -708,13 +650,11 @@ export const SWITZERLAND_CITIES: EuropeanCity[] = [
   { name: "Ziefen" },
   { name: "Münchwilen" },
   { name: "Bottighofen" },
-  { name: "Kreuzlingen" },
   { name: "Tägerwilen" },
-  { name: "Gottlieben" },
-  { name: "Konstanz" }
+  { name: "Gottlieben" }
 ];
 
-// United Kingdom (GB)
+// United Kingdom (GB) - Removed duplicates
 export const UK_CITIES: EuropeanCity[] = [
   { name: "London" },
   { name: "Birmingham" },
@@ -762,7 +702,6 @@ export const UK_CITIES: EuropeanCity[] = [
   { name: "Canterbury" },
   { name: "Chichester" },
   { name: "Lichfield" },
-  { name: "Chester" },
   { name: "Salisbury" },
   { name: "St Davids" },
   { name: "Ripon" },
@@ -805,7 +744,7 @@ export const UK_CITIES: EuropeanCity[] = [
   { name: "Humberston" }
 ];
 
-// Sweden (SE)
+// Sweden (SE) - Removed duplicates
 export const SWEDEN_CITIES: EuropeanCity[] = [
   { name: "Stockholm" },
   { name: "Gothenburg" },
@@ -842,7 +781,6 @@ export const SWEDEN_CITIES: EuropeanCity[] = [
   { name: "Nyköping" },
   { name: "Enköping" },
   { name: "Katrineholm" },
-  { name: "Eskilstuna" },
   { name: "Falkenberg" },
   { name: "Varberg" },
   { name: "Uddevalla" },
@@ -850,7 +788,6 @@ export const SWEDEN_CITIES: EuropeanCity[] = [
   { name: "Skövde" },
   { name: "Köping" },
   { name: "Arboga" },
-  { name: "Västerås" },
   { name: "Hallstahammar" },
   { name: "Surahammar" },
   { name: "Fagersta" },
@@ -860,7 +797,6 @@ export const SWEDEN_CITIES: EuropeanCity[] = [
   { name: "Mora" },
   { name: "Leksand" },
   { name: "Rättvik" },
-  { name: "Falun" },
   { name: "Borlänge" },
   { name: "Säter" },
   { name: "Gagnef" },
@@ -874,12 +810,11 @@ export const SWEDEN_CITIES: EuropeanCity[] = [
   { name: "Kumla" },
   { name: "Askersund" },
   { name: "Karlskoga" },
-  { name: "Örebro" },
   { name: "Nora" },
   { name: "Ljusnarsberg" }
 ];
 
-// Norway (NO)
+// Norway (NO) - Removed duplicates
 export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Oslo" },
   { name: "Bergen" },
@@ -896,7 +831,6 @@ export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Bodø" },
   { name: "Haugesund" },
   { name: "Moss" },
-  { name: "R精确ø" },
   { name: "Arendal" },
   { name: "Hamar" },
   { name: "Gjøvik" },
@@ -919,15 +853,10 @@ export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Vadsø" },
   { name: "Kirkenes" },
   { name: "Vardø" },
-  { name: "Grønland" },
   { name: "Tønsberg" },
-  { name: "Moss" },
   { name: "Horten" },
   { name: "Larvik" },
   { name: "Sandefjord" },
-  { name: "Porsgrunn" },
-  { name: "Skien" },
-  { name: "Kongsberg" },
   { name: "Rjukan" },
   { name: "Seljord" },
   { name: "Bø" },
@@ -935,16 +864,11 @@ export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Bamble" },
   { name: "Kragerø" },
   { name: "Risør" },
-  { name: "Arendal" },
   { name: "Grimstad" },
   { name: "Lillesand" },
-  { name: "Kristiansand" },
   { name: "Mandal" },
   { name: "Farsund" },
   { name: "Flekkefjord" },
-  { name: "Stavanger" },
-  { name: "Sandnes" },
-  { name: "Haugesund" },
   { name: "Karmøy" },
   { name: "Sola" },
   { name: "Randaberg" },
@@ -953,19 +877,15 @@ export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Suldal" },
   { name: "Utsira" },
   { name: "Vindafjord" },
-  { name: "Bergen" },
   { name: "Alver" },
   { name: "Austrheim" },
   { name: "Fedje" },
   { name: "Gulen" },
   { name: "Hyllestad" },
-  { name: "Høyland" },
   { name: "Masfjorden" },
   { name: "Meland" },
   { name: "Modalen" },
-  { name: "Os" },
   { name: "Radøy" },
-  { name: "Sogndal" },
   { name: "Solund" },
   { name: "Stryn" },
   { name: "Vaksdal" },
@@ -975,7 +895,7 @@ export const NORWAY_CITIES: EuropeanCity[] = [
   { name: "Årdal" }
 ];
 
-// Denmark (DK)
+// Denmark (DK) - Removed duplicates
 export const DENMARK_CITIES: EuropeanCity[] = [
   { name: "Copenhagen" },
   { name: "Aarhus" },
@@ -1010,10 +930,8 @@ export const DENMARK_CITIES: EuropeanCity[] = [
   { name: "Gentofte" },
   { name: "Lyngby-Taarbæk" },
   { name: "Ballerup" },
-  { name: "Ebeltoft" },
   { name: "Grenaa" },
   { name: "Rønde" },
-  { name: "Ebeltoft" },
   { name: "Midtdjurs" },
   { name: "Norddjurs" },
   { name: "Syddjurs" },
@@ -1034,28 +952,19 @@ export const DENMARK_CITIES: EuropeanCity[] = [
   { name: "Faaborg-Midtfyn" },
   { name: "Nyborg" },
   { name: "Kerteminde" },
-  { name: "Odense" },
-  { name: "Svendborg" },
   { name: "Ærøskøbing" },
   { name: "Marstal" },
   { name: "Rudkøbing" },
-  { name: "Tranekær" },
   { name: "Sundby" },
   { name: "Humble" },
-  { name: "Bagen" },
   { name: "Stoense" },
   { name: "Spodsbjerg" },
   { name: "Knebel" },
   { name: "Bøsø" },
-  { name: "Hov" },
-  { name: "Tranekær" },
-  { name: "Spodsbjerg" },
-  { name: "Tranekær" },
-  { name: "Tranekær" },
-  { name: "Tranekær" }
+  { name: "Hov" }
 ];
 
-// Finland (FI)
+// Finland (FI) - Removed duplicates
 export const FINLAND_CITIES: EuropeanCity[] = [
   { name: "Helsinki" },
   { name: "Espoo" },
@@ -1087,7 +996,6 @@ export const FINLAND_CITIES: EuropeanCity[] = [
   { name: "Varkaus" },
   { name: "Kajaani" },
   { name: "Raisio" },
-  { name: "Kemi" },
   { name: "Hollola" },
   { name: "Nokia" },
   { name: "Ylöjärvi" },
@@ -1097,60 +1005,27 @@ export const FINLAND_CITIES: EuropeanCity[] = [
   { name: "Orivesi" },
   { name: "Ruokolahti" },
   { name: "Juuka" },
-  { name: "Nurmes" },
   { name: "Lieksa" },
   { name: "Ilomantsi" },
-  { name: "Tohmajärvi" },
   { name: "Räkkylä" },
-  { name: "Tohmajärvi" },
-  { name: "Nurmes" },
   { name: "Valtimo" },
   { name: "Kitee" },
-  { name: "Rääkkylä" },
-  { name: "Tohmajärvi" },
-  { name: "Ilomantsi" },
-  { name: "Joensuu" },
-  { name: "Kitee" },
-  { name: "Nurmes" },
-  { name: "Lieksa" },
-  { name: "Ilomantsi" },
-  { name: "Tohmajärvi" },
-  { name: "Rääkkylä" },
   { name: "Liperi" },
   { name: "Kontiolahti" },
-  { name: "Rääkkylä" },
-  { name: "Tohmajärvi" },
-  { name: "Ilomantsi" },
-  { name: "Joensuu" },
   { name: "Polvijärvi" },
-  { name: "Liperi" },
   { name: "Outokumpu" },
   { name: "Kaavi" },
   { name: "Tuusniemi" },
   { name: "Heinävesi" },
-  { name: "Savonlinna" },
   { name: "Sulkava" },
   { name: "Puumala" },
   { name: "Rantasalmi" },
   { name: "Savonranta" },
-  { name: "Savonlinna" },
   { name: "Kyrö" },
-  { name: "Kerimäki" },
-  { name: "Savonlinna" },
-  { name: "Savonranta" },
-  { name: "Savonlinna" },
-  { name: "Kyrö" },
-  { name: "Kerimäki" },
-  { name: "Savonlinna" },
-  { name: "Savonranta" },
-  { name: "Savonlinna" },
-  { name: "Kyrö" },
-  { name: "Kerimäki" },
-  { name: "Savonlinna" },
-  { name: "Savonranta" }
+  { name: "Kerimäki" }
 ];
 
-// Ireland (IE)
+// Ireland (IE) - Removed duplicates
 export const IRELAND_CITIES: EuropeanCity[] = [
   { name: "Dublin" },
   { name: "Cork" },
@@ -1177,34 +1052,14 @@ export const IRELAND_CITIES: EuropeanCity[] = [
   { name: "Athy" },
   { name: "Portlaoise" },
   { name: "Balbriggan" },
-  { name: "Mayo" },
-  { name: "Sligo" },
   { name: "Kinsale" },
   { name: "Mullingar" },
-  { name: "Midleton" },
   { name: "Greystones" },
   { name: "Shannon" },
-  { name: "Tralee" },
-  { name: "Limerick" },
-  { name: "Cork" },
-  { name: "Galway" },
-  { name: "Waterford" },
-  { name: "Wexford" },
-  { name: "Kilkenny" },
-  { name: "Carlow" },
-  { name: "Wexford" },
-  { name: "Kilkenny" },
-  { name: "Wexford" },
-  { name: "Kilkenny" },
-  { name: "Wexford" },
-  { name: "Kilkenny" },
-  { name: "Wexford" },
-  { name: "Kilkenny" },
-  { name: "Wexford" },
-  { name: "Kilkenny" }
+  { name: "Tralee" }
 ];
 
-// Poland (PL)
+// Poland (PL) - Removed duplicates
 export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Warsaw" },
   { name: "Kraków" },
@@ -1257,7 +1112,6 @@ export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Stalowa Wola" },
   { name: "Grudziądz" },
   { name: "Olsztyn" },
-  { name: "Legnica" },
   { name: "Będzin" },
   { name: "Zawiercie" },
   { name: "Żory" },
@@ -1280,7 +1134,6 @@ export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Pszczyna" },
   { name: "Myszków" },
   { name: "Kłobuck" },
-  { name: "Częstochowa" },
   { name: "Miedzyrzecz" },
   { name: "Żagań" },
   { name: "Lubsko" },
@@ -1294,9 +1147,7 @@ export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Ustronie Morskie" },
   { name: "Darłowo" },
   { name: "Sławno" },
-  { name: "Szczecinek" },
   { name: "Złotów" },
-  { name: "Piła" },
   { name: "Czarnków" },
   { name: "Oborniki" },
   { name: "Wronki" },
@@ -1307,11 +1158,9 @@ export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Kościan" },
   { name: "Wschowa" },
   { name: "Leszno" },
-  { name: "Głogów" },
   { name: "Nowa Sól" },
   { name: "Krosno Odrzańskie" },
   { name: "Świebodzin" },
-  { name: "Zielona Góra" },
   { name: "Sulechów" },
   { name: "Babimost" },
   { name: "Kłodzko" },
@@ -1323,21 +1172,10 @@ export const POLAND_CITIES: EuropeanCity[] = [
   { name: "Stronie Śląskie" },
   { name: "Ząbkowice Śląskie" },
   { name: "Bardo" },
-  { name: "Kłodzko" },
-  { name: "Radków" },
-  { name: "Kłodzko" },
-  { name: "Polanica-Zdrój" },
-  { name: "Duszniki-Zdrój" },
-  { name: "Kudowa-Zdrój" },
-  { name: "Lądek-Zdrój" },
-  { name: "Stronie Śląskie" },
-  { name: "Ząbkowice Śląskie" },
-  { name: "Bardo" },
-  { name: "Kłodzko" },
   { name: "Radków" }
 ];
 
-// Portugal (PT)
+// Portugal (PT) - Removed duplicates
 export const PORTUGAL_CITIES: EuropeanCity[] = [
   { name: "Lisbon" },
   { name: "Porto" },
@@ -1357,7 +1195,6 @@ export const PORTUGAL_CITIES: EuropeanCity[] = [
   { name: "Estarreja" },
   { name: "Ílhavo" },
   { name: "Murtosa" },
-  { name: "Olimpia" },
   { name: "Sever do Vouga" },
   { name: "Vagos" },
   { name: "Alcobaça" },
@@ -1380,7 +1217,6 @@ export const PORTUGAL_CITIES: EuropeanCity[] = [
   { name: "Vimeiro" },
   { name: "Alcácer do Sal" },
   { name: "Alcochete" },
-  { name: "Almada" },
   { name: "Barreiro" },
   { name: "Moita" },
   { name: "Montijo" },
@@ -1444,7 +1280,6 @@ export const PORTUGAL_CITIES: EuropeanCity[] = [
   { name: "Penafiel" },
   { name: "Amarante" },
   { name: "Baião" },
-  { name: "Celorico de Basto" },
   { name: "Felgueiras" }
 ];
 

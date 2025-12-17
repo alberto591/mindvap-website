@@ -12,9 +12,9 @@ Deno.serve(async (req) => {
     }
 
     try {
-        const { amount, currency = 'usd', cartItems, customerEmail, shippingAddress, billingAddress } = await req.json();
+        const { amount, currency = 'usd', cartItems, customerEmail, shippingAddress, billingAddress, userId = null, createAccount = false, password } = await req.json();
 
-        console.log('Payment intent request received:', { amount, currency, cartItemsCount: cartItems?.length });
+        console.log('Payment intent request received:', { amount, currency, cartItemsCount: cartItems?.length, userId, createAccount });
 
         // Validate required parameters
         if (!amount || amount <= 0) {
@@ -23,6 +23,10 @@ Deno.serve(async (req) => {
 
         if (!cartItems || !Array.isArray(cartItems) || cartItems.length === 0) {
             throw new Error('Cart items are required');
+        }
+
+        if (!customerEmail) {
+            throw new Error('Customer email is required');
         }
 
         // Validate cart items structure
@@ -42,7 +46,7 @@ Deno.serve(async (req) => {
 
         if (!stripeSecretKey) {
             console.error('Stripe secret key not found in environment');
-            throw new Error('Stripe secret key not configured');
+            throw new Error('Stripe secret key configured');
         }
 
         if (!serviceRoleKey || !supabaseUrl) {
@@ -57,25 +61,51 @@ Deno.serve(async (req) => {
             throw new Error('Amount mismatch: calculated amount does not match provided amount');
         }
 
-        // Get user from auth header if provided
-        let userId = null;
-        const authHeader = req.headers.get('authorization');
-        if (authHeader) {
+        // Generate order number for guest tracking
+        const orderNumber = generateOrderNumber();
+        console.log('Generated order number:', orderNumber);
+
+        // Handle account creation if requested and no user is logged in
+        let finalUserId = userId;
+        if (createAccount && !userId && password) {
             try {
-                const token = authHeader.replace('Bearer ', '');
-                const userResponse = await fetch(`${supabaseUrl}/auth/v1/user`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'apikey': serviceRoleKey
+                console.log('Creating account for guest user...');
+                const accountData = {
+                    email: customerEmail,
+                    password: password,
+                    email_confirm: true,
+                    user_metadata: {
+                        first_name: shippingAddress.firstName,
+                        last_name: shippingAddress.lastName,
+                        created_via: 'guest_checkout',
+                        order_number: orderNumber
                     }
+                };
+
+                const createUserResponse = await fetch(`${supabaseUrl}/auth/v1/admin/users`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${serviceRoleKey}`,
+                        'apikey': serviceRoleKey,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(accountData)
                 });
-                if (userResponse.ok) {
-                    const userData = await userResponse.json();
-                    userId = userData.id;
-                    console.log('User identified:', userId);
+
+                if (createUserResponse.ok) {
+                    const userData = await createUserResponse.json();
+                    finalUserId = userData.id;
+                    console.log('Account created successfully:', finalUserId);
+                } else {
+                    const errorData = await createUserResponse.text();
+                    console.error('Failed to create account:', errorData);
+                    // Continue without creating account if it fails
+                    console.log('Continuing without account creation');
                 }
             } catch (error) {
-                console.log('Could not get user from token:', error.message);
+                console.error('Error creating account:', error.message);
+                // Continue without creating account if it fails
+                console.log('Continuing without account creation due to error');
             }
         }
 
@@ -87,7 +117,9 @@ Deno.serve(async (req) => {
         stripeParams.append('metadata[customer_email]', customerEmail || '');
         stripeParams.append('metadata[cart_items_count]', cartItems.length.toString());
         stripeParams.append('metadata[total_items]', cartItems.reduce((sum, item) => sum + item.quantity, 0).toString());
-        stripeParams.append('metadata[user_id]', userId || '');
+        stripeParams.append('metadata[user_id]', finalUserId || '');
+        stripeParams.append('metadata[order_number]', orderNumber);
+        stripeParams.append('metadata[account_created]', createAccount ? 'true' : 'false');
 
         // Create payment intent with Stripe
         const stripeResponse = await fetch('https://api.stripe.com/v1/payment_intents', {
@@ -112,7 +144,7 @@ Deno.serve(async (req) => {
 
         // Create order record in database
         const orderData = {
-            user_id: userId,
+            user_id: finalUserId,
             stripe_payment_intent_id: paymentIntent.id,
             status: 'pending',
             total_amount: amount,
@@ -120,6 +152,7 @@ Deno.serve(async (req) => {
             shipping_address: shippingAddress || null,
             billing_address: billingAddress || null,
             customer_email: customerEmail || null,
+            order_number: orderNumber,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
         };
@@ -196,6 +229,7 @@ Deno.serve(async (req) => {
                 clientSecret: paymentIntent.client_secret,
                 paymentIntentId: paymentIntent.id,
                 orderId: orderId,
+                orderNumber: orderNumber,
                 amount: amount,
                 currency: currency,
                 status: 'pending'
@@ -225,3 +259,10 @@ Deno.serve(async (req) => {
         });
     }
 });
+
+// Helper function to generate order number
+function generateOrderNumber(): string {
+    const timestamp = Date.now().toString();
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `MV-${timestamp.slice(-6)}${random}`;
+}
