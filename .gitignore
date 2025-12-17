@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+mindvap/.env
+
+# Build outputs
+dist/
+build/
+.vite/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+
+# Temporary files
+.temp/
+tmp/
+*.tmp
+
+# Browser screenshots (development)
+.browser_screenshots/
+
+# Supabase local
+supabase/.temp/

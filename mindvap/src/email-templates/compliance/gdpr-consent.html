@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDPR Data Processing Consent - MindVap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4a7c59 0%, #2d5016 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .gdpr-title {
+            font-size: 24px;
+            color: #2d5016;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .gdpr-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        .consent-box {
+            background-color: #e8f5e8;
+            border: 2px solid #4a7c59;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .consent-icon {
+            font-size: 48px;
+            color: #4a7c59;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .data-types {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .data-types h4 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .data-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            border-left: 3px solid #4a7c59;
+        }
+        
+        .data-icon {
+            color: #4a7c59;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+        
+        .data-content {
+            flex: 1;
+        }
+        
+        .data-name {
+            font-weight: bold;
+            color: #2d5016;
+            margin-bottom: 5px;
+        }
+        
+        .data-description {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4a7c59 0%, #2d5016 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .button-accept {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        }
+        
+        .button-decline {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+        
+        .legal-info {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .legal-info h4 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .legal-info p {
+            font-size: 14px;
+            color: #856404;
+            line-height: 1.6;
+        }
+        
+        .rights-section {
+            background-color: #e8f5e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .rights-section h4 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .rights-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .rights-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .rights-list li:before {
+            content: "✓";
+            color: #4a7c59;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #4a7c59;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .unsubscribe {
+            color: #999;
+            font-size: 11px;
+            margin-top: 15px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px !important;
+            }
+            
+            .button {
+                display: block;
+                margin: 15px 0 !important;
+            }
+            
+            .data-item {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MindVap</div>
+            <div class="tagline">Premium Herbal Vaporization</div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <h1 class="gdpr-title">GDPR Data Processing Consent</h1>
+            
+            <p class="gdpr-text">
+                Dear {{firstName}},<br>
+                We're updating our data processing practices to ensure full compliance with GDPR regulations.
+            </p>
+            
+            <!-- Consent Box -->
+            <div class="consent-box">
+                <div class="consent-icon">🔒</div>
+                <h3 style="color: #2d5016; margin-bottom: 15px; text-align: center;">Your Privacy Matters</h3>
+                <p style="color: #555; margin-bottom: 20px; text-align: center;">
+                    Under the General Data Protection Regulation (GDPR), we need your explicit consent 
+                    to process your personal data for certain purposes.
+                </p>
+                
+                <div style="text-align: center; margin: 25px 0;">
+                    <a href="{{consentUrl}}" class="button button-accept">I Consent</a>
+                    <a href="{{declineUrl}}" class="button button-decline">I Decline</a>
+                </div>
+                
+                <p style="font-size: 14px; color: #666; text-align: center; margin-top: 15px;">
+                    Please respond by {{consentDeadline}}
+                </p>
+            </div>
+            
+            <!-- Data Types -->
+            <div class="data-types">
+                <h4>📋 What Data We Process</h4>
+                
+                <div class="data-item">
+                    <div class="data-icon">👤</div>
+                    <div class="data-content">
+                        <div class="data-name">Personal Identification Data</div>
+                        <div class="data-description">Name, email address, date of birth, phone number</div>
+                    </div>
+                </div>
+                
+                <div class="data-item">
+                    <div class="data-icon">📍</div>
+                    <div class="data-content">
+                        <div class="data-name">Address Information</div>
+                        <div class="data-description">Shipping and billing addresses for order fulfillment</div>
+                    </div>
+                </div>
+                
+                <div class="data-item">
+                    <div class="data-icon">💳</div>
+                    <div class="data-content">
+                        <div class="data-name">Payment Information</div>
+                        <div class="data-description">Payment method details (processed securely by our payment providers)</div>
+                    </div>
+                </div>
+                
+                <div class="data-item">
+                    <div class="data-icon">🛒</div>
+                    <div class="data-content">
+                        <div class="data-name">Order History</div>
+                        <div class="data-description">Purchase history, preferences, and wishlist items</div>
+                    </div>
+                </div>
+                
+                <div class="data-item">
+                    <div class="data-icon">🌐</div>
+                    <div class="data-content">
+                        <div class="data-name">Website Usage Data</div>
+                        <div class="data-description">Browsing behavior, device information, and IP address</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Your Rights -->
+            <div class="rights-section">
+                <h4>⚖️ Your GDPR Rights</h4>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px;">
+                    Under GDPR, you have the following rights regarding your personal data:
+                </p>
+                <ul class="rights-list">
+                    <li>Right to access your personal data</li>
+                    <li>Right to rectify inaccurate data</li>
+                    <li>Right to erase your data ("right to be forgotten")</li>
+                    <li>Right to restrict processing</li>
+                    <li>Right to data portability</li>
+                    <li>Right to object to processing</li>
+                    <li>Right to withdraw consent at any time</li>
+                </ul>
+            </div>
+            
+            <!-- Legal Information -->
+            <div class="legal-info">
+                <h4>⚖️ Legal Basis for Processing</h4>
+                <p>
+                    <strong>Essential Services (Account Management, Order Processing):</strong><br>
+                    Contract performance and legitimate interests<br><br>
+                    <strong>Marketing Communications:</strong><br>
+                    Your explicit consent (you can withdraw this at any time)<br><br>
+                    <strong>Legal Compliance:</strong><br>
+                    Legal obligations (tax, accounting, age verification)
+                </p>
+            </div>
+            
+            <!-- Data Sharing -->
+            <div class="data-types">
+                <h4>🤝 Who We Share Your Data With</h4>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px;">
+                    We only share your data with trusted third parties when necessary:
+                </p>
+                <ul class="rights-list">
+                    <li>Payment processors (Stripe) for secure transactions</li>
+                    <li>Shipping carriers for order delivery</li>
+                    <li>Email service providers for communications</li>
+                    <li>Legal authorities when required by law</li>
+                    <li>Your explicit consent for other purposes</li>
+                </ul>
+            </div>
+            
+            <!-- Actions -->
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 16px; color: #555; margin-bottom: 20px;">
+                    Please make your choice:
+                </p>
+                <a href="{{consentUrl}}" class="button button-accept">I Consent to Data Processing</a>
+                <a href="{{declineUrl}}" class="button button-decline">I Decline</a>
+            </div>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <p style="font-size: 14px; color: #666;">
+                    Need more information? 
+                    <a href="{{privacyPolicyUrl}}" style="color: #4a7c59;">Read our full Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="{{baseUrl}}/privacy">Privacy Policy</a>
+                <a href="{{baseUrl}}/terms">Terms of Service</a>
+                <a href="{{baseUrl}}/contact">Contact Us</a>
+                <a href="{{baseUrl}}/data-request">Data Request Form</a>
+            </div>
+            
+            <div class="footer-text">
+                <strong>MindVap Ltd.</strong><br>
+                123 Wellness Street, Natural City, NC 12345<br>
+                United States<br><br>
+                Data Protection Officer: privacy@mindvap.com<br><br>
+                © {{currentYear}} MindVap. All rights reserved.<br>
+                This GDPR consent request was sent to {{toEmail}}.
+            </div>
+            
+            <div class="unsubscribe">
+                Questions about GDPR? <a href="{{contactGdprUrl}}">Contact our Data Protection Officer</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

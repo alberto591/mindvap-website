@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MindVap - Your Journey Begins</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .welcome-title {
+            font-size: 24px;
+            color: #2d5016;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .welcome-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+        
+        .verification-section {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .verification-title {
+            font-size: 18px;
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .verification-text {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .features {
+            margin: 30px 0;
+        }
+        
+        .features h3 {
+            color: #2d5016;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            color: #4a7c59;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #4a7c59;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #4a7c59;
+            text-decoration: none;
+        }
+        
+        .unsubscribe {
+            color: #999;
+            font-size: 11px;
+            margin-top: 15px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px !important;
+            }
+            
+            .button {
+                display: block;
+                margin: 15px 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MindVap</div>
+            <div class="tagline">Premium Herbal Vaporization</div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <h1 class="welcome-title">Welcome to MindVap, {{firstName}}!</h1>
+            
+            <p class="welcome-text">
+                We're thrilled to welcome you to the MindVap community! Your account has been successfully created, 
+                and you're now part of a growing family that values natural wellness and premium herbal products.
+            </p>
+            
+            <p class="welcome-text">
+                To get started with your journey, we need to verify your email address. This helps us keep your 
+                account secure and ensures you receive important updates about your orders and account.
+            </p>
+            
+            <!-- Verification Section -->
+            <div class="verification-section">
+                <h3 class="verification-title">Verify Your Email Address</h3>
+                <p class="verification-text">
+                    Click the button below to verify your email address and activate your account.
+                    This link will expire in {{expiresIn}}.
+                </p>
+                <a href="{{verificationLink}}" class="button">Verify Email Address</a>
+                <p style="font-size: 12px; color: #999; margin-top: 15px;">
+                    Having trouble? Copy and paste this link into your browser:<br>
+                    <span style="word-break: break-all;">{{verificationLink}}</span>
+                </p>
+            </div>
+            
+            <!-- Features -->
+            <div class="features">
+                <h3>What You Can Do Now</h3>
+                <ul class="feature-list">
+                    <li>Browse our curated selection of premium herbal products</li>
+                    <li>Create and manage your wishlist</li>
+                    <li>Track your orders and shipping</li>
+                    <li>Access educational content about herbal wellness</li>
+                    <li>Receive exclusive member-only offers</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <a href="{{loginUrl}}" class="button" style="background: #4a7c59;">Visit Your Account</a>
+            </div>
+            
+            <p class="welcome-text">
+                If you have any questions or need assistance, our customer support team is here to help. 
+                You can reach us at {{supportEmail}} or through our contact form.
+            </p>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="{{baseUrl}}/privacy">Privacy Policy</a>
+                <a href="{{baseUrl}}/terms">Terms of Service</a>
+                <a href="{{baseUrl}}/contact">Contact Us</a>
+                <a href="{{baseUrl}}/unsubscribe">Unsubscribe</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#">Facebook</a> |
+                <a href="#">Twitter</a> |
+                <a href="#">Instagram</a> |
+                <a href="#">YouTube</a>
+            </div>
+            
+            <div class="footer-text">
+                <strong>MindVap Ltd.</strong><br>
+                123 Wellness Street, Natural City, NC 12345<br>
+                United States<br><br>
+                © {{currentYear}} MindVap. All rights reserved.<br>
+                This email was sent to {{toEmail}} because you created an account at {{baseUrl}}.
+            </div>
+            
+            <div class="unsubscribe">
+                Don't want to receive these emails? <a href="{{unsubscribeUrl}}">Unsubscribe</a> or 
+                <a href="{{preferencesUrl}}">manage your email preferences</a>.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

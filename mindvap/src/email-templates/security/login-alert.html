@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Login Alert - MindVap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .alert-title {
+            font-size: 24px;
+            color: #dc3545;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .alert-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            text-align: center;
+        }
+        
+        .security-alert {
+            background-color: #fff3cd;
+            border: 2px solid #f39c12;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .alert-icon {
+            font-size: 48px;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+        
+        .device-info {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .device-info h4 {
+            color: #dc3545;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .info-value {
+            color: #333;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .button-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+        }
+        
+        .button-success {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+        }
+        
+        .security-tips {
+            background-color: #e8f5e8;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+        }
+        
+        .security-tips h4 {
+            color: #2d5016;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .security-tips ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .security-tips li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .security-tips li:before {
+            content: "✓";
+            color: #28a745;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #4a7c59;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer-text {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .unsubscribe {
+            color: #999;
+            font-size: 11px;
+            margin-top: 15px;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-container {
+                width: 100% !important;
+            }
+            
+            .header, .content, .footer {
+                padding: 20px !important;
+            }
+            
+            .button {
+                display: block;
+                margin: 15px 0 !important;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">MindVap</div>
+            <div class="tagline">Premium Herbal Vaporization</div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <h1 class="alert-title">New Login Detected</h1>
+            
+            <p class="alert-text">
+                Hi {{firstName}},<br>
+                We detected a new login to your MindVap account.
+            </p>
+            
+            <!-- Security Alert Box -->
+            <div class="security-alert">
+                <div class="alert-icon">⚠️</div>
+                <h3 style="color: #856404; margin-bottom: 15px;">Login Alert</h3>
+                <p style="color: #856404; margin-bottom: 20px;">
+                    If this was you, you can ignore this message. If you don't recognize this login, 
+                    please secure your account immediately.
+                </p>
+                <p style="font-size: 14px; color: #856404;">
+                    <strong>Login Time:</strong> {{loginTime}}<br>
+                    <strong>Location:</strong> {{loginLocation}}
+                </p>
+            </div>
+            
+            <!-- Device Information -->
+            <div class="device-info">
+                <h4>📱 Device Information</h4>
+                <div class="info-row">
+                    <span class="info-label">Device Type:</span>
+                    <span class="info-value">{{deviceType}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Browser:</span>
+                    <span class="info-value">{{browser}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Operating System:</span>
+                    <span class="info-value">{{operatingSystem}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">IP Address:</span>
+                    <span class="info-value">{{ipAddress}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Location:</span>
+                    <span class="info-value">{{location}}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Login Time:</span>
+                    <span class="info-value">{{loginTime}}</span>
+                </div>
+            </div>
+            
+            <!-- Security Tips -->
+            <div class="security-tips">
+                <h4>🛡️ Security Recommendations</h4>
+                <ul>
+                    <li>Change your password if you don't recognize this login</li>
+                    <li>Enable two-factor authentication for extra security</li>
+                    <li>Review your recent account activity</li>
+                    <li>Log out of all devices if you're concerned</li>
+                    <li>Keep your browser and antivirus software updated</li>
+                </ul>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="text-align: center; margin: 30px 0;">
+                <p style="font-size: 16px; color: #555; margin-bottom: 20px;">
+                    Was this you?
+                </p>
+                <a href="{{confirmLoginUrl}}" class="button button-success">Yes, This Was Me</a>
+                <a href="{{secureAccountUrl}}" class="button">Secure My Account</a>
+                <a href="{{passwordChangeUrl}}" class="button button-secondary">Change Password</a>
+            </div>
+            
+            <!-- Additional Actions -->
+            <div style="text-align: center; margin: 20px 0;">
+                <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                    Additional security options:
+                </p>
+                <a href="{{twoFactorUrl}}" class="button button-secondary">Enable 2FA</a>
+                <a href="{{securitySettingsUrl}}" class="button button-secondary">Security Settings</a>
+                <a href="{{accountActivityUrl}}" class="button button-secondary">View Account Activity</a>
+            </div>
+            
+            <div class="security-tips">
+                <h4>📞 Need Help?</h4>
+                <p style="font-size: 14px; color: #555; line-height: 1.6;">
+                    If you didn't authorize this login or you notice any suspicious activity, 
+                    please contact our security team immediately:<br><br>
+                    📧 <strong>Email:</strong> security@mindvap.com<br>
+                    📞 <strong>Phone:</strong> 1-800-MINDVAP<br>
+                    💬 <strong>Live Chat:</strong> Available 24/7 on our website<br><br>
+                    Include the login time and device information above when contacting us.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-links">
+                <a href="{{baseUrl}}/privacy">Privacy Policy</a>
+                <a href="{{baseUrl}}/terms">Terms of Service</a>
+                <a href="{{baseUrl}}/contact">Contact Us</a>
+                <a href="{{baseUrl}}/unsubscribe">Unsubscribe</a>
+            </div>
+            
+            <div class="footer-text">
+                <strong>MindVap Ltd.</strong><br>
+                123 Wellness Street, Natural City, NC 12345<br>
+                United States<br><br>
+                © {{currentYear}} MindVap. All rights reserved.<br>
+                This security alert was sent to {{toEmail}} for your account at {{baseUrl}}.
+            </div>
+            
+            <div class="unsubscribe">
+                Don't want to receive security alerts? <a href="{{unsubscribeUrl}}">Unsubscribe</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
