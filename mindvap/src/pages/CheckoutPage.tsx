@@ -397,6 +397,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                             <option value="Wales">Wales</option>
                           </>
                         )}
+                      </select>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
