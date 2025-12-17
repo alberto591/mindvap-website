@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, CreditCard, CheckCircle, UserPlus, User } from 'lucide-react';
 import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { stripePromise } from '../lib/stripe';
-import { createPaymentIntent } from '../services/payment';
+// Use mock payment service for development testing
+import { createPaymentIntent } from '../services/payment.mock';
 import { useAuth } from '../contexts/AuthContext';
 import { CartItem } from '../types';
 import { getCitiesForCountry, getPostalCodeInfo, getCountryData } from '../data/europeanAddresses';
@@ -104,6 +105,17 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
         country: formData.country,
       };
 
+      console.log('🎭 Creating mock payment intent with data:', {
+        amount: total,
+        currency: 'usd',
+        cartItems,
+        customerEmail: formData.email,
+        shippingAddress,
+        userId: isAuthenticated ? user?.id : null,
+        createAccount: formData.createAccount && !isAuthenticated,
+        password: formData.createAccount ? formData.password : undefined,
+      });
+
       const response = await createPaymentIntent({
         amount: total,
         currency: 'usd',
@@ -115,6 +127,8 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
         createAccount: formData.createAccount && !isAuthenticated,
         password: formData.createAccount ? formData.password : undefined,
       });
+
+      console.log('🎭 Mock payment intent created successfully:', response);
 
       setClientSecret(response.data.clientSecret);
       setOrderId(response.data.orderId);
@@ -173,6 +187,11 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
               </p>
             </div>
           )}
+          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+            <p className="text-green-800 text-sm">
+              🎭 <strong>Development Mode:</strong> This is a mock order created for testing purposes.
+            </p>
+          </div>
           <p className="text-sm text-text-tertiary">
             Redirecting to homepage...
           </p>
@@ -187,6 +206,14 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
         <h1 className="font-serif text-4xl md:text-5xl mb-12 text-text-primary">
           Secure Checkout
         </h1>
+
+        {/* Development Notice */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
+          <p className="text-blue-800 text-sm">
+            🎭 <strong>Development Mode:</strong> Using mock payment service for testing. 
+            No real charges will be made.
+          </p>
+        </div>
 
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Checkout Form */}
@@ -631,23 +658,15 @@ function PaymentForm({ onSuccess, onError }: PaymentFormProps) {
     onError('');
 
     try {
-      const { error, paymentIntent } = await stripe.confirmPayment({
-        elements,
-        confirmParams: {
-          return_url: window.location.origin + '/checkout',
-        },
-        redirect: 'if_required',
-      });
-
-      if (error) {
-        onError(error.message || 'Payment failed. Please try again.');
-        setIsProcessing(false);
-      } else if (paymentIntent && paymentIntent.status === 'succeeded') {
-        onSuccess();
-      } else {
-        onError('Payment status unknown. Please contact support.');
-        setIsProcessing(false);
-      }
+      // In mock mode, we'll simulate a successful payment
+      console.log('🎭 Mock Payment: Simulating successful payment');
+      
+      // Simulate processing delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Simulate successful payment
+      onSuccess();
+      
     } catch (err: any) {
       onError(err.message || 'An unexpected error occurred.');
       setIsProcessing(false);
@@ -657,7 +676,36 @@ function PaymentForm({ onSuccess, onError }: PaymentFormProps) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-6">
-        <PaymentElement />
+        {/* Mock payment element for development */}
+        <div className="border border-gray-300 rounded-lg p-4 bg-gray-50">
+          <p className="text-gray-600 text-sm">
+            🎭 <strong>Mock Payment Element</strong><br />
+            This is a simulated payment form for development testing.
+            No real payment will be processed.
+          </p>
+          <div className="mt-3 space-y-2">
+            <input
+              type="text"
+              placeholder="Card Number (Mock)"
+              className="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+              disabled
+            />
+            <div className="grid grid-cols-2 gap-2">
+              <input
+                type="text"
+                placeholder="MM/YY"
+                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                disabled
+              />
+              <input
+                type="text"
+                placeholder="CVC"
+                className="px-3 py-2 border border-gray-300 rounded text-sm"
+                disabled
+              />
+            </div>
+          </div>
+        </div>
       </div>
       <button
         type="submit"
@@ -669,7 +717,7 @@ function PaymentForm({ onSuccess, onError }: PaymentFormProps) {
         ) : (
           <>
             <Lock className="w-5 h-5" />
-            Complete Secure Purchase
+            Complete Secure Purchase (Mock)
           </>
         )}
       </button>
