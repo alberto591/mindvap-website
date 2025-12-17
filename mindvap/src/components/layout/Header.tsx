@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, LogOut } from 'lucide-react';
+import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { useAuth } from '../../contexts/AuthContext';
 import LanguageSelector from '../LanguageSelector';
+import UnifiedAuthButton from '../auth/UnifiedAuthButton';
+import Search from '../Search';
 
 interface HeaderProps {
   cartItemCount: number;
@@ -12,17 +14,7 @@ interface HeaderProps {
 export default function Header({ cartItemCount }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
-  const { user, isAuthenticated, logout } = useAuth();
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setUserMenuOpen(false);
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
+  const { isAuthenticated } = useAuth();
 
   const navLinks = [
     { to: '/shop', label: t('nav.shop') },
@@ -54,8 +46,13 @@ export default function Header({ cartItemCount }: HeaderProps) {
             <LanguageSelector />
           </nav>
 
-          {/* Cart, User Menu & Mobile Menu Toggle */}
+          {/* Search, Cart, User Menu & Mobile Menu Toggle */}
           <div className="flex items-center gap-4">
+            {/* Desktop Search */}
+            <div className="hidden lg:block">
+              <Search />
+            </div>
+
             <Link
               to="/cart"
               className="relative p-2 hover:bg-background-accent rounded-md transition-colors"
@@ -68,69 +65,8 @@ export default function Header({ cartItemCount }: HeaderProps) {
               )}
             </Link>
 
-            {/* User Menu */}
-            {isAuthenticated && user ? (
-              <div className="relative">
-                <button
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                  className="flex items-center gap-2 p-2 hover:bg-background-accent rounded-md transition-colors"
-                >
-                  <User size={24} className="text-text-primary" />
-                  <span className="hidden md:block text-sm font-medium text-text-primary">
-                    {user.firstName}
-                  </span>
-                </button>
-
-                {userMenuOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-border-light">
-                    <Link
-                      to="/account"
-                      className="block px-4 py-2 text-sm text-text-primary hover:bg-background-accent"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      to="/account/orders"
-                      className="block px-4 py-2 text-sm text-text-primary hover:bg-background-accent"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Order History
-                    </Link>
-                    <Link
-                      to="/account/profile"
-                      className="block px-4 py-2 text-sm text-text-primary hover:bg-background-accent"
-                      onClick={() => setUserMenuOpen(false)}
-                    >
-                      Profile Settings
-                    </Link>
-                    <div className="border-t border-border-light my-1"></div>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-background-accent flex items-center gap-2"
-                    >
-                      <LogOut size={16} />
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Link
-                  to="/login"
-                  className="hidden md:block text-sm font-medium text-text-primary hover:text-brand-primary transition-colors"
-                >
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="hidden md:block bg-cta-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-cta-hover transition-colors"
-                >
-                  Sign Up
-                </Link>
-              </div>
-            )}
+            {/* Unified Authentication Button */}
+            <UnifiedAuthButton />
 
             {/* Mobile Menu Button */}
             <button
@@ -145,6 +81,11 @@ export default function Header({ cartItemCount }: HeaderProps) {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <nav className="md:hidden py-4 border-t border-border-light">
+            {/* Mobile Search */}
+            <div className="mb-4">
+              <Search mobile={true} onClose={() => setMobileMenuOpen(false)} />
+            </div>
+            
             {navLinks.map((link) => (
               <Link
                 key={link.to}
@@ -158,61 +99,7 @@ export default function Header({ cartItemCount }: HeaderProps) {
             
             {/* Mobile Auth Links */}
             <div className="pt-4 border-t border-border-light">
-              {isAuthenticated && user ? (
-                <div className="space-y-2">
-                  <div className="py-2 text-sm text-text-primary">
-                    Welcome, {user.firstName}!
-                  </div>
-                  <Link
-                    to="/account"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 text-text-primary hover:text-brand-primary font-medium transition-colors"
-                  >
-                    My Account
-                  </Link>
-                  <Link
-                    to="/account/orders"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 text-text-primary hover:text-brand-primary font-medium transition-colors"
-                  >
-                    Order History
-                  </Link>
-                  <Link
-                    to="/account/profile"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 text-text-primary hover:text-brand-primary font-medium transition-colors"
-                  >
-                    Profile Settings
-                  </Link>
-                  <button
-                    onClick={() => {
-                      handleLogout();
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left py-2 text-text-primary hover:text-brand-primary font-medium transition-colors flex items-center gap-2"
-                  >
-                    <LogOut size={16} />
-                    Logout
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <Link
-                    to="/login"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block py-2 text-text-primary hover:text-brand-primary font-medium transition-colors"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="block bg-cta-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-cta-hover transition-colors text-center"
-                  >
-                    Sign Up
-                  </Link>
-                </div>
-              )}
+              <UnifiedAuthButton mobile={true} />
               
               <div className="pt-4">
                 <LanguageSelector />

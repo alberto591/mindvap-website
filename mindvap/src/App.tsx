@@ -15,6 +15,7 @@ import LoginPage from './pages/LoginPage';
 import ShippingReturnsPage from './pages/ShippingReturnsPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
+import GuestOrderTrackingPage from './pages/GuestOrderTrackingPage';
 
 // Account Management Pages
 import AccountDashboardPage from './pages/AccountDashboardPage';
@@ -26,6 +27,9 @@ import WishlistPage from './pages/WishlistPage';
 import AccountSettingsPage from './pages/AccountSettingsPage';
 import SecurityPage from './pages/SecurityPage';
 import PrivacyPage from './pages/PrivacyPage';
+
+// Chat Component
+import Chat from './components/chat/Chat';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -114,14 +118,13 @@ function App() {
                 <Route
                   path="/checkout"
                   element={
-                    <ProtectedRoute requireAgeVerification={true}>
-                      <CheckoutPage cart={cart} clearCart={clearCart} />
-                    </ProtectedRoute>
+                    <CheckoutPage cart={cart} clearCart={clearCart} />
                   }
                 />
                 <Route path="/shipping-returns" element={<ShippingReturnsPage />} />
                 <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
                 <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+                <Route path="/track-order" element={<GuestOrderTrackingPage />} />
                 
                 {/* Account Management Routes */}
                 <Route
@@ -199,6 +202,7 @@ function App() {
               </Routes>
             </main>
             <Footer />
+            <Chat />
           </div>
         </Router>
       </AuthProvider>

@@ -1,0 +1,281 @@
+export interface ProductStock {
+  product_id: string;
+  stock_quantity: number;
+  reserved_quantity: number;
+  available_quantity: number;
+  low_stock_threshold: number;
+  last_updated: string;
+}
+
+export interface StockReservation {
+  product_id: string;
+  quantity: number;
+  reservation_id: string;
+  expires_at: string;
+}
+
+export class StockService {
+  private static stockCache = new Map<string, ProductStock>();
+  private static reservations = new Map<string, StockReservation[]>();
+
+  /**
+   * Check if product has sufficient stock
+   */
+  static async checkStockAvailability(
+    productId: string, 
+    requestedQuantity: number
+  ): Promise<{ available: boolean; availableQuantity: number }> {
+    try {
+      // In a real implementation, this would query the database
+      // For now, we'll simulate stock checking
+      
+      // Simulate API call to get product stock
+      const stock = await this.getProductStock(productId);
+      
+      if (!stock) {
+        return { available: false, availableQuantity: 0 };
+      }
+
+      const availableQuantity = stock.available_quantity;
+      return {
+        available: availableQuantity >= requestedQuantity,
+        availableQuantity
+      };
+    } catch (error) {
+      console.error('Error checking stock availability:', error);
+      return { available: false, availableQuantity: 0 };
+    }
+  }
+
+  /**
+   * Reserve stock for an order
+   */
+  static async reserveStock(
+    orderId: string,
+    items: { product_id: string; quantity: number }[]
+  ): Promise<{ success: boolean; errors: string[] }> {
+    const errors: string[] = [];
+    
+    try {
+      // Check stock availability for all items
+      for (const item of items) {
+        const stockCheck = await this.checkStockAvailability(item.product_id, item.quantity);
+        if (!stockCheck.available) {
+          errors.push(`Insufficient stock for product ${item.product_id}. Available: ${stockCheck.availableQuantity}, Requested: ${item.quantity}`);
+        }
+      }
+
+      if (errors.length > 0) {
+        return { success: false, errors };
+      }
+
+      // Reserve stock for each item
+      const reservations: StockReservation[] = [];
+      const expiryTime = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes from now
+
+      for (const item of items) {
+        const reservation: StockReservation = {
+          product_id: item.product_id,
+          quantity: item.quantity,
+          reservation_id: `${orderId}-${item.product_id}`,
+          expires_at: expiryTime.toISOString()
+        };
+        reservations.push(reservation);
+      }
+
+      // Store reservations
+      this.reservations.set(orderId, reservations);
+
+      // In a real implementation, you would:
+      // 1. Start a database transaction
+      // 2. Update product stock quantities
+      // 3. Create reservation records
+      // 4. Commit the transaction
+
+      console.log(`Stock reserved for order ${orderId}:`, reservations);
+      
+      return { success: true, errors: [] };
+    } catch (error) {
+      console.error('Error reserving stock:', error);
+      return { 
+        success: false, 
+        errors: [`Stock reservation failed: ${error instanceof Error ? error.message : 'Unknown error'}`] 
+      };
+    }
+  }
+
+  /**
+   * Confirm stock reservation (called after successful payment)
+   */
+  static async confirmStockReservation(orderId: string): Promise<boolean> {
+    try {
+      const reservations = this.reservations.get(orderId);
+      if (!reservations) {
+        console.warn(`No stock reservations found for order ${orderId}`);
+        return false;
+      }
+
+      // In a real implementation, you would:
+      // 1. Start a database transaction
+      // 2. Deduct reserved quantities from available stock
+      // 3. Remove reservations
+      // 4. Update product inventory
+      // 5. Commit the transaction
+
+      // For simulation, just remove the reservations
+      this.reservations.delete(orderId);
+      
+      console.log(`Stock reservation confirmed for order ${orderId}`);
+      return true;
+    } catch (error) {
+      console.error('Error confirming stock reservation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Cancel stock reservation (called when order is canceled or payment fails)
+   */
+  static async cancelStockReservation(orderId: string): Promise<boolean> {
+    try {
+      const reservations = this.reservations.get(orderId);
+      if (!reservations) {
+        console.warn(`No stock reservations found for order ${orderId}`);
+        return true; // Nothing to cancel
+      }
+
+      // In a real implementation, you would:
+      // 1. Start a database transaction
+      // 2. Release reserved quantities back to available stock
+      // 3. Remove reservation records
+      // 4. Commit the transaction
+
+      // For simulation, just remove the reservations
+      this.reservations.delete(orderId);
+      
+      console.log(`Stock reservation canceled for order ${orderId}`);
+      return true;
+    } catch (error) {
+      console.error('Error canceling stock reservation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get product stock information
+   */
+  static async getProductStock(productId: string): Promise<ProductStock | null> {
+    // Check cache first
+    if (this.stockCache.has(productId)) {
+      return this.stockCache.get(productId)!;
+    }
+
+    try {
+      // In a real implementation, this would query the database
+      // For simulation, return mock data
+      const mockStock: ProductStock = {
+        product_id: productId,
+        stock_quantity: 100, // Mock: 100 in stock
+        reserved_quantity: 0,
+        available_quantity: 100,
+        low_stock_threshold: 10,
+        last_updated: new Date().toISOString()
+      };
+
+      // Cache the result
+      this.stockCache.set(productId, mockStock);
+      
+      return mockStock;
+    } catch (error) {
+      console.error('Error fetching product stock:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Update product stock quantity
+   */
+  static async updateStockQuantity(
+    productId: string, 
+    quantityChange: number, 
+    reason: 'sale' | 'return' | 'adjustment' | 'received'
+  ): Promise<boolean> {
+    try {
+      const currentStock = await this.getProductStock(productId);
+      if (!currentStock) {
+        throw new Error(`Product ${productId} not found`);
+      }
+
+      const newQuantity = currentStock.stock_quantity + quantityChange;
+      if (newQuantity < 0) {
+        throw new Error(`Stock quantity cannot be negative for product ${productId}`);
+      }
+
+      const updatedStock: ProductStock = {
+        ...currentStock,
+        stock_quantity: newQuantity,
+        available_quantity: newQuantity - currentStock.reserved_quantity,
+        last_updated: new Date().toISOString()
+      };
+
+      // Update cache
+      this.stockCache.set(productId, updatedStock);
+
+      // In a real implementation, you would update the database
+      console.log(`Stock updated for product ${productId}:`, {
+        change: quantityChange,
+        newQuantity,
+        reason
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Error updating stock quantity:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Get low stock products
+   */
+  static async getLowStockProducts(): Promise<ProductStock[]> {
+    try {
+      const allStocks = Array.from(this.stockCache.values());
+      return allStocks.filter(stock => stock.available_quantity <= stock.low_stock_threshold);
+    } catch (error) {
+      console.error('Error fetching low stock products:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Clean up expired reservations
+   */
+  static async cleanupExpiredReservations(): Promise<number> {
+    const now = new Date();
+    let cleanedCount = 0;
+
+    for (const [orderId, reservations] of this.reservations.entries()) {
+      const validReservations = reservations.filter(reservation => 
+        new Date(reservation.expires_at) > now
+      );
+
+      if (validReservations.length < reservations.length) {
+        // Some reservations expired, clean them up
+        this.reservations.set(orderId, validReservations);
+        cleanedCount += reservations.length - validReservations.length;
+      }
+
+      // Remove orders with no valid reservations
+      if (validReservations.length === 0) {
+        this.reservations.delete(orderId);
+      }
+    }
+
+    if (cleanedCount > 0) {
+      console.log(`Cleaned up ${cleanedCount} expired stock reservations`);
+    }
+
+    return cleanedCount;
+  }
+}

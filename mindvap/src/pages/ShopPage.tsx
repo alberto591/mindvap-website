@@ -1,9 +1,22 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Filter, X } from 'lucide-react';
+import { Filter, X, Search as SearchIcon } from 'lucide-react';
 import ProductCard from '../components/ui/ProductCard';
 import { Product } from '../types';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Fuzzy search function (same as in Search component)
+const fuzzyMatch = (text: string, query: string): boolean => {
+  const normalizedText = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  
+  // Check if query is contained in text
+  if (normalizedText.includes(normalizedQuery)) return true;
+  
+  // Check word by word
+  const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 0);
+  return queryWords.every(word => normalizedText.includes(word));
+};
 
 export default function ShopPage() {
   const { t } = useLanguage();
@@ -13,6 +26,7 @@ export default function ShopPage() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50]);
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
     t('shop.filter.anxiety'),
@@ -38,11 +52,27 @@ export default function ShopPage() {
             .join(' ');
           setSelectedCategories([categoryName]);
         }
+
+        // Check for search query from URL
+        const searchParam = searchParams.get('search');
+        if (searchParam) {
+          setSearchQuery(searchParam);
+        }
       });
   }, []);
 
   useEffect(() => {
     let filtered = [...products];
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      filtered = filtered.filter(product => 
+        fuzzyMatch(product.name, searchQuery) ||
+        fuzzyMatch(product.category, searchQuery) ||
+        fuzzyMatch(product.shortDescription, searchQuery) ||
+        product.herbs.some(herb => fuzzyMatch(herb, searchQuery))
+      );
+    }
 
     // Filter by categories
     if (selectedCategories.length > 0) {
@@ -57,7 +87,7 @@ export default function ShopPage() {
     );
 
     setFilteredProducts(filtered);
-  }, [selectedCategories, priceRange, products]);
+  }, [searchQuery, selectedCategories, priceRange, products]);
 
   const toggleCategory = (category: string) => {
     if (selectedCategories.includes(category)) {
@@ -70,7 +100,15 @@ export default function ShopPage() {
   const clearFilters = () => {
     setSelectedCategories([]);
     setPriceRange([0, 50]);
+    setSearchQuery('');
     setSearchParams({});
+  };
+
+  const clearSearch = () => {
+    setSearchQuery('');
+    const newParams = new URLSearchParams(searchParams);
+    newParams.delete('search');
+    setSearchParams(newParams);
   };
 
   const FilterSidebar = () => (
@@ -116,7 +154,7 @@ export default function ShopPage() {
       </div>
 
       {/* Clear Filters */}
-      {(selectedCategories.length > 0 || priceRange[1] < 50) && (
+      {(selectedCategories.length > 0 || priceRange[1] < 50 || searchQuery) && (
         <button
           onClick={clearFilters}
           className="w-full text-brand-primary hover:text-brand-hover font-semibold py-2 transition-colors"
@@ -127,18 +165,46 @@ export default function ShopPage() {
     </div>
   );
 
+  const hasActiveFilters = selectedCategories.length > 0 || priceRange[1] < 50 || searchQuery;
+  const searchActive = searchQuery.trim().length > 0;
+
   return (
     <div className="min-h-screen bg-background-primary py-8">
       <div className="max-w-[1400px] mx-auto px-4 md:px-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="font-headline text-section-header font-medium text-text-primary mb-2">
-            {t('shop.title')}
+            {searchActive ? `${t('search.resultsFor')} "${searchQuery}"` : t('shop.title')}
           </h1>
           <p className="text-body-large text-text-secondary">
             {filteredProducts.length} {t('shop.productsAvailable')}
+            {searchActive && ` ${t('common.search').toLowerCase()}`}
           </p>
         </div>
+
+        {/* Search Query Display */}
+        {searchActive && (
+          <div className="mb-6 p-4 bg-background-accent rounded-lg border border-border-light">
+            <div className="flex items-center gap-3">
+              <SearchIcon size={20} className="text-brand-primary" />
+              <div className="flex-1">
+                <p className="text-text-primary">
+                  <span className="font-medium">{t('search.resultsFor')}</span> "{searchQuery}"
+                </p>
+                <p className="text-sm text-text-muted">
+                  {filteredProducts.length} {filteredProducts.length === 1 ? 'result' : 'results'} found
+                </p>
+              </div>
+              <button
+                onClick={clearSearch}
+                className="p-1 hover:bg-background-surface rounded-full transition-colors"
+                aria-label={t('search.clear')}
+              >
+                <X size={16} className="text-text-muted" />
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="flex gap-8">
           {/* Desktop Filter Sidebar */}
@@ -192,13 +258,21 @@ export default function ShopPage() {
               </div>
             ) : (
               <div className="text-center py-16">
-                <p className="text-xl text-text-secondary mb-4">{t('shop.filter.noProducts')}</p>
-                <button
-                  onClick={clearFilters}
-                  className="text-brand-primary hover:text-brand-hover font-semibold"
-                >
-                  {t('shop.filter.clearFilters')}
-                </button>
+                <SearchIcon size={48} className="mx-auto text-text-muted mb-4" />
+                <p className="text-xl text-text-secondary mb-2">
+                  {searchActive ? t('search.noResults') : t('shop.filter.noProducts')}
+                </p>
+                <p className="text-text-muted mb-4">
+                  {searchActive ? t('search.tryDifferent') : 'Try adjusting your filters'}
+                </p>
+                {hasActiveFilters && (
+                  <button
+                    onClick={clearFilters}
+                    className="text-brand-primary hover:text-brand-hover font-semibold"
+                  >
+                    {t('shop.filter.clearFilters')}
+                  </button>
+                )}
               </div>
             )}
           </div>

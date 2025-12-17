@@ -31,6 +31,9 @@ interface CreatePaymentIntentRequest {
     zipCode: string;
     country: string;
   };
+  userId?: string | null;
+  createAccount?: boolean;
+  password?: string;
 }
 
 interface CreatePaymentIntentResponse {
@@ -38,6 +41,7 @@ interface CreatePaymentIntentResponse {
     clientSecret: string;
     paymentIntentId: string;
     orderId: string;
+    orderNumber: string;
     amount: number;
     currency: string;
     status: string;

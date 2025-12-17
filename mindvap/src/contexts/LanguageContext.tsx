@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authTranslations } from '../translations/auth';
 
 export type Language = 'en' | 'es' | 'it';
 
@@ -22,7 +23,7 @@ interface LanguageProviderProps {
   children: React.ReactNode;
 }
 
-// Translation data
+// Translation data - merge main translations with auth translations
 const translations = {
   en: {
     // Navigation
@@ -32,6 +33,7 @@ const translations = {
     'nav.education': 'Education',
     'nav.contact': 'Contact',
     'nav.cart': 'Cart',
+    'nav.language': 'Language',
     
     // Common
     'common.loading': 'Loading...',
@@ -59,6 +61,18 @@ const translations = {
     'common.free': 'FREE',
     'common.explore': 'Explore',
     'common.optional': 'Optional',
+    
+    // Search
+    'search.placeholder': 'Search products and pages...',
+    'search.ariaLabel': 'Search MindVap website',
+    'search.clear': 'Clear search',
+    'search.searching': 'Searching...',
+    'search.noResults': 'No results found',
+    'search.tryDifferent': 'Try different keywords',
+    'search.products': 'Products',
+    'search.pages': 'Pages',
+    'search.viewAll': 'View all results',
+    'search.resultsFor': 'Results for',
     
     // Registration
     'register.title': 'Create Your Account',
@@ -351,6 +365,9 @@ const translations = {
     'error.network': 'Network error. Please try again.',
     'error.payment': 'Payment failed. Please try again.',
     'error.unknown': 'An unexpected error occurred.',
+    
+    // Authentication - merged from auth.ts
+    ...authTranslations.en
   },
   es: {
     // Navigation
@@ -360,6 +377,7 @@ const translations = {
     'nav.education': 'Educación',
     'nav.contact': 'Contacto',
     'nav.cart': 'Carrito',
+    'nav.language': 'Idioma',
     
     // Common
     'common.loading': 'Cargando...',
@@ -387,6 +405,18 @@ const translations = {
     'common.free': 'GRATIS',
     'common.explore': 'Explorar',
     'common.optional': 'Opcional',
+    
+    // Search
+    'search.placeholder': 'Buscar productos y páginas...',
+    'search.ariaLabel': 'Buscar en sitio web MindVap',
+    'search.clear': 'Limpiar búsqueda',
+    'search.searching': 'Buscando...',
+    'search.noResults': 'No se encontraron resultados',
+    'search.tryDifferent': 'Intenta con palabras diferentes',
+    'search.products': 'Productos',
+    'search.pages': 'Páginas',
+    'search.viewAll': 'Ver todos los resultados',
+    'search.resultsFor': 'Resultados para',
     
     // Registration
     'register.title': 'Crear Tu Cuenta',
@@ -679,6 +709,9 @@ const translations = {
     'error.network': 'Error de red. Por favor intenta de nuevo.',
     'error.payment': 'Pago fallido. Por favor intenta de nuevo.',
     'error.unknown': 'Ocurrió un error inesperado.',
+    
+    // Authentication - merged from auth.ts
+    ...authTranslations.es
   },
   it: {
     // Navigation
@@ -688,6 +721,7 @@ const translations = {
     'nav.education': 'Educazione',
     'nav.contact': 'Contatti',
     'nav.cart': 'Carrello',
+    'nav.language': 'Lingua',
     
     // Common
     'common.loading': 'Caricamento...',
@@ -715,6 +749,18 @@ const translations = {
     'common.free': 'GRATIS',
     'common.explore': 'Esplora',
     'common.optional': 'Opzionale',
+    
+    // Search
+    'search.placeholder': 'Cerca prodotti e pagine...',
+    'search.ariaLabel': 'Cerca nel sito web MindVap',
+    'search.clear': 'Cancella ricerca',
+    'search.searching': 'Ricerca in corso...',
+    'search.noResults': 'Nessun risultato trovato',
+    'search.tryDifferent': 'Prova con parole diverse',
+    'search.products': 'Prodotti',
+    'search.pages': 'Pagine',
+    'search.viewAll': 'Vedi tutti i risultati',
+    'search.resultsFor': 'Risultati per',
     
     // Registration
     'register.title': 'Crea il Tuo Account',
@@ -1007,6 +1053,9 @@ const translations = {
     'error.network': 'Errore di rete. Per favore riprova.',
     'error.payment': 'Pagamento fallito. Per favore riprova.',
     'error.unknown': 'Si è verificato un errore inaspettato.',
+    
+    // Authentication - merged from auth.ts
+    ...authTranslations.it
   }
 };
 
