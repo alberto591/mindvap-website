@@ -2,6 +2,7 @@
 // Secure, user-friendly login form with comprehensive validation
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { generateDeviceFingerprint } from '../../lib/tokenManager';
@@ -39,6 +40,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 }) => {
   const { login, loading } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   
   const [formData, setFormData] = useState<FormData>({
     email: '',
@@ -409,9 +411,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
       <div className="mt-6 text-center">
         <p className="text-sm text-gray-600">
           {t('login.dontHaveAccount')}{' '}
-          <a href="/register" className="text-green-600 hover:text-green-500 underline">
+          <button 
+            onClick={() => navigate('/register')}
+            className="text-green-600 hover:text-green-500 underline"
+          >
             {t('login.createAccount')}
-          </a>
+          </button>
         </p>
       </div>
     </div>
