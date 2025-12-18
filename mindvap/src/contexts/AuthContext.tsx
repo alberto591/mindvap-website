@@ -1,5 +1,6 @@
 // Authentication Context
 // Manages authentication state and provides authentication methods throughout the app
+// Version: 1.0.1 - Fixed Vercel deployment issues
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { User, Session, AuthContextType, AuthState, AuthError, DeviceInfo, LoginRequest, RegisterRequest, UpdateProfileRequest, ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest, VerifyEmailRequest, UpdateEmailPreferencesRequest, AgeVerificationRequest, DataExportRequest, DeleteAccountRequest } from '../types/auth';
