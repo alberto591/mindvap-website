@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindVap - Clear Security Locks</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            background-color: #10b981;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .section {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #059669;
+        }
+        .success {
+            background-color: #d1fae5;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            display: none;
+        }
+        code {
+            background-color: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+        .user-info {
+            background-color: #e0f2fe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔓 MindVap Security Lock Clear</h1>
+        <p>Clear rate limits and account locks for testing</p>
+    </div>
+
+    <div class="section">
+        <h2>🚨 Account Locked Issue</h2>
+        <p>Your account has been temporarily locked due to too many failed login attempts. This is a security feature to protect against brute force attacks.</p>
+        
+        <div class="user-info">
+            <strong>📋 Your Test User:</strong><br>
+            Email: <code>testuser@mindvap.com</code><br>
+            Password: <code>password123</code><br>
+            Status: Currently locked
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Clear Security Locks</h2>
+        <p>Click the button below to clear all rate limiting data and unlock your account:</p>
+        
+        <button onclick="clearAllLocks()">Clear All Security Locks</button>
+        <button onclick="clearLocalStorage()">Clear Browser Storage</button>
+        
+        <div id="successMessage" class="success">
+            ✅ Security locks cleared successfully! You can now try logging in again.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>🔄 Manual Clear Steps</h2>
+        <p>If the automatic clear doesn't work, follow these manual steps:</p>
+        
+        <ol>
+            <li><strong>Clear browser cache completely</strong> (Ctrl+Shift+Del)</li>
+            <li><strong>Close all browser tabs</strong> and windows</li>
+            <li><strong>Open a new incognito/private window</strong> (Ctrl+Shift+N)</li>
+            <li><strong>Go to</strong> <a href="http://localhost:5173/login" target="_blank">http://localhost:5173/login</a></li>
+            <li><strong>Login with</strong> <code>testuser@mindvap.com</code> and <code>password123</code></li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>💡 Prevention Tips</h2>
+        <p>To avoid getting locked out in the future:</p>
+        
+        <ul>
+            <li>✅ Use the correct password (any password works in mock mode)</li>
+            <li>✅ Make sure <code>.env</code> has <code>SKIP_EMAIL_VERIFICATION=true</code></li>
+            <li>✅ Use the exact test user emails provided</li>
+            <li>✅ Don't refresh the page too quickly during login</li>
+            <li>✅ Wait a few seconds between login attempts</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🔐 Security Information</h2>
+        <p>The rate limiting system protects your account with these rules:</p>
+        
+        <ul>
+            <li><strong>Login attempts:</strong> 5 attempts per 15 minutes</li>
+            <li><strong>Block duration:</strong> Progressive (5min → 15min → 1hr → 24hr)</li>
+            <li><strong>Current block:</strong> ~40 minutes remaining</li>
+            <li><strong>Reset method:</strong> Clear browser storage or wait</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>🚀 Ready to Test?</h2>
+        <p>After clearing the locks, you can test these features:</p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;">
+            <a href="http://localhost:5173/login" target="_blank" style="background-color: #3b82f6; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none;">🔐 Login Page</a>
+            <a href="http://localhost:5173/register" target="_blank" style="background-color: #10b981; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none;">📝 Register Page</a>
+            <a href="http://localhost:5173/" target="_blank" style="background-color: #6366f1; color: white; padding: 10px 15px; border-radius: 6px; text-decoration: none;">🏠 Home Page</a>
+        </div>
+    </div>
+
+    <script>
+        function clearAllLocks() {
+            // Clear localStorage
+            localStorage.clear();
+            
+            // Clear sessionStorage
+            sessionStorage.clear();
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function clearLocalStorage() {
+            localStorage.clear();
+            alert('✅ Browser localStorage cleared!');
+        }
+        
+        // Show instructions if user came from login page
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('locked') === 'true') {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('successMessage').innerHTML = 
+                '🔒 Your account was locked due to too many failed attempts. Use the buttons above to clear the locks.';
+        }
+    </script>
+</body>
+</html>

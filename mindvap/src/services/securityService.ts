@@ -367,6 +367,31 @@ export class SecurityService {
   static clearRateLimits(): void {
     this.rateLimitStore = {};
   }
+
+  /**
+   * Clear rate limits for specific user/identifier
+   */
+  static clearRateLimitsForUser(identifier: string): void {
+    const keysToDelete: string[] = [];
+    
+    for (const [key, entry] of Object.entries(this.rateLimitStore)) {
+      if (key.includes(identifier)) {
+        keysToDelete.push(key);
+      }
+    }
+    
+    keysToDelete.forEach(key => delete this.rateLimitStore[key]);
+    console.log(`Cleared rate limits for: ${identifier}`);
+  }
+
+  /**
+   * Reset security service completely (for testing)
+   */
+  static resetForTesting(): void {
+    this.rateLimitStore = {};
+    this.clearSecurityEvents();
+    console.log('Security service reset for testing');
+  }
 }
 
 // Export utility functions

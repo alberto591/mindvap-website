@@ -56,6 +56,32 @@ const mockUsers: User[] = [
     dataRetentionPeriod: 2555,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
+  },
+  {
+    id: '3',
+    email: 'testuser@mindvap.com',
+    firstName: 'Test',
+    lastName: 'MindVap',
+    phone: '+1234567892',
+    dateOfBirth: '1985-05-15',
+    ageVerified: true,
+    ageVerifiedAt: new Date().toISOString(),
+    emailVerified: true,
+    emailVerifiedAt: new Date().toISOString(),
+    marketingConsent: true,
+    marketingConsentAt: new Date().toISOString(),
+    termsAccepted: true,
+    termsAcceptedAt: new Date().toISOString(),
+    privacyAccepted: true,
+    privacyAcceptedAt: new Date().toISOString(),
+    status: 'active',
+    failedLoginAttempts: 0,
+    passwordChangedAt: new Date().toISOString(),
+    dataProcessingConsent: true,
+    dataProcessingConsentAt: new Date().toISOString(),
+    dataRetentionPeriod: 2555,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 

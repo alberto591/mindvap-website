@@ -210,7 +210,27 @@ export class TokenManager {
       navigator?.language || ''
     ].join('|');
     
-    return this.hashString(components);
+    try {
+      // Use the static method directly
+      return await TokenManager.hashString(components);
+    } catch (error) {
+      console.error('Failed to generate device fingerprint, using fallback:', error);
+      // Fallback to simple hash if crypto API fails
+      return TokenManager.simpleHash(components);
+    }
+  }
+
+  /**
+   * Simple fallback hash function when crypto API is not available
+   */
+  private static simpleHash(str: string): string {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash).toString(36);
   }
 
   /**
@@ -298,7 +318,7 @@ export class TokenManager {
     return crypto.randomUUID();
   }
 
-  private static async hashString(str: string): Promise<string> {
+  static async hashString(str: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
     
