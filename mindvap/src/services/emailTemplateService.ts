@@ -3,9 +3,9 @@
 
 import emailjs from '@emailjs/browser';
 
-// EmailJS Configuration
-const EMAILJS_SERVICE_ID = 'service_mindvap';
-const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+// EmailJS Configuration - Load from environment variables
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_mindvap';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_EMAILJS_PUBLIC_KEY';
 
 // Email Template Types
 export type EmailTemplateType = 
@@ -181,6 +181,8 @@ class EmailTemplateService {
   private analytics: Map<EmailTemplateType, EmailAnalytics> = new Map();
   private templateCache: Map<string, string> = new Map();
   private isProduction: boolean = process.env.NODE_ENV === 'production';
+  private simulationMode: boolean = import.meta.env.EMAIL_SIMULATION_MODE === 'true' ||
+                                   import.meta.env.ENABLE_REAL_EMAIL_SENDING === 'false';
 
   private constructor() {
     this.initializeAnalytics();
@@ -410,8 +412,8 @@ class EmailTemplateService {
         ...this.getTemplateSpecificParams(templateType, context)
       };
 
-      // Send email using EmailJS
-      if (this.isProduction) {
+      // Send email using EmailJS (or simulate in development)
+      if (!this.simulationMode) {
         const response = await emailjs.send(
           EMAILJS_SERVICE_ID,
           this.getEmailJSTemplateId(templateType),
@@ -433,15 +435,16 @@ class EmailTemplateService {
           }
         };
       } else {
-        // Development mode - simulate sending
+        // Simulation mode - simulate sending
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+
         console.log('📧 Email sent (simulated):', {
           templateType,
           to: context.toEmail,
           subject: templateParams.subject,
           htmlLength: htmlContent.length,
-          textLength: textContent.length
+          textLength: textContent.length,
+          mode: this.simulationMode ? 'simulation' : 'production'
         });
 
         // Update analytics

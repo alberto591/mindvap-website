@@ -8,6 +8,7 @@ import { createPaymentIntent } from '../services/payment.mock';
 import { useAuth } from '../contexts/AuthContext';
 import { CartItem } from '../types';
 import { getCitiesForCountry, getPostalCodeInfo, getCountryData } from '../data/europeanAddresses';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CheckoutPageProps {
   cart: CartItem[];
@@ -17,6 +18,7 @@ interface CheckoutPageProps {
 export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+  const { language } = useLanguage();
   const [formData, setFormData] = useState({
     email: user?.email || '',
     firstName: user?.firstName || '',
@@ -90,7 +92,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
     try {
       const cartItems = cart.map(item => ({
         product_id: item.product.id,
-        product_name: item.product.name,
+        product_name: item.product.name.en, // Use English name for payment processing
         quantity: item.quantity,
         price: item.product.price,
         product_image_url: item.product.image,
@@ -164,7 +166,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
               {cart.map((item) => (
                 <div key={item.product.id} className="flex justify-between text-sm">
                   <span className="text-text-secondary">
-                    {item.product.name} x {item.quantity}
+                    {item.product.name[language]} x {item.quantity}
                   </span>
                   <span className="text-text-primary font-medium">
                     ${(item.product.price * item.quantity).toFixed(2)}
@@ -574,12 +576,12 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                   <div key={item.product.id} className="flex gap-4">
                     <img
                       src={item.product.image}
-                      alt={item.product.name}
+                      alt={item.product.name[language]}
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="flex-1">
                       <p className="text-sm font-medium text-text-primary">
-                        {item.product.name}
+                        {item.product.name[language]}
                       </p>
                       <p className="text-sm text-text-secondary">
                         Qty: {item.quantity}

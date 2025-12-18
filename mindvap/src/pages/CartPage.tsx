@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingBag, ArrowRight, Truck, RotateCcw } from 'lucide-react';
 import { CartItem } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface CartPageProps {
   cart: CartItem[];
@@ -9,6 +10,7 @@ interface CartPageProps {
 }
 
 export default function CartPage({ cart, updateQuantity, removeItem }: CartPageProps) {
+  const { language } = useLanguage();
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   const shipping = subtotal >= 50 ? 0 : 5.99;
   const tax = subtotal * 0.08; // 8% tax
@@ -52,7 +54,7 @@ export default function CartPage({ cart, updateQuantity, removeItem }: CartPageP
                 <div className="flex gap-6">
                   <img
                     src={item.product.image}
-                    alt={item.product.name}
+                    alt={item.product.name[language]}
                     className="w-32 h-32 object-cover rounded-lg"
                   />
                   <div className="flex-1">
@@ -62,10 +64,10 @@ export default function CartPage({ cart, updateQuantity, removeItem }: CartPageP
                           to={`/product/${item.product.id}`}
                           className="font-serif text-xl text-text-primary hover:text-brand transition-colors"
                         >
-                          {item.product.name}
+                          {item.product.name[language]}
                         </Link>
                         <p className="text-sm text-text-secondary mt-1">
-                          {item.product.category}
+                          {item.product.category[language]}
                         </p>
                       </div>
                       <button

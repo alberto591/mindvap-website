@@ -5,11 +5,23 @@ import { useLanguage } from '../contexts/LanguageContext';
 
 interface Product {
   id: string;
-  name: string;
+  name: {
+    en: string;
+    es: string;
+    it: string;
+  };
   price: number;
-  category: string;
+  category: {
+    en: string;
+    es: string;
+    it: string;
+  };
   image: string;
-  shortDescription: string;
+  shortDescription: {
+    en: string;
+    es: string;
+    it: string;
+  };
   herbs: string[];
 }
 
@@ -62,7 +74,7 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   // Load products on mount
@@ -86,10 +98,10 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
     // Simulate a small delay for better UX
     setTimeout(() => {
       // Search products
-      const matchedProducts = products.filter(product => 
-        fuzzyMatch(product.name, searchQuery) ||
-        fuzzyMatch(product.category, searchQuery) ||
-        fuzzyMatch(product.shortDescription, searchQuery) ||
+      const matchedProducts = products.filter(product =>
+        fuzzyMatch(product.name[language], searchQuery) ||
+        fuzzyMatch(product.category[language], searchQuery) ||
+        fuzzyMatch(product.shortDescription[language], searchQuery) ||
         product.herbs.some(herb => fuzzyMatch(herb, searchQuery))
       ).slice(0, 5);
 
@@ -217,14 +229,14 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
                         onClick={handleResultClick}
                         className="flex items-center gap-3 px-4 py-3 hover:bg-background-accent transition-colors"
                       >
-                        <img 
-                          src={product.image} 
-                          alt={product.name}
+                        <img
+                          src={product.image}
+                          alt={product.name[language]}
                           className="w-12 h-12 object-cover rounded-lg"
                         />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-text-primary truncate">{product.name}</p>
-                          <p className="text-sm text-text-muted truncate">{product.category}</p>
+                          <p className="font-medium text-text-primary truncate">{product.name[language]}</p>
+                          <p className="text-sm text-text-muted truncate">{product.category[language]}</p>
                         </div>
                         <span className="text-brand-primary font-medium">${product.price}</span>
                       </Link>
@@ -327,14 +339,14 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
                       onClick={handleResultClick}
                       className="flex items-center gap-3 px-4 py-3 hover:bg-background-accent transition-colors border-b border-border-light last:border-b-0"
                     >
-                      <img 
-                        src={product.image} 
-                        alt={product.name}
+                      <img
+                        src={product.image}
+                        alt={product.name[language]}
                         className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-text-primary truncate">{product.name}</p>
-                        <p className="text-sm text-text-muted truncate">{product.category}</p>
+                        <p className="font-medium text-text-primary truncate">{product.name[language]}</p>
+                        <p className="text-sm text-text-muted truncate">{product.category[language]}</p>
                       </div>
                       <span className="text-brand-primary font-semibold">${product.price}</span>
                     </Link>

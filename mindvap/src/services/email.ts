@@ -1,9 +1,9 @@
 import emailjs from '@emailjs/browser';
 
-// EmailJS Configuration - Replace these with your actual EmailJS credentials
-const EMAILJS_SERVICE_ID = 'service_mindvap'; // Get this from EmailJS dashboard
-const EMAILJS_TEMPLATE_ID = 'template_contact'; // Create this template in EmailJS
-const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY'; // Get this from EmailJS dashboard
+// EmailJS Configuration - Load from environment variables
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_mindvap';
+const EMAILJS_TEMPLATE_ID = import.meta.env.EMAILJS_TEMPLATE_CONTACT || 'template_contact';
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_EMAILJS_PUBLIC_KEY';
 
 export interface ContactFormData {
   name: string;

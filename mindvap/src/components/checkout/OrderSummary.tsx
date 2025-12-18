@@ -2,6 +2,7 @@ import React from 'react';
 import { ShoppingCart, Edit3, MapPin } from 'lucide-react';
 import { CartItem } from '../../types';
 import { CalculationService, ShippingAddress } from '../../services/calculationService';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface OrderSummaryProps {
   cart: CartItem[];
@@ -11,13 +12,14 @@ interface OrderSummaryProps {
   showEditButtons?: boolean;
 }
 
-export default function OrderSummary({ 
-  cart, 
-  shippingAddress, 
-  onEditCart, 
+export default function OrderSummary({
+  cart,
+  shippingAddress,
+  onEditCart,
   onEditAddress,
-  showEditButtons = true 
+  showEditButtons = true
 }: OrderSummaryProps) {
+  const { language } = useLanguage();
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
   
   // Calculate totals based on current shipping address
@@ -59,12 +61,12 @@ export default function OrderSummary({
           <div key={item.product.id} className="flex gap-4">
             <img
               src={item.product.image}
-              alt={item.product.name}
+              alt={item.product.name[language]}
               className="w-16 h-16 object-cover rounded-lg"
             />
             <div className="flex-1">
               <h3 className="text-sm font-medium text-text-primary">
-                {item.product.name}
+                {item.product.name[language]}
               </h3>
               <p className="text-sm text-text-secondary">
                 Quantity: {item.quantity}

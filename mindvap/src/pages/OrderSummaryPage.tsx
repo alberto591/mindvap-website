@@ -5,6 +5,7 @@ import { CartItem } from '../types';
 import { ShippingAddress } from '../services/calculationService';
 import CheckoutProgress from '../components/checkout/CheckoutProgress';
 import OrderSummary from '../components/checkout/OrderSummary';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface OrderSummaryPageProps {
   cart: CartItem[];
@@ -15,6 +16,7 @@ export default function OrderSummaryPage({ cart, onCartUpdate }: OrderSummaryPag
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
+  const { language } = useLanguage();
   
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress | null>(null);
 
@@ -103,11 +105,11 @@ export default function OrderSummaryPage({ cart, onCartUpdate }: OrderSummaryPag
                   <div key={item.product.id} className="flex gap-4 p-4 border border-gray-200 rounded-lg">
                     <img
                       src={item.product.image}
-                      alt={item.product.name}
+                      alt={item.product.name[language]}
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="flex-1">
-                      <h4 className="font-medium text-text-primary">{item.product.name}</h4>
+                      <h4 className="font-medium text-text-primary">{item.product.name[language]}</h4>
                       <p className="text-sm text-text-secondary">Quantity: {item.quantity}</p>
                       <p className="text-sm text-text-secondary">
                         ${item.product.price.toFixed(2)} each
