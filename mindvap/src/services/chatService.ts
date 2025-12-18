@@ -34,7 +34,7 @@ export class ChatService {
     const finalSessionId = sessionId || this.generateSessionId();
 
     // Check if session exists
-    let { data: existingSession } = await supabase
+    const { data: existingSession } = await supabase
       .from('chat_sessions')
       .select('*')
       .eq('session_id', finalSessionId)

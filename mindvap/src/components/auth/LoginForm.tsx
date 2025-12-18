@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import { generateDeviceFingerprint } from '../../lib/tokenManager';
+import { sanitizeEmail, sanitizePassword } from '../../lib/utils';
 import { LoginRequest } from '../../types/auth';
 
 interface LoginFormProps {
@@ -98,7 +99,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   // Update rate limit info
   const updateRateLimit = (failed: boolean = false) => {
     const now = new Date();
-    let newAttempts = failed ? rateLimitInfo.attempts + 1 : 0;
+    const newAttempts = failed ? rateLimitInfo.attempts + 1 : 0;
     let lockedUntil: Date | undefined;
     
     // Lock account after 5 failed attempts
@@ -159,6 +160,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
     setIsSubmitting(true);
 
     try {
+      // Sanitize inputs
+      const sanitizedEmail = sanitizeEmail(formData.email);
+      const sanitizedPassword = sanitizePassword(formData.password);
+
       // Generate device fingerprint
       const deviceFingerprint = generateDeviceFingerprint(
         navigator.userAgent,
@@ -167,8 +172,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
       );
 
       const loginData: LoginRequest = {
-        email: formData.email,
-        password: formData.password,
+        email: sanitizedEmail,
+        password: sanitizedPassword,
         deviceInfo: {
           fingerprint: deviceFingerprint,
           userAgent: navigator.userAgent

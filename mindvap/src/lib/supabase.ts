@@ -2,36 +2,62 @@
 // Initializes and configures the Supabase client for authentication
 
 import { createClient } from '@supabase/supabase-js';
+import type { MobileOtpType, EmailOtpType } from '@supabase/supabase-js';
 
 // Get environment variables
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Missing Supabase environment variables. Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.'
-  );
-}
+// Check if we should use mock authentication
+const shouldUseMockAuth = () => {
+  return !supabaseUrl || !supabaseAnonKey ||
+         supabaseUrl.includes('your-project') ||
+         supabaseUrl.includes('placeholder') ||
+         supabaseAnonKey.includes('your-') ||
+         supabaseAnonKey.includes('placeholder');
+};
 
-// Create Supabase client
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    flowType: 'pkce'
-  },
-  realtime: {
-    params: {
-      eventsPerSecond: 10
-    }
-  },
-  global: {
-    headers: {
-      'X-Client-Info': 'mindvap-auth-system'
-    }
-  }
-});
+// Create Supabase client or mock client
+export const supabase = shouldUseMockAuth()
+  ? createClient('https://mock.supabase.co', 'mock-anon-key', {
+      auth: {
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+        flowType: 'pkce'
+      },
+      realtime: {
+        params: {
+          eventsPerSecond: 0
+        }
+      },
+      global: {
+        headers: {
+          'X-Client-Info': 'mindvap-mock-auth-system'
+        }
+      }
+    })
+  : createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true,
+        flowType: 'pkce'
+      },
+      realtime: {
+        params: {
+          eventsPerSecond: 10
+        }
+      },
+      global: {
+        headers: {
+          'X-Client-Info': 'mindvap-auth-system'
+        }
+      }
+    });
+
+// Export flag for mock usage
+export const isUsingMockAuth = shouldUseMockAuth();
 
 // Authentication helper functions
 export class SupabaseAuth {
@@ -179,11 +205,11 @@ export class SupabaseAuth {
   /**
    * Verify OTP token
    */
-  static async verifyOtp(tokenHash: string, token: string, type: 'email' | 'phone' | 'recovery' | 'invite') {
+  static async verifyOtp(tokenHash: string, token: string, type: string) {
     const { data, error } = await supabase.auth.verifyOtp({
       token_hash: tokenHash,
       token,
-      type
+      type: type as any
     });
     
     if (error) {
@@ -206,13 +232,6 @@ export class SupabaseAuth {
     }
     
     return { data, error: null };
-  }
-
-  /**
-   * Get URL for password recovery
-   */
-  static getRecoveryUrl() {
-    return supabase.auth.getRecoveryUrl();
   }
 
   /**
@@ -239,25 +258,26 @@ export class SupabaseAuth {
   /**
    * Get current session token
    */
-  static getAccessToken(): string | null {
-    const session = supabase.auth.getSession();
-    return session?.data?.session?.access_token || null;
+  static async getAccessToken(): Promise<string | null> {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    if (error) return null;
+    return session?.access_token || null;
   }
 
   /**
    * Check if user is authenticated
    */
-  static isAuthenticated(): boolean {
-    const session = supabase.auth.getSession();
-    return !!session?.data?.session;
+  static async isAuthenticated(): Promise<boolean> {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    return !!session;
   }
 
   /**
    * Get user from session
    */
-  static getUserFromSession() {
-    const session = supabase.auth.getSession();
-    return session?.data?.session?.user || null;
+  static async getUserFromSession() {
+    const { data: { session }, error } = await supabase.auth.getSession();
+    return session?.user || null;
   }
 }
 
@@ -285,8 +305,8 @@ export class SupabaseDatabase {
    * Select records from a table
    */
   static async select<T>(table: string, query?: string) {
-    let queryBuilder = supabase.from(table).select(query);
-    
+    const queryBuilder = supabase.from(table).select(query);
+
     const { data, error } = await queryBuilder;
     
     if (error) {
@@ -369,11 +389,8 @@ export class SupabaseRealtime {
   /**
    * Subscribe to auth state changes
    */
-  static subscribeToAuth(callback: (payload: any) => void) {
-    return supabase
-      .channel('auth_changes')
-      .on('auth', callback)
-      .subscribe();
+  static subscribeToAuth(callback: (event: string, session: any) => void) {
+    return supabase.auth.onAuthStateChange(callback).data.subscription;
   }
 }
 

@@ -53,7 +53,7 @@ export class CalculationService {
    * Calculate shipping cost based on address and order value
    */
   static calculateShipping(subtotal: number, shippingAddress: ShippingAddress): number {
-    const isEuropeanCountry = this.EUROPEAN_VAT_RATES.hasOwnProperty(shippingAddress.country);
+    const isEuropeanCountry = shippingAddress.country in this.EUROPEAN_VAT_RATES;
     
     if (isEuropeanCountry) {
       // European shipping rates
@@ -123,7 +123,7 @@ export class CalculationService {
    */
   static estimateDeliveryDate(shippingAddress: ShippingAddress): Date {
     const now = new Date();
-    const isEuropeanCountry = this.EUROPEAN_VAT_RATES.hasOwnProperty(shippingAddress.country);
+    const isEuropeanCountry = shippingAddress.country in this.EUROPEAN_VAT_RATES;
     
     let deliveryDays = 5; // Default 5 days
     
@@ -151,7 +151,7 @@ export class CalculationService {
 
     // Validate postal code format based on country
     if (address.zipCode && address.country) {
-      const isEuropeanCountry = this.EUROPEAN_VAT_RATES.hasOwnProperty(address.country);
+      const isEuropeanCountry = address.country in this.EUROPEAN_VAT_RATES;
       
       if (isEuropeanCountry) {
         // European postal codes (4-6 digits, some with spaces)

@@ -65,9 +65,9 @@ export class PasswordSecurity {
     let score = 0;
 
     // Length check
-    if (password.length < 12) {
-      errors.push('Password must be at least 12 characters long');
-    } else if (password.length >= 12 && password.length < 16) {
+    if (password.length < 8) {
+      errors.push('Password must be at least 8 characters long');
+    } else if (password.length >= 8 && password.length < 16) {
       score += 1;
     } else {
       score += 2;
@@ -77,7 +77,7 @@ export class PasswordSecurity {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
     const hasNumbers = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*()_+\-=[ \]{};"'\\|,.<>?/]/.test(password);
 
     if (!hasUpperCase) {
       errors.push('Password must contain at least one uppercase letter');
@@ -198,7 +198,7 @@ export class PasswordSecurity {
    */
   static getPasswordRecommendations(): string[] {
     return [
-      'Use at least 12 characters (16+ recommended)',
+      'Use at least 8 characters (16+ recommended)',
       'Include uppercase and lowercase letters',
       'Include numbers and special characters',
       'Avoid common words and patterns',

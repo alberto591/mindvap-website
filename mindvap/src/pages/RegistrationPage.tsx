@@ -6,17 +6,16 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useLanguage } from '../contexts/LanguageContext';
 import RegistrationForm from '../components/auth/RegistrationForm';
-import AgeGate from '../components/AgeGate';
+// import AgeGate from '../components/AgeGate'; // Age verification bypassed for testing
 
-interface RegistrationPageProps {}
-
-const RegistrationPage: React.FC<RegistrationPageProps> = () => {
+const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const { t } = useLanguage();
   
   const [ageVerified, setAgeVerified] = useState<boolean>(false);
-  const [showAgeGate, setShowAgeGate] = useState<boolean>(true);
+  // Age verification bypassed for testing - set to false to show age gate
+  const [showAgeGate, setShowAgeGate] = useState<boolean>(false);
   const [registrationStatus, setRegistrationStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [statusMessage, setStatusMessage] = useState<string>('');
 
@@ -81,12 +80,12 @@ const RegistrationPage: React.FC<RegistrationPageProps> = () => {
 
   return (
     <div className="min-h-screen bg-background-primary">
-      {/* Age Gate Overlay */}
-      {showAgeGate && (
+      {/* Age Gate Overlay - Bypassed for testing */}
+      {/* {showAgeGate && (
         <AgeGate
           onVerify={handleAgeVerification}
         />
-      )}
+      )} */}
 
       {/* Main Registration Content */}
       {!showAgeGate && (

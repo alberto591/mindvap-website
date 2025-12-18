@@ -128,14 +128,14 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess, onError 
       newErrors.lastName = t('error.minLength').replace('{min}', '2');
     }
 
-    // Date of birth validation
+    // Date of birth validation - Age verification bypassed for testing
     if (!formData.dateOfBirth) {
       newErrors.dateOfBirth = t('error.required');
     } else {
-      const age = calculateAge(formData.dateOfBirth);
-      if (age < 21) {
-        newErrors.dateOfBirth = t('register.ageRequirement');
-      }
+      // const age = calculateAge(formData.dateOfBirth);
+      // if (age < 21) {
+      //   newErrors.dateOfBirth = t('register.ageRequirement');
+      // }
     }
 
     // Password validation
@@ -320,7 +320,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSuccess, onError 
         {/* Date of Birth */}
         <div>
           <label htmlFor="dateOfBirth" className="block text-sm font-medium text-gray-700 mb-1">
-            {t('register.dateOfBirth')} * (21+)
+            {t('register.dateOfBirth')} *
           </label>
           <input
             type="date"

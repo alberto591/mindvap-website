@@ -1,33 +1,35 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
-import HomePage from './pages/HomePage';
-import ShopPage from './pages/ShopPage';
-import ProductDetailPage from './pages/ProductDetailPage';
-import AboutPage from './pages/AboutPage';
-import EducationPage from './pages/EducationPage';
-import ContactPage from './pages/ContactPage';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
-import RegistrationPage from './pages/RegistrationPage';
-import LoginPage from './pages/LoginPage';
-import ShippingReturnsPage from './pages/ShippingReturnsPage';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
-import TermsOfServicePage from './pages/TermsOfServicePage';
-import GuestOrderTrackingPage from './pages/GuestOrderTrackingPage';
-import CheckoutSuccessPage from './pages/CheckoutSuccessPage';
 
-// Account Management Pages
-import AccountDashboardPage from './pages/AccountDashboardPage';
-import ProfileManagementPage from './pages/ProfileManagementPage';
-import AddressManagementPage from './pages/AddressManagementPage';
-import OrderHistoryPage from './pages/OrderHistoryPage';
-import PaymentMethodsPage from './pages/PaymentMethodsPage';
-import WishlistPage from './pages/WishlistPage';
-import AccountSettingsPage from './pages/AccountSettingsPage';
-import SecurityPage from './pages/SecurityPage';
-import PrivacyPage from './pages/PrivacyPage';
+// Lazy load pages for code splitting
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ShopPage = lazy(() => import('./pages/ShopPage'));
+const ProductDetailPage = lazy(() => import('./pages/ProductDetailPage'));
+const AboutPage = lazy(() => import('./pages/AboutPage'));
+const EducationPage = lazy(() => import('./pages/EducationPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const RegistrationPage = lazy(() => import('./pages/RegistrationPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const ShippingReturnsPage = lazy(() => import('./pages/ShippingReturnsPage'));
+const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'));
+const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'));
+const GuestOrderTrackingPage = lazy(() => import('./pages/GuestOrderTrackingPage'));
+const CheckoutSuccessPage = lazy(() => import('./pages/CheckoutSuccessPage'));
+
+// Account Management Pages (lazy loaded)
+const AccountDashboardPage = lazy(() => import('./pages/AccountDashboardPage'));
+const ProfileManagementPage = lazy(() => import('./pages/ProfileManagementPage'));
+const AddressManagementPage = lazy(() => import('./pages/AddressManagementPage'));
+const OrderHistoryPage = lazy(() => import('./pages/OrderHistoryPage'));
+const PaymentMethodsPage = lazy(() => import('./pages/PaymentMethodsPage'));
+const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+const AccountSettingsPage = lazy(() => import('./pages/AccountSettingsPage'));
+const SecurityPage = lazy(() => import('./pages/SecurityPage'));
+const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 
 // Chat Component
 // import Chat from './components/chat/Chat'; // TEMPORARILY HIDDEN - Will implement in future
@@ -36,6 +38,13 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { CartItem } from './types';
+
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600"></div>
+  </div>
+);
 
 function App() {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -97,7 +106,8 @@ function App() {
           <div className="min-h-screen bg-background-primary">
             <Header cartItemCount={cart.reduce((sum, item) => sum + item.quantity, 0)} />
             <main>
-              <Routes>
+              <Suspense fallback={<PageLoader />}>
+                <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/shop" element={<ShopPage />} />
                 <Route path="/product/:productId" element={<ProductDetailPage onAddToCart={addToCart} />} />
@@ -201,8 +211,9 @@ function App() {
                     </ProtectedRoute>
                   }
                 />
-              </Routes>
-            </main>
+               </Routes>
+             </Suspense>
+           </main>
             <Footer />
             {/* <Chat /> TEMPORARILY HIDDEN - Will implement in future */}
           </div>

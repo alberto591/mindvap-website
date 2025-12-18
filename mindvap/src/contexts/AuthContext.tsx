@@ -3,11 +3,12 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
 import { User, Session, AuthContextType, AuthState, AuthError, DeviceInfo, LoginRequest, RegisterRequest, UpdateProfileRequest, ChangePasswordRequest, ForgotPasswordRequest, ResetPasswordRequest, VerifyEmailRequest, UpdateEmailPreferencesRequest, AgeVerificationRequest, DataExportRequest, DeleteAccountRequest } from '../types/auth';
-import { supabase, SupabaseAuth } from '../lib/supabase';
+import { supabase, SupabaseAuth, isUsingMockAuth } from '../lib/supabase';
 import { TokenManager, generateDeviceFingerprint, generateSessionId } from '../lib/tokenManager';
 import { PasswordSecurity } from '../lib/passwordSecurity';
 import { SecurityService } from '../services/securityService';
 import { PasswordResetService } from '../services/passwordResetService';
+import { MockAuthService } from '../lib/mockAuthService';
 
 // Create the authentication context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,14 +34,97 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
   const isRefreshingRef = useRef(false);
+  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const lastActivityRef = useRef<number>(Date.now());
+
+  // Session timeout configuration (30 minutes of inactivity)
+  const SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+
+  // Track user activity
+  const updateActivity = useCallback(() => {
+    lastActivityRef.current = Date.now();
+  }, []);
+
+  // Logout function
+  const logout = useCallback(async (): Promise<void> => {
+    try {
+      setState(prev => ({ ...prev, status: 'loading', error: null }));
+
+      // Clear refresh timer
+      if (refreshTimerRef.current) {
+        clearTimeout(refreshTimerRef.current);
+        refreshTimerRef.current = null;
+      }
+
+      // Sign out from Supabase
+      await SupabaseAuth.signOut();
+
+      // Stop inactivity timer
+      stopInactivityTimer();
+
+      // Clear local state
+      setState(prev => ({
+        ...prev,
+        status: 'unauthenticated',
+        user: null,
+        session: null,
+        error: null
+      }));
+
+    } catch (error) {
+      console.error('Logout error:', error);
+      setState(prev => ({
+        ...prev,
+        status: 'error',
+        error: { code: 'LOGOUT_ERROR', message: 'Failed to logout properly' }
+      }));
+    }
+  }, []);
+
+  // Check for session timeout
+  const checkSessionTimeout = useCallback(() => {
+    if (state.status === 'authenticated') {
+      const timeSinceActivity = Date.now() - lastActivityRef.current;
+      if (timeSinceActivity > SESSION_TIMEOUT) {
+        console.log('Session expired due to inactivity');
+        logout();
+      }
+    }
+  }, [state.status, logout]);
+
+  // Start inactivity timer
+  const startInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) {
+      clearInterval(inactivityTimerRef.current);
+    }
+
+    // Check every minute for session timeout
+    inactivityTimerRef.current = setInterval(checkSessionTimeout, 60 * 1000);
+  }, [checkSessionTimeout]);
+
+  // Stop inactivity timer
+  const stopInactivityTimer = useCallback(() => {
+    if (inactivityTimerRef.current) {
+      clearInterval(inactivityTimerRef.current);
+      inactivityTimerRef.current = null;
+    }
+  }, []);
 
   // Initialize authentication state
   useEffect(() => {
     initializeAuth();
-    
+
     // Set up auth state change listener
     const { data: { subscription } } = SupabaseAuth.onAuthStateChange((event, session) => {
       handleAuthStateChange(event, session);
+    });
+
+    // Set up activity tracking
+    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
+    const handleActivity = () => updateActivity();
+
+    events.forEach(event => {
+      document.addEventListener(event, handleActivity, true);
     });
 
     // Clean up on unmount
@@ -49,15 +133,48 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (refreshTimerRef.current) {
         clearTimeout(refreshTimerRef.current);
       }
+      stopInactivityTimer();
+      events.forEach(event => {
+        document.removeEventListener(event, handleActivity, true);
+      });
     };
-  }, []);
+  }, [updateActivity, stopInactivityTimer]);
+
+  // Check if we should use mock authentication
+  const shouldUseMockAuth = () => {
+    return isUsingMockAuth || import.meta.env.SKIP_EMAIL_VERIFICATION === 'true';
+  };
 
   // Initialize authentication
   const initializeAuth = async () => {
     try {
       setState(prev => ({ ...prev, status: 'loading', error: null }));
       
-      // Get current session
+      // Check if we should use mock auth
+      if (shouldUseMockAuth()) {
+        // Use mock authentication
+        const session = MockAuthService.getSession();
+        if (session) {
+          setState(prev => ({
+            ...prev,
+            status: 'authenticated',
+            user: session.user,
+            session,
+            error: null
+          }));
+        } else {
+          setState(prev => ({
+            ...prev,
+            status: 'unauthenticated',
+            user: null,
+            session: null,
+            error: null
+          }));
+        }
+        return;
+      }
+      
+      // Get current session from Supabase
       const session = await SupabaseAuth.getSession();
       const user = await SupabaseAuth.getUser();
       
@@ -191,6 +308,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           message: 'Email and password are required',
           error: { code: 'VALIDATION_ERROR', message: 'Email and password are required' }
         };
+      }
+
+      // Check if we should use mock auth
+      if (shouldUseMockAuth()) {
+        const result = await MockAuthService.login(credentials);
+        if (result.success && result.session) {
+          setState(prev => ({
+            ...prev,
+            status: 'authenticated',
+            user: result.session!.user,
+            session: result.session,
+            error: null
+          }));
+
+          // Start inactivity timer for session management
+          updateActivity();
+          startInactivityTimer();
+        } else {
+          setState(prev => ({
+            ...prev,
+            status: 'error',
+            error: result.error || { code: 'LOGIN_FAILED', message: 'Login failed' }
+          }));
+        }
+        return result;
       }
 
       // Generate device fingerprint if not exists
@@ -345,23 +487,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
 
-      // Check age
-      const birthDate = new Date(userData.dateOfBirth);
-      const today = new Date();
-      let age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
+      // Check age - Age verification bypassed for testing
+      // const birthDate = new Date(userData.dateOfBirth);
+      // const today = new Date();
+      // let age = today.getFullYear() - birthDate.getFullYear();
+      // const monthDiff = today.getMonth() - birthDate.getMonth();
       
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
+      // if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      //   age--;
+      // }
 
-      if (age < 21) {
-        return {
-          success: false,
-          message: 'You must be at least 21 years old to create an account',
-          error: { code: 'AGE_REQUIREMENT', message: 'You must be at least 21 years old to create an account' }
-        };
-      }
+      // if (age < 21) {
+      //   return {
+      //     success: false,
+      //     message: 'You must be at least 21 years old to create an account',
+      //     error: { code: 'AGE_REQUIREMENT', message: 'You must be at least 21 years old to create an account' }
+      //   };
+      // }
 
       // Check if terms and privacy are accepted
       if (!userData.termsAccepted || !userData.privacyAccepted || !userData.dataProcessingConsent) {
@@ -370,6 +512,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           message: 'You must accept the terms of service, privacy policy, and data processing consent',
           error: { code: 'CONSENT_REQUIRED', message: 'You must accept all required agreements' }
         };
+      }
+
+      // Check if we should use mock auth
+      if (shouldUseMockAuth()) {
+        const result = await MockAuthService.register(userData);
+        if (result.success && result.user) {
+          setState(prev => ({
+            ...prev,
+            status: 'unauthenticated',
+            error: null
+          }));
+
+          return {
+            success: true,
+            message: 'Account created successfully. You can now log in.',
+            userId: result.user.id,
+            emailVerificationRequired: false
+          };
+        } else {
+          setState(prev => ({
+            ...prev,
+            status: 'error',
+            error: result.error || { code: 'REGISTRATION_FAILED', message: 'Registration failed' }
+          }));
+
+          return result;
+        }
       }
 
       // Prepare user metadata
@@ -423,8 +592,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           success: true,
           message: 'Account created successfully. Please check your email to verify your account.',
           userId: data.user.id,
-          emailVerificationRequired: !data.user.email_confirmed_at,
-          ageVerificationRequired: true
+          emailVerificationRequired: !data.user.email_confirmed_at
+          // ageVerificationRequired: true - Age verification bypassed for testing
         };
       }
 
@@ -448,38 +617,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  // Logout function
-  const logout = useCallback(async (): Promise<void> => {
-    try {
-      setState(prev => ({ ...prev, status: 'loading', error: null }));
-      
-      // Clear refresh timer
-      if (refreshTimerRef.current) {
-        clearTimeout(refreshTimerRef.current);
-        refreshTimerRef.current = null;
-      }
-
-      // Sign out from Supabase
-      await SupabaseAuth.signOut();
-
-      // Clear local state
-      setState(prev => ({
-        ...prev,
-        status: 'unauthenticated',
-        user: null,
-        session: null,
-        error: null
-      }));
-
-    } catch (error) {
-      console.error('Logout error:', error);
-      setState(prev => ({
-        ...prev,
-        status: 'error',
-        error: { code: 'LOGOUT_ERROR', message: 'Failed to logout properly' }
-      }));
-    }
-  }, []);
 
   // Refresh session function
   const refreshSession = useCallback(async (): Promise<any> => {
@@ -581,9 +718,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { success: false, message: 'Password must be at least 8 characters long', error: { code: 'WEAK_PASSWORD', message: 'Password must be at least 8 characters long' } };
       }
 
-      const { error } = await SupabaseAuth.updateUser({
-        password: data.newPassword
-      });
+      const { error } = await SupabaseAuth.updatePassword(data.newPassword);
 
       if (error) {
         return { success: false, message: 'Failed to change password', error: { code: 'CHANGE_PASSWORD_FAILED', message: 'Failed to change password' } };

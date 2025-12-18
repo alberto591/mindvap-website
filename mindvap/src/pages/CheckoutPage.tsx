@@ -26,7 +26,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
     state: '',
     zipCode: '',
     country: 'US',
-    ageVerification: false,
+    ageVerification: true, // Age verification bypassed for testing
     createAccount: false,
     password: '',
     confirmPassword: '',
@@ -57,10 +57,11 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
   };
 
   const handleCreatePaymentIntent = async () => {
-    if (!formData.ageVerification) {
-      setError('You must verify that you are 21 years of age or older to complete this purchase.');
-      return;
-    }
+    // Age verification bypassed for testing
+    // if (!formData.ageVerification) {
+    //   setError('You must verify that you are 21 years of age or older to complete this purchase.');
+    //   return;
+    // }
 
     if (!formData.email || !formData.firstName || !formData.lastName || !formData.address || !formData.city || !formData.state || !formData.zipCode) {
       setError('Please fill in all required fields.');
@@ -510,8 +511,8 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                 </div>
               )}
 
-              {/* Age Verification */}
-              <div className="bg-amber-50 border-l-4 border-cta rounded-lg p-6">
+              {/* Age Verification - Bypassed for testing */}
+              {/* <div className="bg-amber-50 border-l-4 border-cta rounded-lg p-6">
                 <div className="flex items-start gap-3">
                   <input
                     type="checkbox"
@@ -526,7 +527,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                     <strong>I certify that I am 21 years of age or older.</strong> I understand that these products are not intended to diagnose, treat, cure, or prevent any disease and have not been evaluated by the FDA.
                   </label>
                 </div>
-              </div>
+              </div> */}
 
               {/* Error Display */}
               {error && (

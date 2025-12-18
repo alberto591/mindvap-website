@@ -1,10 +1,13 @@
 /**
  * Security Tests
- * 
+ *
  * This file demonstrates comprehensive security testing for the MindVap e-commerce platform.
  * These tests cover password hashing, SQL injection prevention, XSS protection,
  * authorization controls, and API authentication security.
  */
+
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 describe('Security Tests (Documentation)', () => {
   
@@ -963,7 +966,7 @@ export const createTestUser = (password: string) => {
   return {
     id: `user-${Date.now()}`,
     email: `test${Date.now()}@example.com`,
-    password_hash: require('bcrypt').hashSync(password, 12),
+    password_hash: bcrypt.hashSync(password, 12),
     emailVerified: true,
     role: 'customer',
     createdAt: new Date().toISOString(),
@@ -971,7 +974,6 @@ export const createTestUser = (password: string) => {
 };
 
 export const testPasswordHashing = (password: string, hash: string) => {
-  const bcrypt = require('bcrypt');
   expect(bcrypt.compareSync(password, hash)).toBe(true);
   expect(hash).not.toBe(password);
   expect(hash).toMatch(/^\$2b\$12\$/);
@@ -1047,7 +1049,6 @@ export const testAuthorization = async (userId: string, resourceId: string) => {
 };
 
 export const createTestJWT = (userId: string, expiresIn: number = 3600) => {
-  const jwt = require('jsonwebtoken');
   return jwt.sign(
     { userId, email: 'test@example.com', role: 'customer' },
     process.env.JWT_SECRET || 'test-secret',

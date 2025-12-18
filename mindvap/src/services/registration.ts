@@ -365,7 +365,7 @@ export class RegistrationService {
   static isValidPhone(phone: string): boolean {
     // Basic phone validation - allows international formats
     const phoneRegex = /^[+]?[1-9][\d]{0,15}$/;
-    const cleaned = phone.replace(/[\s\-\(\)\.]/g, '');
+    const cleaned = phone.replace(/[\s\-(.)]/g, '');
     return cleaned.length >= 10 && phoneRegex.test(cleaned);
   }
 
