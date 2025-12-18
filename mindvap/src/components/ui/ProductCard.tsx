@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Product } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { t, language } = useLanguage();
+
   return (
     <Link
       to={`/product/${product.id}`}
@@ -16,19 +19,19 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-square overflow-hidden rounded-t-md">
         <img
           src={product.image}
-          alt={product.name}
+          alt={product.name[language]}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-standard"
         />
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <span className="bg-background-surface text-text-primary px-4 py-2 rounded-md font-semibold">
-              Out of Stock
+              {t('shop.outOfStock')}
             </span>
           </div>
         )}
         {product.inStock && product.stockLevel <= 5 && (
           <div className="absolute top-2 right-2 bg-background-surface border border-brand-primary text-brand-primary px-3 py-1 rounded-pill text-badge font-semibold uppercase">
-            Only {product.stockLevel} left!
+            {t('shop.onlyLeft').replace('{count}', product.stockLevel.toString())}
           </div>
         )}
       </div>
@@ -37,16 +40,16 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="p-6">
         <div className="mb-2">
           <span className="text-badge uppercase font-semibold text-brand-primary tracking-widest">
-            {product.category}
+            {product.category[language]}
           </span>
         </div>
-        
+
         <h3 className="text-card-title font-semibold text-text-primary mb-2 line-clamp-2">
-          {product.name}
+          {product.name[language]}
         </h3>
-        
+
         <p className="text-body-small text-text-secondary mb-3 line-clamp-1">
-          {product.shortDescription}
+          {product.shortDescription[language]}
         </p>
 
         {/* Rating */}

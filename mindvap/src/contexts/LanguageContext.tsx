@@ -73,6 +73,9 @@ const translations = {
     'search.pages': 'Pages',
     'search.viewAll': 'View all results',
     'search.resultsFor': 'Results for',
+    'search.result': 'result',
+    'search.results': 'results',
+    'search.found': 'found',
     
     // Registration
     'register.title': 'Create Your Account',
@@ -185,7 +188,9 @@ const translations = {
     'shop.filter.applyFilters': 'Apply Filters',
     'shop.filter.noProducts': 'No products found',
     'shop.filter.clearFilters': 'Clear filters',
+    'shop.filter.tryAdjusting': 'Try adjusting your filters',
     'shop.productsAvailable': 'products available',
+    'shop.onlyLeft': 'Only {count} left!',
     'shop.addToCart': 'Add to Cart',
     'shop.viewDetails': 'View Details',
     'shop.outOfStock': 'Out of Stock',
@@ -443,6 +448,9 @@ const translations = {
     'search.pages': 'Páginas',
     'search.viewAll': 'Ver todos los resultados',
     'search.resultsFor': 'Resultados para',
+    'search.result': 'resultado',
+    'search.results': 'resultados',
+    'search.found': 'encontrado',
     
     // Registration
     'register.title': 'Crear Tu Cuenta',
@@ -555,7 +563,9 @@ const translations = {
     'shop.filter.applyFilters': 'Aplicar Filtros',
     'shop.filter.noProducts': 'No se encontraron productos',
     'shop.filter.clearFilters': 'Limpiar filtros',
+    'shop.filter.tryAdjusting': 'Intenta ajustar tus filtros',
     'shop.productsAvailable': 'productos disponibles',
+    'shop.onlyLeft': '¡Solo quedan {count}!',
     'shop.addToCart': 'Agregar al Carrito',
     'shop.viewDetails': 'Ver Detalles',
     'shop.outOfStock': 'Agotado',
@@ -813,6 +823,9 @@ const translations = {
     'search.pages': 'Pagine',
     'search.viewAll': 'Vedi tutti i risultati',
     'search.resultsFor': 'Risultati per',
+    'search.result': 'risultato',
+    'search.results': 'risultati',
+    'search.found': 'trovato',
     
     // Registration
     'register.title': 'Crea il Tuo Account',
@@ -925,7 +938,9 @@ const translations = {
     'shop.filter.applyFilters': 'Applica Filtri',
     'shop.filter.noProducts': 'Nessun prodotto trovato',
     'shop.filter.clearFilters': 'Cancella filtri',
+    'shop.filter.tryAdjusting': 'Prova a regolare i tuoi filtri',
     'shop.productsAvailable': 'prodotti disponibili',
+    'shop.onlyLeft': 'Solo {count} rimasti!',
     'shop.addToCart': 'Aggiungi al Carrello',
     'shop.viewDetails': 'Vedi Dettagli',
     'shop.outOfStock': 'Esaurito',

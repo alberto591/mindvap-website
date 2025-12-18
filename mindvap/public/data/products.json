@@ -1,26 +1,64 @@
 [
   {
     "id": "cbd-tranquil-relax",
-    "name": "CBD+ Tranquil Relax",
+    "name": {
+      "en": "CBD+ Tranquil Relax",
+      "es": "CBD+ Tranquilo Relajante",
+      "it": "CBD+ Tranquillo Rilassante"
+    },
     "price": 39.99,
-    "category": "Anxiety Relief",
+    "category": {
+      "en": "Anxiety Relief",
+      "es": "Alivio de Ansiedad",
+      "it": "Sollievo dall'Ansia"
+    },
     "image": "/images/product_cbd_tranquil_relax.png",
-    "shortDescription": "Premium anxiety & stress relief blend",
+    "shortDescription": {
+      "en": "Premium anxiety & stress relief blend",
+      "es": "Mezcla premium para alivio de ansiedad y estrés",
+      "it": "Miscela premium per sollievo da ansia e stress"
+    },
     "herbs": ["Ashwagandha", "Chamomile", "Lavender"],
     "temperature": "160-204°C (320-400°F)",
     "inStock": true,
     "stockLevel": 12,
     "rating": 4.8,
     "reviews": 47,
-    "description": "A premium blend featuring Ashwagandha, Chamomile, and Lavender for profound anxiety relief and stress reduction. This blend combines the stress-modulating properties of Ashwagandha with the calming effects of Chamomile and Lavender's anxiolytic benefits.",
-    "benefits": [
-      "Ashwagandha reduces stress and anxiety with large effect sizes (SMD -1.75 for stress, -1.55 for anxiety) in meta-analyses of RCTs",
-      "Chamomile provides anxiolytic effects through GABA pathway modulation, effective for generalized anxiety disorder",
-      "Lavender inhalation significantly reduces anxiety across eleven trials, modulating limbic system activity",
-      "Combined effects support HPA axis regulation and neurotransmitter balance"
-    ],
-    "usage": "Start at 160-177°C (320-350°F) for flavor preservation and gradually increase to 177-204°C (350-400°F) for balanced extraction. Avoid temperatures above 221°C (430°F). Session length: 5-10 minutes for anxiety relief.",
-    "safety": "Ashwagandha: Use with caution in thyroid disease; avoid during pregnancy. Chamomile: Potential allergies in Asteraceae-sensitive individuals; may interact with sedatives. Lavender: Generally safe; may cause mild sedation. Not for use during pregnancy or nursing."
+    "description": {
+      "en": "A premium blend featuring Ashwagandha, Chamomile, and Lavender for profound anxiety relief and stress reduction. This blend combines the stress-modulating properties of Ashwagandha with the calming effects of Chamomile and Lavender's anxiolytic benefits.",
+      "es": "Una mezcla premium que incluye Ashwagandha, Manzanilla y Lavanda para un profundo alivio de la ansiedad y reducción del estrés. Esta mezcla combina las propiedades moduladoras del estrés del Ashwagandha con los efectos calmantes de la Manzanilla y los beneficios ansiolíticos de la Lavanda.",
+      "it": "Una miscela premium che presenta Ashwagandha, Camomilla e Lavanda per un profondo sollievo dall'ansia e riduzione dello stress. Questa miscela combina le proprietà modulanti dello stress dell'Ashwagandha con gli effetti calmanti della Camomilla e i benefici ansiolitici della Lavanda."
+    },
+    "benefits": {
+      "en": [
+        "Ashwagandha reduces stress and anxiety with large effect sizes (SMD -1.75 for stress, -1.55 for anxiety) in meta-analyses of RCTs",
+        "Chamomile provides anxiolytic effects through GABA pathway modulation, effective for generalized anxiety disorder",
+        "Lavender inhalation significantly reduces anxiety across eleven trials, modulating limbic system activity",
+        "Combined effects support HPA axis regulation and neurotransmitter balance"
+      ],
+      "es": [
+        "El Ashwagandha reduce el estrés y la ansiedad con tamaños de efecto grandes (SMD -1.75 para estrés, -1.55 para ansiedad) en meta-análisis de ECAs",
+        "La Manzanilla proporciona efectos ansiolíticos a través de la modulación de la vía GABA, efectiva para el trastorno de ansiedad generalizada",
+        "La inhalación de Lavanda reduce significativamente la ansiedad en once ensayos, modulando la actividad del sistema límbico",
+        "Los efectos combinados apoyan la regulación del eje HPA y el equilibrio de neurotransmisores"
+      ],
+      "it": [
+        "L'Ashwagandha riduce lo stress e l'ansia con grandi dimensioni di effetto (SMD -1.75 per lo stress, -1.55 per l'ansia) nelle meta-analisi di RCT",
+        "La Camomilla fornisce effetti ansiolitici attraverso la modulazione del pathway GABA, efficace per il disturbo d'ansia generalizzato",
+        "L'inalazione di Lavanda riduce significativamente l'ansia in undici studi, modulando l'attività del sistema limbico",
+        "Gli effetti combinati supportano la regolazione dell'asse HPA e l'equilibrio dei neurotrasmettitori"
+      ]
+    },
+    "usage": {
+      "en": "Start at 160-177°C (320-350°F) for flavor preservation and gradually increase to 177-204°C (350-400°F) for balanced extraction. Avoid temperatures above 221°C (430°F). Session length: 5-10 minutes for anxiety relief.",
+      "es": "Comience a 160-177°C (320-350°F) para la preservación del sabor y aumente gradualmente a 177-204°C (350-400°F) para una extracción equilibrada. Evite temperaturas superiores a 221°C (430°F). Duración de la sesión: 5-10 minutos para alivio de la ansiedad.",
+      "it": "Inizia a 160-177°C (320-350°F) per la conservazione del sapore e aumenta gradualmente a 177-204°C (350-400°F) per un'estrazione equilibrata. Evita temperature superiori a 221°C (430°F). Durata della sessione: 5-10 minuti per il sollievo dall'ansia."
+    },
+    "safety": {
+      "en": "Ashwagandha: Use with caution in thyroid disease; avoid during pregnancy. Chamomile: Potential allergies in Asteraceae-sensitive individuals; may interact with sedatives. Lavender: Generally safe; may cause mild sedation. Not for use during pregnancy or nursing.",
+      "es": "Ashwagandha: Use con precaución en enfermedades tiroideas; evite durante el embarazo. Manzanilla: Posibles alergias en individuos sensibles a Asteraceae; puede interactuar con sedantes. Lavanda: Generalmente segura; puede causar sedación leve. No para uso durante el embarazo o lactancia.",
+      "it": "Ashwagandha: Usa con cautela in malattie tiroidee; evita durante la gravidanza. Camomilla: Possibili allergie in individui sensibili alle Asteraceae; può interagire con sedativi. Lavanda: Generalmente sicura; può causare sedazione lieve. Non per uso durante gravidanza o allattamento."
+    }
   },
   {
     "id": "herbal-harmony",

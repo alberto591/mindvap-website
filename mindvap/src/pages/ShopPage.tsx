@@ -19,7 +19,7 @@ const fuzzyMatch = (text: string, query: string): boolean => {
 };
 
 export default function ShopPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
@@ -66,10 +66,10 @@ export default function ShopPage() {
 
     // Filter by search query
     if (searchQuery.trim()) {
-      filtered = filtered.filter(product => 
-        fuzzyMatch(product.name, searchQuery) ||
-        fuzzyMatch(product.category, searchQuery) ||
-        fuzzyMatch(product.shortDescription, searchQuery) ||
+      filtered = filtered.filter(product =>
+        fuzzyMatch(product.name[language], searchQuery) ||
+        fuzzyMatch(product.category[language], searchQuery) ||
+        fuzzyMatch(product.shortDescription[language], searchQuery) ||
         product.herbs.some(herb => fuzzyMatch(herb, searchQuery))
       );
     }
@@ -77,7 +77,7 @@ export default function ShopPage() {
     // Filter by categories
     if (selectedCategories.length > 0) {
       filtered = filtered.filter(product =>
-        selectedCategories.includes(product.category)
+        selectedCategories.includes(product.category[language])
       );
     }
 
@@ -192,7 +192,7 @@ export default function ShopPage() {
                   <span className="font-medium">{t('search.resultsFor')}</span> "{searchQuery}"
                 </p>
                 <p className="text-sm text-text-muted">
-                  {filteredProducts.length} {filteredProducts.length === 1 ? 'result' : 'results'} found
+                  {filteredProducts.length} {filteredProducts.length === 1 ? t('search.result') : t('search.results')} {t('search.found')}
                 </p>
               </div>
               <button
@@ -263,7 +263,7 @@ export default function ShopPage() {
                   {searchActive ? t('search.noResults') : t('shop.filter.noProducts')}
                 </p>
                 <p className="text-text-muted mb-4">
-                  {searchActive ? t('search.tryDifferent') : 'Try adjusting your filters'}
+                  {searchActive ? t('search.tryDifferent') : t('shop.filter.tryAdjusting')}
                 </p>
                 {hasActiveFilters && (
                   <button
