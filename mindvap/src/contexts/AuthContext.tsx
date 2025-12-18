@@ -528,7 +528,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             success: true,
             message: 'Account created successfully. You can now log in.',
             userId: result.userId,
-            emailVerificationRequired: false
+            emailVerificationRequired: result.emailVerificationRequired || false
           };
         } else {
           setState(prev => ({
