@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Star, ShoppingCart, Share2, Heart, Award, Truck, Shield, FileText, AlertCircle } from 'lucide-react';
 import { Product } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ProductDetailPageProps {
   onAddToCart: (product: Product, quantity: number) => void;
@@ -9,6 +10,7 @@ interface ProductDetailPageProps {
 
 export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProps) {
   const { productId } = useParams();
+  const { t, language } = useLanguage();
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('overview');
@@ -27,9 +29,9 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
     return (
       <div className="min-h-screen bg-background-primary flex items-center justify-center">
         <div className="text-center">
-          <p className="text-xl text-text-secondary">Product not found</p>
+          <p className="text-xl text-text-secondary">{t('product.notFound')}</p>
           <Link to="/shop" className="text-brand-primary hover:text-brand-hover font-semibold mt-4 inline-block">
-            Return to Shop
+            {t('product.returnToShop')}
           </Link>
         </div>
       </div>
@@ -43,10 +45,10 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
   };
 
   const tabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'benefits', label: 'Benefits' },
-    { id: 'usage', label: 'Usage Guidelines' },
-    { id: 'safety', label: 'Safety & Contraindications' },
+    { id: 'overview', label: t('product.tab.overview') },
+    { id: 'benefits', label: t('product.tab.benefits') },
+    { id: 'usage', label: t('product.tab.usage') },
+    { id: 'safety', label: t('product.tab.safety') },
   ];
 
   return (
@@ -58,7 +60,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
           {' / '}
           <Link to="/shop" className="hover:text-brand-primary">Shop</Link>
           {' / '}
-          <span className="text-text-primary">{product.name}</span>
+          <span className="text-text-primary">{product.name[language]}</span>
         </nav>
 
         {/* Product Section */}
@@ -69,7 +71,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               <div className="aspect-square rounded-lg overflow-hidden bg-background-surface">
                 <img
                   src={product.image}
-                  alt={product.name}
+                  alt={product.name[language]}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -80,7 +82,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
           <div className="md:col-span-2">
             <div className="sticky top-24 bg-background-surface rounded-lg p-8 shadow-card">
               <h1 className="font-headline text-product-title font-medium text-text-primary mb-4">
-                {product.name}
+                {product.name[language]}
               </h1>
 
               {/* Rating */}
@@ -102,7 +104,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               {/* Price */}
               <div className="mb-6">
                 <span className="text-price-large font-bold text-cta-primary">
-                  ${product.price.toFixed(2)}
+                  {t('common.price')}{product.price.toFixed(2)}
                 </span>
               </div>
 
@@ -112,30 +114,30 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
                   product.stockLevel <= 5 ? (
                     <div className="flex items-center gap-2 text-semantic-warning">
                       <AlertCircle size={18} />
-                      <span className="font-semibold">Only {product.stockLevel} left in stock!</span>
+                      <span className="font-semibold">{t('product.onlyLeft').replace('{count}', product.stockLevel.toString())}</span>
                     </div>
                   ) : (
                     <div className="flex items-center gap-2 text-semantic-success">
                       <Shield size={18} />
-                      <span className="font-semibold">In Stock</span>
+                      <span className="font-semibold">{t('product.inStock')}</span>
                     </div>
                   )
                 ) : (
-                  <div className="text-text-tertiary">Out of Stock</div>
+                  <div className="text-text-tertiary">{t('shop.outOfStock')}</div>
                 )}
               </div>
 
               {/* Category */}
               <div className="mb-6">
                 <span className="inline-block bg-brand-light text-brand-primary px-3 py-1 rounded-pill text-badge font-semibold uppercase">
-                  {product.category}
+                  {product.category[language]}
                 </span>
               </div>
 
               {/* Quantity Picker */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-text-primary mb-2">
-                  Quantity
+                  {t('product.quantity')}
                 </label>
                 <div className="flex items-center gap-3">
                   <button
@@ -180,32 +182,32 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               {/* Secondary Actions */}
               <div className="flex gap-3 mb-6">
                 <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
-                  <Heart size={18} className="inline mr-2" />
-                  Wishlist
-                </button>
-                <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
-                  <Share2 size={18} className="inline mr-2" />
-                  Share
-                </button>
+                 <Heart size={18} className="inline mr-2" />
+                 {t('product.wishlist')}
+               </button>
+               <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
+                 <Share2 size={18} className="inline mr-2" />
+                 {t('product.share')}
+               </button>
               </div>
 
               {/* Trust Signals */}
               <div className="space-y-3 pt-6 border-t border-border-light">
                 <div className="flex items-center gap-3">
                   <Award size={18} className="text-brand-primary" />
-                  <span className="text-body-small text-text-secondary">Lab Tested with COA</span>
+                  <span className="text-body-small text-text-secondary">{t('product.labTested')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Truck size={18} className="text-brand-primary" />
-                  <span className="text-body-small text-text-secondary">Free Shipping on Orders $50+</span>
+                  <span className="text-body-small text-text-secondary">{t('product.freeShipping')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Shield size={18} className="text-brand-primary" />
-                  <span className="text-body-small text-text-secondary">Easy 30-Day Returns</span>
+                  <span className="text-body-small text-text-secondary">{t('product.easyReturns')}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <FileText size={18} className="text-brand-primary" />
-                  <span className="text-body-small text-text-secondary">Age 21+ Verified</span>
+                  <span className="text-body-small text-text-secondary">{t('product.ageVerified')}</span>
                 </div>
               </div>
 
@@ -242,12 +244,12 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
           <div className="prose max-w-none">
             {activeTab === 'overview' && (
               <div>
-                <h3 className="text-2xl font-semibold text-text-primary mb-4">Product Description</h3>
+                <h3 className="text-2xl font-semibold text-text-primary mb-4">{t('product.productDescription')}</h3>
                 <p className="text-body text-text-secondary leading-relaxed mb-6">
-                  {product.description}
+                  {product.description[language]}
                 </p>
                 <div className="bg-background-accent rounded-md p-6 mb-6">
-                  <h4 className="font-semibold text-text-primary mb-3">Key Herbs</h4>
+                  <h4 className="font-semibold text-text-primary mb-3">{t('product.keyHerbs')}</h4>
                   <div className="flex flex-wrap gap-2">
                     {product.herbs.map(herb => (
                       <span
@@ -260,7 +262,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
                   </div>
                 </div>
                 <div className="bg-background-accent rounded-md p-6">
-                  <h4 className="font-semibold text-text-primary mb-2">Temperature Range</h4>
+                  <h4 className="font-semibold text-text-primary mb-2">{t('product.temperatureRange')}</h4>
                   <p className="text-body text-text-secondary">{product.temperature}</p>
                 </div>
               </div>
@@ -268,9 +270,9 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
 
             {activeTab === 'benefits' && (
               <div>
-                <h3 className="text-2xl font-semibold text-text-primary mb-4">Evidence-Based Benefits</h3>
+                <h3 className="text-2xl font-semibold text-text-primary mb-4">{t('product.evidenceBasedBenefits')}</h3>
                 <ul className="space-y-4">
-                  {product.benefits.map((benefit, index) => (
+                  {product.benefits[language].map((benefit, index) => (
                     <li key={index} className="flex gap-3">
                       <span className="text-brand-primary mt-1">•</span>
                       <span className="text-body text-text-secondary leading-relaxed">{benefit}</span>
@@ -282,21 +284,21 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
 
             {activeTab === 'usage' && (
               <div>
-                <h3 className="text-2xl font-semibold text-text-primary mb-4">Usage Guidelines</h3>
+                <h3 className="text-2xl font-semibold text-text-primary mb-4">{t('product.usageGuidelines')}</h3>
                 <p className="text-body text-text-secondary leading-relaxed whitespace-pre-line">
-                  {product.usage}
+                  {product.usage[language]}
                 </p>
               </div>
             )}
 
             {activeTab === 'safety' && (
               <div>
-                <h3 className="text-2xl font-semibold text-text-primary mb-4">Safety & Contraindications</h3>
+                <h3 className="text-2xl font-semibold text-text-primary mb-4">{t('product.safetyContraindications')}</h3>
                 <div className="bg-semantic-warning/10 border border-semantic-warning rounded-md p-6 mb-6">
                   <div className="flex gap-3">
                     <AlertCircle size={24} className="text-semantic-warning flex-shrink-0 mt-1" />
                     <p className="text-body text-text-primary leading-relaxed">
-                      {product.safety}
+                      {product.safety[language]}
                     </p>
                   </div>
                 </div>

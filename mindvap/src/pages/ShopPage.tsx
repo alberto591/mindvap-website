@@ -46,7 +46,15 @@ export default function ShopPage() {
         // Check for category filter from URL
         const categoryParam = searchParams.get('category');
         if (categoryParam) {
-          const categoryName = categoryParam
+          // Map URL parameter to English category name
+          const categoryMap: { [key: string]: string } = {
+            'anxiety-relief': 'Anxiety Relief',
+            'sleep-support': 'Sleep Support',
+            'focus-clarity': 'Focus & Clarity',
+            'stress-relief': 'Stress Relief',
+            'mood-support': 'Mood Support'
+          };
+          const categoryName = categoryMap[categoryParam] || categoryParam
             .split('-')
             .map(word => word.charAt(0).toUpperCase() + word.slice(1))
             .join(' ');
@@ -147,8 +155,8 @@ export default function ShopPage() {
             className="w-full"
           />
           <div className="flex justify-between text-body-small text-text-secondary">
-            <span>${priceRange[0]}</span>
-            <span>${priceRange[1]}</span>
+            <span>{t('common.price')}{priceRange[0]}</span>
+            <span>{t('common.price')}{priceRange[1]}</span>
           </div>
         </div>
       </div>
