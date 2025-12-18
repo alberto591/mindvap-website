@@ -35,10 +35,10 @@ export class TokenManager {
   /**
    * Generate a new access token
    */
-  static generateAccessToken(payload: Omit<JWTPayload, 'iat' | 'exp' | 'jti' | 'type'>): {
+  static async generateAccessToken(payload: Omit<JWTPayload, 'iat' | 'exp' | 'jti' | 'type'>): Promise<{
     token: string;
     expiresIn: number;
-  } {
+  }> {
     try {
       const jti = this.generateJTI();
       const now = Math.floor(Date.now() / 1000);
@@ -52,7 +52,7 @@ export class TokenManager {
         type: 'access'
       };
 
-      const token = this.signToken(tokenPayload, this.ACCESS_TOKEN_SECRET);
+      const token = await this.signToken(tokenPayload, this.ACCESS_TOKEN_SECRET);
       
       return {
         token,
@@ -67,10 +67,10 @@ export class TokenManager {
   /**
    * Generate a new refresh token
    */
-  static generateRefreshToken(payload: {sub: string; sessionId: string}): {
+  static async generateRefreshToken(payload: {sub: string; sessionId: string}): Promise<{
     token: string;
     expiresIn: number;
-  } {
+  }> {
     try {
       const now = Math.floor(Date.now() / 1000);
       const exp = now + this.REFRESH_TOKEN_EXPIRY;
@@ -87,7 +87,7 @@ export class TokenManager {
         type: 'refresh'
       };
 
-      const token = this.signToken(tokenPayload, this.REFRESH_TOKEN_SECRET);
+      const token = await this.signToken(tokenPayload, this.REFRESH_TOKEN_SECRET);
       
       return {
         token,
@@ -102,9 +102,9 @@ export class TokenManager {
   /**
    * Verify and decode an access token
    */
-  static verifyAccessToken(token: string): TokenValidationResult {
+  static async verifyAccessToken(token: string): Promise<TokenValidationResult> {
     try {
-      const payload = this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
+      const payload = await this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
       
       if (payload.type !== 'access') {
         return {
@@ -136,9 +136,9 @@ export class TokenManager {
   /**
    * Verify and decode a refresh token
    */
-  static verifyRefreshToken(token: string): TokenValidationResult {
+  static async verifyRefreshToken(token: string): Promise<TokenValidationResult> {
     try {
-      const payload = this.verifyToken(token, this.REFRESH_TOKEN_SECRET) as JWTPayload;
+      const payload = await this.verifyToken(token, this.REFRESH_TOKEN_SECRET) as JWTPayload;
       
       if (payload.type !== 'refresh') {
         return {
@@ -186,9 +186,9 @@ export class TokenManager {
   /**
    * Check if token needs refresh (within threshold)
    */
-  static shouldRefreshToken(token: string, thresholdMinutes: number = 5): boolean {
+  static async shouldRefreshToken(token: string, thresholdMinutes: number = 5): Promise<boolean> {
     try {
-      const payload = this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
+      const payload = await this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
       const now = Math.floor(Date.now() / 1000);
       const threshold = thresholdMinutes * 60;
       
@@ -201,7 +201,7 @@ export class TokenManager {
   /**
    * Generate a device fingerprint for tracking
    */
-  static generateDeviceFingerprint(userAgent: string, screenResolution?: string, timezone?: string): string {
+  static async generateDeviceFingerprint(userAgent: string, screenResolution?: string, timezone?: string): Promise<string> {
     const components = [
       userAgent,
       screenResolution || '',
@@ -209,7 +209,7 @@ export class TokenManager {
       navigator?.platform || '',
       navigator?.language || ''
     ].join('|');
-
+    
     return this.hashString(components);
   }
 
@@ -252,7 +252,7 @@ export class TokenManager {
     return Math.max(0, (exp * 1000) - Date.now());
   }
 
-  private static signToken(payload: any, secret: string): string {
+  private static async signToken(payload: any, secret: string): Promise<string> {
     // In a real implementation, you would use the jsonwebtoken library
     // For now, we'll simulate JWT signing using Web Crypto API
     const header = {
@@ -264,12 +264,12 @@ export class TokenManager {
     const encodedPayload = this.base64UrlEncode(JSON.stringify(payload));
     
     const signatureInput = `${encodedHeader}.${encodedPayload}`;
-    const signature = this.generateHMAC(signatureInput, secret);
+    const signature = await this.generateHMAC(signatureInput, secret);
     
     return `${encodedHeader}.${encodedPayload}.${signature}`;
   }
 
-  private static verifyToken(token: string, secret: string): any {
+  private static async verifyToken(token: string, secret: string): Promise<any> {
     try {
       const parts = token.split('.');
       if (parts.length !== 3) {
@@ -280,7 +280,7 @@ export class TokenManager {
       
       // Verify signature
       const signatureInput = `${encodedHeader}.${encodedPayload}`;
-      const expectedSignature = this.generateHMAC(signatureInput, secret);
+      const expectedSignature = await this.generateHMAC(signatureInput, secret);
       
       if (signature !== expectedSignature) {
         throw new Error('Invalid signature');
@@ -298,17 +298,16 @@ export class TokenManager {
     return crypto.randomUUID();
   }
 
-  private static hashString(str: string): string {
+  private static async hashString(str: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
     
-    return crypto.subtle.digest('SHA-256', data).then(buffer => {
-      const hashArray = Array.from(new Uint8Array(buffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }) as unknown as string;
+    const buffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(buffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  private static generateHMAC(data: string, secret: string): string {
+  private static async generateHMAC(data: string, secret: string): Promise<string> {
     // Simulate HMAC generation
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
@@ -317,12 +316,10 @@ export class TokenManager {
     // In production, you would use crypto.subtle.importKey and crypto.subtle.sign
     // For now, we'll create a simple hash
     const combined = data + secret;
-    const hashBuffer = crypto.subtle.digest('SHA-256', encoder.encode(combined));
+    const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(combined));
     
-    return hashBuffer.then(buffer => {
-      const hashArray = Array.from(new Uint8Array(buffer));
-      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }) as unknown as string;
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
 
   private static base64UrlEncode(str: string): string {

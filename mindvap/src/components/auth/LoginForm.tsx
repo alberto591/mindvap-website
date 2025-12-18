@@ -165,7 +165,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       const sanitizedPassword = sanitizePassword(formData.password);
 
       // Generate device fingerprint
-      const deviceFingerprint = generateDeviceFingerprint(
+      const deviceFingerprint = await generateDeviceFingerprint(
         navigator.userAgent,
         `${window.screen.width}x${window.screen.height}`,
         Intl.DateTimeFormat().resolvedOptions().timeZone

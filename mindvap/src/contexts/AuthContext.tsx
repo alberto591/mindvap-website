@@ -181,7 +181,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (session && user) {
         // Validate session and update state
         const accessToken = session.access_token;
-        const validation = TokenManager.verifyAccessToken(accessToken);
+        const validation = await TokenManager.verifyAccessToken(accessToken);
         
         if (validation.valid && validation.payload) {
           const userSession: Session = {
@@ -338,7 +338,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Generate device fingerprint if not exists
       let deviceFingerprint = state.deviceInfo.fingerprint;
       if (!deviceFingerprint) {
-        deviceFingerprint = SecurityService.generateDeviceFingerprint();
+        deviceFingerprint = await SecurityService.generateDeviceFingerprint();
         setState(prev => ({
           ...prev,
           deviceInfo: { ...prev.deviceInfo, fingerprint: deviceFingerprint }
@@ -517,7 +517,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Check if we should use mock auth
       if (shouldUseMockAuth()) {
         const result = await MockAuthService.register(userData);
-        if (result.success && result.user) {
+        if (result.success && result.userId) {
           setState(prev => ({
             ...prev,
             status: 'unauthenticated',
@@ -527,7 +527,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           return {
             success: true,
             message: 'Account created successfully. You can now log in.',
-            userId: result.user.id,
+            userId: result.userId,
             emailVerificationRequired: false
           };
         } else {

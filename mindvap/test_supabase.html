@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supabase Connection Test</title>
+</head>
+<body>
+  <h1>Supabase Connection Test</h1>
+  <div id="result"></div>
+  
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+    
+    // Load environment variables
+    const supabaseUrl = 'https://dlnzhapqodnqpzjwkjho.supabase.co';
+    const supabaseAnonKey = 'sb_publishable_BRjIourGUoBBHs_M1mqlRg_YuZ9qtDs';
+    
+    console.log('Testing Supabase connection...');
+    console.log('Supabase URL:', supabaseUrl);
+    console.log('Supabase Key:', supabaseAnonKey ? '*****' : 'NOT SET');
+    
+    const resultDiv = document.getElementById('result');
+    resultDiv.innerHTML = '<p>Testing Supabase connection...</p>';
+    
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
+    
+    async function testConnection() {
+      try {
+        resultDiv.innerHTML += '<p>Testing authentication (no active session expected)...</p>';
+        
+        // Test authentication
+        const { data: { user }, error: authError } = await supabase.auth.getUser();
+        
+        if (authError) {
+          resultDiv.innerHTML += `<p>Authentication test: ${authError.message} (This is expected - no user is logged in)</p>`;
+        } else {
+          resultDiv.innerHTML += '<p>Authentication test: Success (User is logged in)</p>';
+        }
+        
+        // Test database query
+        resultDiv.innerHTML += '<p>Testing database query...</p>';
+        const { data, error: queryError } = await supabase
+          .from('users')
+          .select('*')
+          .limit(1);
+        
+        if (queryError) {
+          resultDiv.innerHTML += `<p>Database query test: ${queryError.message}</p>`;
+        } else {
+          resultDiv.innerHTML += '<p>Database query test: Success</p>';
+          resultDiv.innerHTML += `<p>Sample data: ${JSON.stringify(data)}</p>`;
+        }
+        
+        resultDiv.innerHTML += '<p>Supabase connection test completed.</p>';
+      } catch (error) {
+        resultDiv.innerHTML += `<p>Error during connection test: ${error.message}</p>`;
+      }
+    }
+    
+    testConnection();
+  </script>
+</body>
+</html>

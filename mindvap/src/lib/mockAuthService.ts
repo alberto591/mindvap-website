@@ -30,6 +30,32 @@ const mockUsers: User[] = [
     dataRetentionPeriod: 2555,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
+  },
+  {
+    id: '2',
+    email: 'dummy@example.com',
+    firstName: 'Dummy',
+    lastName: 'User',
+    phone: '+1234567891',
+    dateOfBirth: '1995-01-01',
+    ageVerified: true,
+    ageVerifiedAt: new Date().toISOString(),
+    emailVerified: true,
+    emailVerifiedAt: new Date().toISOString(),
+    marketingConsent: true,
+    marketingConsentAt: new Date().toISOString(),
+    termsAccepted: true,
+    termsAcceptedAt: new Date().toISOString(),
+    privacyAccepted: true,
+    privacyAcceptedAt: new Date().toISOString(),
+    status: 'active',
+    failedLoginAttempts: 0,
+    passwordChangedAt: new Date().toISOString(),
+    dataProcessingConsent: true,
+    dataProcessingConsentAt: new Date().toISOString(),
+    dataRetentionPeriod: 2555,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
   }
 ];
 
