@@ -62,7 +62,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden pb-24 md:pb-32">
         {/* Immersive Background */}
         <div className="absolute inset-0 z-0">
           <img
@@ -119,13 +119,13 @@ export default function HomePage() {
         </div>
 
         {/* Decorative Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce hidden md:block">
           <div className="w-px h-12 bg-gradient-to-b from-brand-primary to-transparent"></div>
         </div>
       </section>
 
       {/* Trust Bar */}
-      <section className="relative z-20 -mt-10 mb-10 px-4">
+      <section className="relative z-30 -mt-12 md:-mt-16 mb-10 px-4">
         <div className="max-w-[1200px] mx-auto bg-white shadow-modal rounded-md p-8 md:p-10 border border-border-light">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
             <div className="flex items-center gap-4 group">
