@@ -21,9 +21,9 @@ export default function ContactPage() {
       subject: 'Test Subject',
       message: 'This is a test message from MindVap contact form.'
     };
-    
+
     const success = await sendContactEmail(testData);
-    
+
     if (success) {
       console.log('✅ Test email sent successfully!');
       alert('Test email sent successfully! Check console for details.');
@@ -41,11 +41,11 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       // Send email using the email service
       const success = await sendContactEmail(formData as ContactFormData);
-      
+
       if (success) {
         setSubmitted(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
@@ -73,12 +73,12 @@ export default function ContactPage() {
   return (
     <div className="bg-background-primary">
       {/* Hero Section */}
-      <section className="bg-brand text-white py-24">
+      <section className="bg-background-primary py-16 md:py-24 border-b border-border-light">
         <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h1 className="font-serif text-5xl md:text-6xl mb-6 text-black">
+          <h1 className="font-headline text-section-header font-medium text-text-primary mb-6">
             Contact Us
           </h1>
-          <p className="text-xl text-black leading-relaxed">
+          <p className="text-body-large text-text-secondary leading-relaxed">
             Have questions? We're here to help. Reach out to our support team.
           </p>
         </div>
@@ -168,11 +168,10 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={isLoading}
-                      className={`w-full font-semibold py-4 rounded-full transition-all flex items-center justify-center gap-2 ${
-                        isLoading
+                      className={`w-full font-semibold py-4 rounded-full transition-all flex items-center justify-center gap-2 ${isLoading
                           ? 'bg-gray-400 cursor-not-allowed'
                           : 'bg-black hover:bg-gray-800'
-                      } text-white`}
+                        } text-white`}
                     >
                       <Send className="w-5 h-5" />
                       {isLoading ? 'Sending...' : 'Send Message'}
