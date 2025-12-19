@@ -33,7 +33,7 @@ const OrderHistoryPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await AccountService.getOrders(filters);
-      
+
       if (response.success) {
         setOrders(response.orders);
         setPagination(response.pagination);
@@ -113,11 +113,10 @@ const OrderHistoryPage: React.FC = () => {
       <div className="p-6">
         {/* Success/Error Messages */}
         {message && (
-          <div className={`mb-6 p-4 rounded-md ${
-            message.type === 'success' 
-              ? 'bg-green-50 text-green-800 border border-green-200' 
+          <div className={`mb-6 p-4 rounded-md ${message.type === 'success'
+              ? 'bg-green-50 text-green-800 border border-green-200'
               : 'bg-red-50 text-red-800 border border-red-200'
-          }`}>
+            }`}>
             <div className="flex">
               <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 {message.type === 'success' ? (
@@ -150,7 +149,7 @@ const OrderHistoryPage: React.FC = () => {
                 <option value="cancelled">Cancelled</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
               <select
@@ -163,7 +162,7 @@ const OrderHistoryPage: React.FC = () => {
                 <option value="status">Status</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Order</label>
               <select
@@ -175,7 +174,7 @@ const OrderHistoryPage: React.FC = () => {
                 <option value="asc">Oldest First</option>
               </select>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Per Page</label>
               <select
@@ -200,7 +199,7 @@ const OrderHistoryPage: React.FC = () => {
             </svg>
             <h3 className="mt-2 text-sm font-medium text-gray-900">No orders found</h3>
             <p className="mt-1 text-sm text-gray-500">
-              {filters.status || filters.page !== 1 
+              {filters.status || filters.page !== 1
                 ? 'Try adjusting your filters to see more orders.'
                 : 'You haven\'t placed any orders yet.'
               }
@@ -231,7 +230,7 @@ const OrderHistoryPage: React.FC = () => {
                           {getStatusText(order.status)}
                         </span>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
                         <div>
                           <span className="font-medium">Order Date:</span>
@@ -249,7 +248,7 @@ const OrderHistoryPage: React.FC = () => {
                           {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                         </div>
                       </div>
-                      
+
                       {/* Order Items Preview */}
                       <div className="mt-4">
                         <div className="flex items-center space-x-4">
@@ -259,6 +258,7 @@ const OrderHistoryPage: React.FC = () => {
                                 <img
                                   src={item.productImage}
                                   alt={item.productName}
+                                  loading="lazy"
                                   className="w-8 h-8 object-cover rounded"
                                 />
                               )}
@@ -275,7 +275,7 @@ const OrderHistoryPage: React.FC = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="ml-6 flex flex-col space-y-2">
                       <Link
                         to={`/account/orders/${order.id}`}
@@ -283,13 +283,13 @@ const OrderHistoryPage: React.FC = () => {
                       >
                         View Details
                       </Link>
-                      
+
                       {order.status === 'delivered' && (
                         <button className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-green-700 bg-green-100 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                           Reorder
                         </button>
                       )}
-                      
+
                       {(order.status === 'shipped' || order.status === 'delivered') && order.trackingNumber && (
                         <a
                           href={`https://track.aftership.com/${order.trackingNumber}`}
@@ -312,7 +312,7 @@ const OrderHistoryPage: React.FC = () => {
                 <div className="text-sm text-gray-700">
                   Showing {((pagination.page - 1) * pagination.limit) + 1} to {Math.min(pagination.page * pagination.limit, pagination.total)} of {pagination.total} orders
                 </div>
-                
+
                 <div className="flex space-x-2">
                   <button
                     onClick={() => handlePageChange(pagination.page - 1)}
@@ -321,7 +321,7 @@ const OrderHistoryPage: React.FC = () => {
                   >
                     Previous
                   </button>
-                  
+
                   <div className="flex space-x-1">
                     {[...Array(Math.min(5, pagination.totalPages))].map((_, i) => {
                       const pageNum = i + 1;
@@ -329,18 +329,17 @@ const OrderHistoryPage: React.FC = () => {
                         <button
                           key={pageNum}
                           onClick={() => handlePageChange(pageNum)}
-                          className={`px-3 py-2 border rounded-md text-sm font-medium ${
-                            pageNum === pagination.page
+                          className={`px-3 py-2 border rounded-md text-sm font-medium ${pageNum === pagination.page
                               ? 'border-green-500 bg-green-50 text-green-700'
                               : 'border-gray-300 text-gray-700 bg-white hover:bg-gray-50'
-                          }`}
+                            }`}
                         >
                           {pageNum}
                         </button>
                       );
                     })}
                   </div>
-                  
+
                   <button
                     onClick={() => handlePageChange(pagination.page + 1)}
                     disabled={pagination.page >= pagination.totalPages}

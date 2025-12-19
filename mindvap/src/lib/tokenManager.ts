@@ -1,5 +1,6 @@
 // JWT Token Management System
 // Handles access tokens, refresh tokens, and session management
+import { getEnvVariable } from './envUtils';
 
 export interface JWTPayload {
   sub: string;           // User ID
@@ -27,10 +28,10 @@ export interface TokenValidationResult {
 }
 
 export class TokenManager {
-  private static readonly ACCESS_TOKEN_SECRET = import.meta.env.VITE_JWT_ACCESS_SECRET || 'fallback-access-secret';
-  private static readonly REFRESH_TOKEN_SECRET = import.meta.env.VITE_JWT_REFRESH_SECRET || 'fallback-refresh-secret';
-  private static readonly ACCESS_TOKEN_EXPIRY = parseInt(import.meta.env.VITE_JWT_ACCESS_EXPIRY || '900'); // 15 minutes
-  private static readonly REFRESH_TOKEN_EXPIRY = parseInt(import.meta.env.VITE_JWT_REFRESH_EXPIRY || '604800'); // 7 days
+  private static readonly ACCESS_TOKEN_SECRET = getEnvVariable('VITE_JWT_ACCESS_SECRET') || 'fallback-access-secret';
+  private static readonly REFRESH_TOKEN_SECRET = getEnvVariable('VITE_JWT_REFRESH_SECRET') || 'fallback-refresh-secret';
+  private static readonly ACCESS_TOKEN_EXPIRY = parseInt(getEnvVariable('VITE_JWT_ACCESS_EXPIRY') || '900'); // 15 minutes
+  private static readonly REFRESH_TOKEN_EXPIRY = parseInt(getEnvVariable('VITE_JWT_REFRESH_EXPIRY') || '604800'); // 7 days
 
   /**
    * Generate a new access token
@@ -53,7 +54,7 @@ export class TokenManager {
       };
 
       const token = await this.signToken(tokenPayload, this.ACCESS_TOKEN_SECRET);
-      
+
       return {
         token,
         expiresIn: this.ACCESS_TOKEN_EXPIRY
@@ -67,7 +68,7 @@ export class TokenManager {
   /**
    * Generate a new refresh token
    */
-  static async generateRefreshToken(payload: {sub: string; sessionId: string}): Promise<{
+  static async generateRefreshToken(payload: { sub: string; sessionId: string }): Promise<{
     token: string;
     expiresIn: number;
   }> {
@@ -88,7 +89,7 @@ export class TokenManager {
       };
 
       const token = await this.signToken(tokenPayload, this.REFRESH_TOKEN_SECRET);
-      
+
       return {
         token,
         expiresIn: this.REFRESH_TOKEN_EXPIRY
@@ -105,7 +106,7 @@ export class TokenManager {
   static async verifyAccessToken(token: string): Promise<TokenValidationResult> {
     try {
       const payload = await this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
-      
+
       if (payload.type !== 'access') {
         return {
           valid: false,
@@ -139,7 +140,7 @@ export class TokenManager {
   static async verifyRefreshToken(token: string): Promise<TokenValidationResult> {
     try {
       const payload = await this.verifyToken(token, this.REFRESH_TOKEN_SECRET) as JWTPayload;
-      
+
       if (payload.type !== 'refresh') {
         return {
           valid: false,
@@ -191,7 +192,7 @@ export class TokenManager {
       const payload = await this.verifyToken(token, this.ACCESS_TOKEN_SECRET) as JWTPayload;
       const now = Math.floor(Date.now() / 1000);
       const threshold = thresholdMinutes * 60;
-      
+
       return (payload.exp - now) < threshold;
     } catch (error) {
       return true; // If we can't verify, assume it needs refresh
@@ -209,7 +210,7 @@ export class TokenManager {
       navigator?.platform || '',
       navigator?.language || ''
     ].join('|');
-    
+
     try {
       // Use the static method directly
       return await TokenManager.hashString(components);
@@ -282,10 +283,10 @@ export class TokenManager {
 
     const encodedHeader = this.base64UrlEncode(JSON.stringify(header));
     const encodedPayload = this.base64UrlEncode(JSON.stringify(payload));
-    
+
     const signatureInput = `${encodedHeader}.${encodedPayload}`;
     const signature = await this.generateHMAC(signatureInput, secret);
-    
+
     return `${encodedHeader}.${encodedPayload}.${signature}`;
   }
 
@@ -297,11 +298,11 @@ export class TokenManager {
       }
 
       const [encodedHeader, encodedPayload, signature] = parts;
-      
+
       // Verify signature
       const signatureInput = `${encodedHeader}.${encodedPayload}`;
       const expectedSignature = await this.generateHMAC(signatureInput, secret);
-      
+
       if (signature !== expectedSignature) {
         throw new Error('Invalid signature');
       }
@@ -321,7 +322,7 @@ export class TokenManager {
   static async hashString(str: string): Promise<string> {
     const encoder = new TextEncoder();
     const data = encoder.encode(str);
-    
+
     const buffer = await crypto.subtle.digest('SHA-256', data);
     const hashArray = Array.from(new Uint8Array(buffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -332,12 +333,12 @@ export class TokenManager {
     const encoder = new TextEncoder();
     const keyData = encoder.encode(secret);
     const messageData = encoder.encode(data);
-    
+
     // In production, you would use crypto.subtle.importKey and crypto.subtle.sign
     // For now, we'll create a simple hash
     const combined = data + secret;
     const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(combined));
-    
+
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
   }
@@ -354,11 +355,11 @@ export class TokenManager {
     const padded = base64 + '='.repeat((4 - base64.length % 4) % 4);
     const binary = atob(padded);
     const bytes = new Uint8Array(binary.length);
-    
+
     for (let i = 0; i < binary.length; i++) {
       bytes[i] = binary.charCodeAt(i);
     }
-    
+
     return new TextDecoder().decode(bytes);
   }
 }

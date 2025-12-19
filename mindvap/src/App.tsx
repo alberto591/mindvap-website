@@ -32,7 +32,7 @@ const SecurityPage = lazy(() => import('./pages/SecurityPage'));
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'));
 
 // Chat Component
-// import Chat from './components/chat/Chat'; // TEMPORARILY HIDDEN - Will implement in future
+import Chat from './components/chat/Chat';
 
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -215,7 +215,7 @@ function App() {
              </Suspense>
            </main>
             <Footer />
-            {/* <Chat /> TEMPORARILY HIDDEN - Will implement in future */}
+            <Chat />
           </div>
         </Router>
       </AuthProvider>

@@ -55,6 +55,7 @@ export default function CartPage({ cart, updateQuantity, removeItem }: CartPageP
                   <img
                     src={item.product.image}
                     alt={item.product.name[language]}
+                    loading="lazy"
                     className="w-32 h-32 object-cover rounded-lg"
                   />
                   <div className="flex-1">

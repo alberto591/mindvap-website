@@ -34,7 +34,7 @@ const translations = {
     'nav.contact': 'Contact',
     'nav.cart': 'Cart',
     'nav.language': 'Language',
-    
+
     // Common
     'common.loading': 'Loading...',
     'common.error': 'Error',
@@ -61,7 +61,8 @@ const translations = {
     'common.free': 'FREE',
     'common.explore': 'Explore',
     'common.optional': 'Optional',
-    
+    'common.learnMore': 'Our Story',
+
     // Search
     'search.placeholder': 'Search products and pages...',
     'search.ariaLabel': 'Search MindVap website',
@@ -76,7 +77,7 @@ const translations = {
     'search.result': 'result',
     'search.results': 'results',
     'search.found': 'found',
-    
+
     // Registration
     'register.title': 'Create Your Account',
     'register.subtitle': 'Join MindVap for personalized wellness solutions',
@@ -131,17 +132,25 @@ const translations = {
     'register.ageVerification': 'Age Verification Required',
     'register.ageNotice': 'By registering, you certify that you are 21 years or older.',
     'register.termsAcceptance': 'By creating an account, you agree to our',
-    
+
     // Home Page
     'home.hero.title': 'Natural Wellness Through Premium Herbal Vaping',
     'home.hero.subtitle': 'Discover evidence-based herbal blends crafted for mental wellness. Lab-tested, additive-free formulations designed for adults seeking natural anxiety relief, better sleep, and enhanced focus.',
     'home.hero.cta': 'Explore Our Collection',
+    'home.hero.tagline': 'Pure • Natural • Science-Backed',
+    'home.hero.microTrust.lab': 'Lab Tested',
+    'home.hero.microTrust.organic': '100% Organic',
     'home.trust.lab': 'Lab Tested',
+    'home.trust.lab.desc': 'Verified Purity',
     'home.trust.shipping': 'Free Shipping $50+',
+    'home.trust.shipping.desc': 'Global Delivery',
     'home.trust.verified': 'Age 21+ Verified',
+    'home.trust.verified.desc': 'Secure Payments',
     'home.trust.coa': 'COA Available',
+    'home.trust.coa.desc': 'Full Transparency',
     'home.categories.title': 'Shop by Wellness Goal',
     'home.categories.subtitle': 'Explore our five carefully crafted categories, each designed to support specific mental wellness needs',
+    'home.categories.viewAll': 'View Full Collection',
     'home.categories.anxiety': 'Anxiety Relief',
     'home.categories.sleep': 'Sleep Support',
     'home.categories.focus': 'Focus & Clarity',
@@ -152,6 +161,7 @@ const translations = {
     'home.featured.subtitle': 'Our most popular blends, chosen for their exceptional quality and customer satisfaction',
     'home.featured.cta': 'View All Products',
     'home.benefits.title': 'Evidence-Based Wellness',
+    'home.benefits.tagline': 'Scientifically Formulated',
     'home.benefits.ashwagandha.title': 'Ashwagandha for Stress',
     'home.benefits.ashwagandha.desc': 'Meta-analysis of RCTs shows large reductions in stress (SMD -1.75) and anxiety (SMD -1.55) with favorable effects at 300-600mg/day doses.',
     'home.benefits.chamomile.title': 'Chamomile for Anxiety',
@@ -171,7 +181,7 @@ const translations = {
     'home.cta.title': 'Start Your Wellness Journey',
     'home.cta.subtitle': 'Explore our full collection of premium herbal blends designed for natural mental wellness',
     'home.cta.cta': 'Explore Our Collection',
-    
+
     // Shop Page
     'shop.title': 'Our Products',
     'shop.subtitle': 'Discover our complete collection of premium herbal vaping blends',
@@ -197,7 +207,7 @@ const translations = {
     'shop.inStock': 'In Stock',
     'shop.rating': 'Rating',
     'shop.reviews': 'reviews',
-    
+
     // Product Detail
     'product.details': 'Product Details',
     'product.description': 'Description',
@@ -233,7 +243,7 @@ const translations = {
     'product.ageVerified': 'Age 21+ Verified',
     'product.onlyLeft': 'Only {count} left in stock!',
     'product.inStock': 'In Stock',
-    
+
     // Cart Page
     'cart.title': 'Shopping Cart',
     'cart.empty': 'Your Cart is Empty',
@@ -246,7 +256,7 @@ const translations = {
     'cart.freeShippingMessage': 'more for free shipping!',
     'cart.removeItem': 'Remove item',
     'cart.updateQuantity': 'Update quantity',
-    
+
     // Checkout Page
     'checkout.title': 'Secure Checkout',
     'checkout.contactInfo': 'Contact Information',
@@ -272,7 +282,7 @@ const translations = {
     'checkout.orderComplete.desc': 'Thank you for your purchase. You\'ll receive a confirmation email shortly with tracking information.',
     'checkout.orderSummary': 'Order Summary',
     'checkout.redirecting': 'Redirecting to homepage...',
-    
+
     // About Page
     'about.title': 'Our Mission',
     'about.subtitle': 'We\'re dedicated to providing premium herbal vaping products that support mental wellness through natural, evidence-based botanical blends.',
@@ -284,7 +294,7 @@ const translations = {
     'about.trust.coa': 'COA Available',
     'about.trust.shipping': 'Free Shipping $50+',
     'about.disclaimer': 'Not for use by minors. Avoid during pregnancy or nursing. Consult a healthcare provider before use if you have medical conditions or take medications.',
-    
+
     // Education Page
     'education.title': 'Education Hub',
     'education.subtitle': 'Learn about the science behind herbal vaping and wellness',
@@ -306,7 +316,7 @@ const translations = {
     'education.benefits.focus.desc': 'Herbs that may enhance focus and cognitive function.',
     'education.research.title': 'Research & Studies',
     'education.research.intro': 'Explore the scientific evidence behind herbal wellness.',
-    
+
     // Contact Page
     'contact.title': 'Contact Us',
     'contact.subtitle': 'Have questions? We\'re here to help. Reach out to our support team.',
@@ -349,7 +359,7 @@ const translations = {
     'contact.help.title': 'Need Help with Shipping or Returns?',
     'contact.help.desc': 'Our customer service team is here to assist you with any questions about shipping or returns.',
     'contact.disclaimer': 'For adults 21+ only. Not intended to diagnose, treat, cure, or prevent any disease.',
-    
+
     // Footer
     'footer.about.title': 'MindVap',
     'footer.about.desc': 'Premium vaping herbs focused on natural mental wellness solutions. Quality-first, evidence-based formulations.',
@@ -372,7 +382,7 @@ const translations = {
     'footer.trust.shipping': 'Free Shipping $50+',
     'footer.trust.verified': 'Age 21+ Verified',
     'footer.trust.coa': 'COA Available',
-    
+
     // Age Gate
     'age.title': 'Age Verification Required',
     'age.subtitle': 'You must be 21 years or older to enter this site.',
@@ -380,7 +390,7 @@ const translations = {
     'age.enter': 'Enter Site',
     'age.exit': 'Exit Site',
     'age.error': 'You must verify that you are 21 years of age or older to continue.',
-    
+
     // Error Messages
     'error.required': 'This field is required',
     'error.email': 'Please enter a valid email address',
@@ -391,7 +401,7 @@ const translations = {
     'error.network': 'Network error. Please try again.',
     'error.payment': 'Payment failed. Please try again.',
     'error.unknown': 'An unexpected error occurred.',
-    
+
     // Chat
     'chat.welcome': 'Hi! How can we help you today?',
     'chat.quickReplies.trackOrder': 'Track my order',
@@ -417,7 +427,7 @@ const translations = {
     'chat.response.contact': 'You can reach our support team at support@mindvap.com or through this chat. We typically respond within 2-4 hours during business hours.',
     'chat.response.pricing': 'Our prices vary by product and quantity. You can find all pricing information on our product pages. We offer competitive rates and free shipping on orders over $50.',
     'chat.response.fallback': 'Thanks for your message! A support agent will respond shortly. You can also email us at support@mindvap.com.',
-    
+
     // Authentication - merged from auth.ts
     ...authTranslations.en
   },
@@ -430,7 +440,7 @@ const translations = {
     'nav.contact': 'Contacto',
     'nav.cart': 'Carrito',
     'nav.language': 'Idioma',
-    
+
     // Common
     'common.loading': 'Cargando...',
     'common.error': 'Error',
@@ -457,7 +467,8 @@ const translations = {
     'common.free': 'GRATIS',
     'common.explore': 'Explorar',
     'common.optional': 'Opcional',
-    
+    'common.learnMore': 'Nuestra Historia',
+
     // Search
     'search.placeholder': 'Buscar productos y páginas...',
     'search.ariaLabel': 'Buscar en sitio web MindVap',
@@ -472,7 +483,7 @@ const translations = {
     'search.result': 'resultado',
     'search.results': 'resultados',
     'search.found': 'encontrado',
-    
+
     // Registration
     'register.title': 'Crear Tu Cuenta',
     'register.subtitle': 'Únete a MindVap para soluciones de bienestar personalizadas',
@@ -527,17 +538,25 @@ const translations = {
     'register.ageVerification': 'Verificación de Edad Requerida',
     'register.ageNotice': 'Al registrarte, certificas que tienes 21 años o más.',
     'register.termsAcceptance': 'Al crear una cuenta, aceptas nuestros',
-    
+
     // Home Page
     'home.hero.title': 'Bienestar Natural a través de Vaporización Herbal Premium',
     'home.hero.subtitle': 'Descubre mezclas de hierbas basadas en evidencia creadas para el bienestar mental. Formulaciones probadas en laboratorio, sin aditivos, diseñadas para adultos que buscan alivio natural de la ansiedad, mejor sueño y mayor enfoque.',
     'home.hero.cta': 'Explorar Nuestra Colección',
+    'home.hero.tagline': 'Puro • Natural • Basado en Ciencia',
+    'home.hero.microTrust.lab': 'Probado en Lab',
+    'home.hero.microTrust.organic': '100% Orgánico',
     'home.trust.lab': 'Probado en Laboratorio',
+    'home.trust.lab.desc': 'Pureza Verificada',
     'home.trust.shipping': 'Envío Gratis $50+',
+    'home.trust.shipping.desc': 'Entrega Global',
     'home.trust.verified': '21+ Verificado',
+    'home.trust.verified.desc': 'Pagos Seguros',
     'home.trust.coa': 'COA Disponible',
+    'home.trust.coa.desc': 'Transparencia Total',
     'home.categories.title': 'Comprar por Objetivo de Bienestar',
     'home.categories.subtitle': 'Explora nuestras cinco categorías cuidadosamente elaboradas, cada una diseñada para apoyar necesidades específicas de bienestar mental',
+    'home.categories.viewAll': 'Ver Colección Completa',
     'home.categories.anxiety': 'Alivio de Ansiedad',
     'home.categories.sleep': 'Apoyo para el Sueño',
     'home.categories.focus': 'Enfoque y Claridad',
@@ -548,6 +567,7 @@ const translations = {
     'home.featured.subtitle': 'Nuestras mezclas más populares, elegidas por su calidad excepcional y satisfacción del cliente',
     'home.featured.cta': 'Ver Todos los Productos',
     'home.benefits.title': 'Bienestar Basado en Evidencia',
+    'home.benefits.tagline': 'Formulado Científicamente',
     'home.benefits.ashwagandha.title': 'Ashwagandha para el Estrés',
     'home.benefits.ashwagandha.desc': 'Meta-análisis de ECAs muestra grandes reducciones en el estrés (SMD -1.75) y ansiedad (SMD -1.55) con efectos favorables en dosis de 300-600mg/día.',
     'home.benefits.chamomile.title': 'Manzanilla para la Ansiedad',
@@ -567,7 +587,7 @@ const translations = {
     'home.cta.title': 'Comienza Tu Viaje de Bienestar',
     'home.cta.subtitle': 'Explora nuestra colección completa de mezclas de hierbas premium diseñadas para el bienestar mental natural',
     'home.cta.cta': 'Explorar Nuestra Colección',
-    
+
     // Shop Page
     'shop.title': 'Nuestros Productos',
     'shop.subtitle': 'Descubre nuestra colección completa de mezclas de hierbas premium para vaporizar',
@@ -593,7 +613,7 @@ const translations = {
     'shop.inStock': 'En Stock',
     'shop.rating': 'Calificación',
     'shop.reviews': 'reseñas',
-    
+
     // Product Detail
     'product.details': 'Detalles del Producto',
     'product.description': 'Descripción',
@@ -629,7 +649,7 @@ const translations = {
     'product.ageVerified': '21+ Verificado',
     'product.onlyLeft': '¡Solo quedan {count} en stock!',
     'product.inStock': 'En Stock',
-    
+
     // Cart Page
     'cart.title': 'Carrito de Compras',
     'cart.empty': 'Tu Carrito Está Vacío',
@@ -642,7 +662,7 @@ const translations = {
     'cart.freeShippingMessage': 'más para envío gratis!',
     'cart.removeItem': 'Quitar artículo',
     'cart.updateQuantity': 'Actualizar cantidad',
-    
+
     // Checkout Page
     'checkout.title': 'Pago Seguro',
     'checkout.contactInfo': 'Información de Contacto',
@@ -668,7 +688,7 @@ const translations = {
     'checkout.orderComplete.desc': 'Gracias por tu compra. Recibirás un email de confirmación en breve con información de seguimiento.',
     'checkout.orderSummary': 'Resumen del Pedido',
     'checkout.redirecting': 'Redirigiendo a la página principal...',
-    
+
     // About Page
     'about.title': 'Nuestra Misión',
     'about.subtitle': 'Estamos dedicados a proporcionar productos premium de hierbas para vaporizar que apoyan el bienestar mental a través de mezclas botánicas naturales basadas en evidencia.',
@@ -680,7 +700,7 @@ const translations = {
     'about.trust.coa': 'COA Disponible',
     'about.trust.shipping': 'Envío Gratis $50+',
     'about.disclaimer': 'No para uso por menores. Evitar durante el embarazo o lactancia. Consultar a un proveedor de atención médica antes del uso si tiene condiciones médicas o toma medicamentos.',
-    
+
     // Education Page
     'education.title': 'Centro de Educación',
     'education.subtitle': 'Aprende sobre la ciencia detrás de la vaporización herbal y el bienestar',
@@ -702,7 +722,7 @@ const translations = {
     'education.benefits.focus.desc': 'Hierbas que pueden mejorar el enfoque y la función cognitiva.',
     'education.research.title': 'Investigación y Estudios',
     'education.research.intro': 'Explora la evidencia científica detrás del bienestar herbal.',
-    
+
     // Contact Page
     'contact.title': 'Contáctanos',
     'contact.subtitle': '¿Tienes preguntas? Estamos aquí para ayudar. Ponte en contacto con nuestro equipo de soporte.',
@@ -745,7 +765,7 @@ const translations = {
     'contact.help.title': '¿Necesitas Ayuda con Envíos o Devoluciones?',
     'contact.help.desc': 'Nuestro equipo de servicio al cliente está aquí para ayudarte con cualquier pregunta sobre envíos o devoluciones.',
     'contact.disclaimer': 'Solo para adultos de 21 años en adelante. No destinado a diagnosticar, tratar, curar o prevenir ninguna enfermedad.',
-    
+
     // Footer
     'footer.about.title': 'MindVap',
     'footer.about.desc': 'Hierbas premium para vaporizar enfocadas en soluciones naturales de bienestar mental. Calidad primero, formulaciones basadas en evidencia.',
@@ -768,7 +788,7 @@ const translations = {
     'footer.trust.shipping': 'Envío Gratis $50+',
     'footer.trust.verified': '21+ Verificado',
     'footer.trust.coa': 'COA Disponible',
-    
+
     // Age Gate
     'age.title': 'Verificación de Edad Requerida',
     'age.subtitle': 'Debes tener 21 años o más para entrar a este sitio.',
@@ -776,7 +796,7 @@ const translations = {
     'age.enter': 'Entrar al Sitio',
     'age.exit': 'Salir del Sitio',
     'age.error': 'Debes verificar que tienes 21 años de edad o más para continuar.',
-    
+
     // Error Messages
     'error.required': 'Este campo es requerido',
     'error.email': 'Por favor ingresa una dirección de email válida',
@@ -787,7 +807,7 @@ const translations = {
     'error.network': 'Error de red. Por favor intenta de nuevo.',
     'error.payment': 'Pago fallido. Por favor intenta de nuevo.',
     'error.unknown': 'Ocurrió un error inesperado.',
-    
+
     // Chat
     'chat.welcome': '¡Hola! ¿Cómo podemos ayudarte hoy?',
     'chat.quickReplies.trackOrder': 'Rastrear mi pedido',
@@ -813,7 +833,7 @@ const translations = {
     'chat.response.contact': 'Puedes contactar a nuestro equipo de soporte en support@mindvap.com o a través de este chat. Típicamente respondemos dentro de 2-4 horas durante horarios de negocio.',
     'chat.response.pricing': 'Nuestros precios varían según el producto y cantidad. Puedes encontrar toda la información de precios en nuestras páginas de productos. Ofrecemos tarifas competitivas y envío gratis en pedidos superiores a $50.',
     'chat.response.fallback': '¡Gracias por tu mensaje! Un agente de soporte responderá pronto. También puedes enviarnos un email a support@mindvap.com.',
-    
+
     // Authentication - merged from auth.ts
     ...authTranslations.es
   },
@@ -826,7 +846,7 @@ const translations = {
     'nav.contact': 'Contatti',
     'nav.cart': 'Carrello',
     'nav.language': 'Lingua',
-    
+
     // Common
     'common.loading': 'Caricamento...',
     'common.error': 'Errore',
@@ -853,7 +873,8 @@ const translations = {
     'common.free': 'GRATIS',
     'common.explore': 'Esplora',
     'common.optional': 'Opzionale',
-    
+    'common.learnMore': 'La Nostra Storia',
+
     // Search
     'search.placeholder': 'Cerca prodotti e pagine...',
     'search.ariaLabel': 'Cerca nel sito web MindVap',
@@ -868,7 +889,7 @@ const translations = {
     'search.result': 'risultato',
     'search.results': 'risultati',
     'search.found': 'trovato',
-    
+
     // Registration
     'register.title': 'Crea il Tuo Account',
     'register.subtitle': 'Unisciti a MindVap per soluzioni di benessere personalizzate',
@@ -923,55 +944,64 @@ const translations = {
     'register.ageVerification': 'Verifica dell\'Età Richiesta',
     'register.ageNote': 'Registrandoti, certifichi di avere 21 anni o più.',
     'register.termsAcceptance': 'Creando un account, accetti i nostri',
-    
+
     // Home Page
     'home.hero.title': 'Benessere Naturale attraverso la Vaporizzazione Erboristica Premium',
     'home.hero.subtitle': 'Scopri miscele di erbe basate su evidenze create per il benessere mentale. Formulazioni testate in laboratorio, senza additivi, progettate per adulti che cercano sollievo naturale dall ansia, miglior sonno e maggiore concentrazione.',
     'home.hero.cta': 'Esplora la Nostra Collezione',
+    'home.hero.tagline': 'Puro • Naturale • Basato sulla Scienza',
+    'home.hero.microTrust.lab': 'Testato in Lab',
+    'home.hero.microTrust.organic': '100% Organico',
     'home.trust.lab': 'Testato in Laboratorio',
+    'home.trust.lab.desc': 'Purezza Verificata',
     'home.trust.shipping': 'Spedizione Gratis $50+',
+    'home.trust.shipping.desc': 'Consegna Globale',
     'home.trust.verified': '21+ Verificato',
+    'home.trust.verified.desc': 'Pagamenti Sicuri',
     'home.trust.coa': 'COA Disponibile',
+    'home.trust.coa.desc': 'Trasparenza Totale',
     'home.categories.title': 'Acquista per Obiettivo di Benessere',
     'home.categories.subtitle': 'Esplora le nostre cinque categorie accuratamente realizzate, ciascuna progettata per supportare specifiche esigenze di benessere mentale',
-    'home.categories.anxiety': 'Sollievo dall Ansia',
+    'home.categories.viewAll': 'Vedi Collezione Completa',
+    'home.categories.anxiety': "Sollievo dall'Ansia",
     'home.categories.sleep': 'Supporto per il Sonno',
     'home.categories.focus': 'Focus e Chiarezza',
     'home.categories.stress': 'Sollievo dello Stress',
-    'home.categories.mood': 'Supporto dell Umore',
+    'home.categories.mood': "Supporto dell'Umore",
     'home.categories.keyHerbs': 'Erbe chiave:',
     'home.featured.title': 'Collezione Benessere Premium',
     'home.featured.subtitle': 'Le nostre miscele più popolari, scelte per la loro qualità eccezionale e soddisfazione del cliente',
     'home.featured.cta': 'Vedi Tutti i Prodotti',
     'home.benefits.title': 'Benessere Basato su Evidenze',
+    'home.benefits.tagline': 'Formulato Scientificamente',
     'home.benefits.ashwagandha.title': 'Ashwagandha per lo Stress',
-    'home.benefits.ashwagandha.desc': 'Meta-analisi di RCT mostra grandi riduzioni dello stress (SMD -1.75) e dell ansia (SMD -1.55) con effetti favorevoli a dosi di 300-600mg/giorno.',
-    'home.benefits.chamomile.title': 'Camomilla per l Ansia',
-    'home.benefits.chamomile.desc': 'Revisione sistematica di 10 studi clinici ha concluso che la camomilla ha migliorato l ansia in GAD, insonnia e condizioni legate allo stress.',
+    'home.benefits.ashwagandha.desc': "Meta-analisi di RCT mostra grandi riduzioni dello stress (SMD -1.75) e dell'ansia (SMD -1.55) con effetti favorevoli a dosi di 300-600mg/giorno.",
+    'home.benefits.chamomile.title': "Camomilla per l'Ansia",
+    'home.benefits.chamomile.desc': "Revisione sistematica di 10 studi clinici ha concluso che la camomilla ha migliorato l'ansia in GAD, insonnia e condizioni legate allo stress.",
     'home.benefits.lavender.title': 'Lavanda per il Rilassamento',
-    'home.benefits.lavender.desc': 'Significativi effetti di riduzione dell ansia in 11 studi attraverso l aromaterapia per inalazione, modulando l attività del sistema limbico.',
+    'home.benefits.lavender.desc': "Significativi effetti di riduzione dell'ansia in 11 studi attraverso l'aromaterapia per inalazione, modulando l'attività del sistema limbico.",
     'home.benefits.researched': 'Erbe Ricercate',
     'home.benefits.researched.desc': 'Ogni miscela è formulata basandosi sulla ricerca clinica e la conoscenza erboristica tradizionale',
     'home.howto.title': 'Come Usare',
     'home.howto.subtitle': 'Semplici passi per un esperienza ottimale di vaporizzazione erboristica',
     'home.howto.step1.title': 'Scegli la Tua Miscela',
-    'home.howto.step1.desc': 'Seleziona una miscela basata sul tuo obiettivo di benessere - sollievo dall ansia, supporto per il sonno, o chiarezza mentale',
+    'home.howto.step1.desc': "Seleziona una miscela basata sul tuo obiettivo di benessere - sollievo dall'ansia, supporto per il sonno, o chiarezza mentale",
     'home.howto.step2.title': 'Imposta la Temperatura',
-    'home.howto.step2.desc': 'Inizia a 160-177°C (320-350°F) per il sapore, aumenta a 177-204°C (350-400°F) per estrazione equilibrata',
+    'home.howto.step2.desc': "Inizia a 160-177°C (320-350°F) per il sapore, aumenta a 177-204°C (350-400°F) per estrazione equilibrata",
     'home.howto.step3.title': 'Goditi Consapevolmente',
-    'home.howto.step3.desc': 'Durata sessione: 5-15 minuti. Evita temperature superiori a 221°C (430°F) per prevenire combustione',
+    'home.howto.step3.desc': "Durata sessione: 5-15 minuti. Evita temperature superiori a 221°C (430°F) per prevenire combustione",
     'home.cta.title': 'Inizia il Tuo Viaggio di Benessere',
     'home.cta.subtitle': 'Esplora la nostra collezione completa di miscele di erbe premium progettate per il benessere mentale naturale',
     'home.cta.cta': 'Esplora la Nostra Collezione',
-    
+
     // Shop Page
     'shop.title': 'I Nostri Prodotti',
     'shop.subtitle': 'Scopri la nostra collezione completa di miscele di erbe premium per vaporizzare',
     'shop.filter.all': 'Tutti i Prodotti',
-    'shop.filter.anxiety': 'Sollievo dall Ansia',
+    'shop.filter.anxiety': "Sollievo dall'Ansia",
     'shop.filter.sleep': 'Supporto per il Sonno',
     'shop.filter.focus': 'Focus e Chiarezza',
-    'shop.filter.mood': 'Supporto dell Umore',
+    'shop.filter.mood': "Supporto dell'Umore",
     'shop.filter.stress': 'Sollievo dello Stress',
     'shop.filter.category': 'Categoria',
     'shop.filter.priceRange': 'Fascia di Prezzo',
@@ -989,12 +1019,12 @@ const translations = {
     'shop.inStock': 'In Stock',
     'shop.rating': 'Valutazione',
     'shop.reviews': 'recensioni',
-    
+
     // Product Detail
     'product.details': 'Dettagli del Prodotto',
     'product.description': 'Descrizione',
     'product.benefits': 'Benefici',
-    'product.usage': 'Istruzioni per l Uso',
+    'product.usage': "Istruzioni per l'Uso",
     'product.safety': 'Informazioni sulla Sicurezza',
     'product.herbs': 'Miscela di Erbe',
     'product.temperature': 'Temperatura Ottimale',
@@ -1025,7 +1055,7 @@ const translations = {
     'product.ageVerified': '21+ Verificato',
     'product.onlyLeft': 'Solo {count} rimasti in stock!',
     'product.inStock': 'In Stock',
-    
+
     // Cart Page
     'cart.title': 'Carrello della Spesa',
     'cart.empty': 'Il Tuo Carrello è Vuoto',
@@ -1035,10 +1065,10 @@ const translations = {
     'cart.proceedToCheckout': 'Procedi al Checkout',
     'cart.continueShopping': 'Continua lo Shopping',
     'cart.freeShippingThreshold': 'Aggiungi',
-    'cart.freeShippingMessage': 'in più per la spedizione gratuita!',
+    'cart.freeShippingMessage': "in più per la spedizione gratuita!",
     'cart.removeItem': 'Rimuovi articolo',
     'cart.updateQuantity': 'Aggiorna quantità',
-    
+
     // Checkout Page
     'checkout.title': 'Checkout Sicuro',
     'checkout.contactInfo': 'Informazioni di Contatto',
@@ -1053,8 +1083,8 @@ const translations = {
     'checkout.country': 'Paese',
     'checkout.paymentInfo': 'Informazioni di Pagamento',
     'checkout.payment.desc': 'Completa le informazioni sopra, poi clicca il pulsante sotto per procedere al pagamento.',
-    'checkout.ageVerification': 'Verifica dell Età',
-    'checkout.ageVerification.text': 'Certifico di avere 21 anni di età o più. Capisco che questi prodotti non sono destinati a diagnosticare, trattare, curare o prevenire alcuna malattia e non sono stati valutati dalla FDA.',
+    'checkout.ageVerification': "Verifica dell'Età",
+    'checkout.ageVerification.text': "Certifico di avere 21 anni di età o più. Capisco che questi prodotti non sono destinati a diagnosticare, trattare, curare o prevenire alcuna malattia e non sono stati valutati dalla FDA.",
     'checkout.continueToPayment': 'Continua al Pagamento',
     'checkout.preparingPayment': 'Preparazione Pagamento...',
     'checkout.completePurchase': 'Completa Acquisto Sicuro',
@@ -1064,7 +1094,7 @@ const translations = {
     'checkout.orderComplete.desc': 'Grazie per il tuo acquisto. Riceverai una email di conferma a breve con informazioni di tracciamento.',
     'checkout.orderSummary': 'Riepilogo Ordine',
     'checkout.redirecting': 'Reindirizzamento alla home page...',
-    
+
     // About Page
     'about.title': 'La Nostra Missione',
     'about.subtitle': 'Siamo dedicati a fornire prodotti premium di erbe per vaporizzare che supportano il benessere mentale attraverso miscele botaniche naturali basate su evidenze.',
@@ -1075,8 +1105,8 @@ const translations = {
     'about.trust.verified': '21+ Verificato',
     'about.trust.coa': 'COA Disponibile',
     'about.trust.shipping': 'Spedizione Gratis $50+',
-    'about.disclaimer': 'Non per uso da parte di minori. Evitare durante la gravidanza o l allattamento. Consultare un operatore sanitario prima dell uso se si hanno condizioni mediche o si assumono farmaci.',
-    
+    'about.disclaimer': "Non per uso da parte di minori. Evitare durante la gravidanza o l'allattamento. Consultare un operatore sanitario prima dell'uso se si hanno condizioni mediche o si assumono farmaci.",
+
     // Education Page
     'education.title': 'Centro Educativo',
     'education.subtitle': 'Impara la scienza dietro la vaporizzazione erboristica e il benessere',
@@ -1090,15 +1120,15 @@ const translations = {
     'education.safety.session.desc': 'Tempistica e dosaggio appropriati per benefici ottimali.',
     'education.safety.session.length': 'Sessione raccomandata: 5-15 minuti',
     'education.benefits.title': 'Benefici per la Salute',
-    'education.benefits.anxiety.title': 'Sollievo dall Ansia',
-    'education.benefits.anxiety.desc': 'Come alcune erbe possono aiutare a ridurre l ansia e promuovere la calma.',
+    'education.benefits.anxiety.title': "Sollievo dall'Ansia",
+    'education.benefits.anxiety.desc': "Come alcune erbe possono aiutare a ridurre l'ansia e promuovere la calma.",
     'education.benefits.sleep.title': 'Supporto per il Sonno',
     'education.benefits.sleep.desc': 'Alternative naturali per una migliore qualità del sonno.',
     'education.benefits.focus.title': 'Chiarezza Mentale',
     'education.benefits.focus.desc': 'Erbe che possono migliorare la concentrazione e la funzione cognitiva.',
     'education.research.title': 'Ricerca e Studi',
-    'education.research.intro': 'Esplora l evidenza scientifica dietro il benessere erboristico.',
-    
+    'education.research.intro': "Esplora l'evidenza scientifica dietro il benessere erboristico.",
+
     // Contact Page
     'contact.title': 'Contattaci',
     'contact.subtitle': 'Hai domande? Siamo qui per aiutare. Raggiungi il nostro team di supporto.',
@@ -1133,7 +1163,7 @@ const translations = {
     'contact.faq.returns': 'Qual è la vostra politica di reso?',
     'contact.faq.returns.desc': 'Offriamo una garanzia di soddisfazione di 30 giorni sui prodotti non aperti. Se non sei soddisfatto, contattaci per un rimborso completo. I prodotti aperti non possono essere restituiti a causa delle normative di sicurezza.',
     'contact.faq.choose': 'Come scelgo il prodotto giusto?',
-    'contact.faq.choose.desc': 'Sfoglia per categoria (Sollievo dall Ansia, Supporto per il Sonno, Focus e Chiarezza, ecc.) o consulta il nostro Centro Educativo per benefici dettagliati delle erbe. Inizia con le miscele base se sei nuovo alla vaporizzazione delle erbe.',
+    'contact.faq.choose.desc': "Sfoglia per categoria (Sollievo dall'Ansia, Supporto per il Sonno, Focus e Chiarezza, ecc.) o consulta il nostro Centro Educativo per benefici dettagliati delle erbe. Inizia con le miscele base se sei nuovo alla vaporizzazione delle erbe.",
     'contact.faq.ship': 'Spedite nel mio stato?',
     'contact.faq.ship.desc': 'Spediamo nella maggior parte degli stati USA. Alcune restrizioni di spedizione possono applicarsi in base alle normative locali. La tua idoneità alla spedizione sarà confermata al checkout.',
     'contact.faq.lab': 'I vostri prodotti sono testati in laboratorio?',
@@ -1141,13 +1171,13 @@ const translations = {
     'contact.help.title': 'Hai Bisogno di Aiuto con Spedizioni o Resi?',
     'contact.help.desc': 'Il nostro team di servizio clienti è qui per assisterti con qualsiasi domanda su spedizioni o resi.',
     'contact.disclaimer': 'Solo per adulti di 21 anni e oltre. Non destinato a diagnosticare, trattare, curare o prevenire alcuna malattia.',
-    
+
     // Footer
     'footer.about.title': 'MindVap',
     'footer.about.desc': 'Erbe premium per vaporizzare focalizzate su soluzioni naturali di benessere mentale. Qualità prima, formulazioni basate su evidenze.',
     'footer.shop.title': 'Negozio',
     'footer.shop.all': 'Tutti i Prodotti',
-    'footer.shop.anxiety': 'Sollievo dall Ansia',
+    'footer.shop.anxiety': "Sollievo dall'Ansia",
     'footer.shop.sleep': 'Supporto per il Sonno',
     'footer.shop.focus': 'Focus e Chiarezza',
     'footer.info.title': 'Informazioni',
@@ -1158,21 +1188,21 @@ const translations = {
     'footer.legal.privacy': 'Informativa sulla Privacy',
     'footer.legal.terms': 'Termini di Servizio',
     'footer.legal.shipping': 'Spedizioni e Resi',
-    'footer.disclaimer': 'Questo prodotto non è stato valutato dalla FDA e non è destinato a diagnosticare, trattare, curare o prevenire alcuna malattia. Non per uso da parte di minori. Evitare durante la gravidanza o l allattamento.',
+    'footer.disclaimer': "Questo prodotto non è stato valutato dalla FDA e non è destinato a diagnosticare, trattare, curare o prevenire alcuna malattia. Non per uso da parte di minori. Evitare durante la gravidanza o l'allattamento.",
     'footer.copyright': '© 2025 MindVap. Tutti i diritti riservati. Deve essere 21+ per acquistare.',
     'footer.trust.lab': 'Testato in Laboratorio',
     'footer.trust.shipping': 'Spedizione Gratis $50+',
     'footer.trust.verified': '21+ Verificato',
     'footer.trust.coa': 'COA Disponibile',
-    
+
     // Age Gate
-    'age.title': 'Verifica dell Età Richiesta',
+    'age.title': "Verifica dell'Età Richiesta",
     'age.subtitle': 'Devi avere 21 anni o più per entrare in questo sito.',
     'age.verify': 'Ho 21 anni o più',
     'age.enter': 'Entra nel Sito',
     'age.exit': 'Esci dal Sito',
     'age.error': 'Devi verificare di avere 21 anni di età o più per continuare.',
-    
+
     // Error Messages
     'error.required': 'Questo campo è richiesto',
     'error.email': 'Per favore inserisci un indirizzo email valido',
@@ -1183,7 +1213,7 @@ const translations = {
     'error.network': 'Errore di rete. Per favore riprova.',
     'error.payment': 'Pagamento fallito. Per favore riprova.',
     'error.unknown': 'Si è verificato un errore inaspettato.',
-    
+
     // Chat
     'chat.welcome': 'Ciao! Come possiamo aiutarti oggi?',
     'chat.quickReplies.trackOrder': 'Traccia il mio ordine',
@@ -1209,7 +1239,7 @@ const translations = {
     'chat.response.contact': 'Puoi contattare il nostro team di supporto a support@mindvap.com o attraverso questa chat. Típicamente rispondiamo entro 2-4 ore durante gli orari di lavoro.',
     'chat.response.pricing': 'I nostri prezzi variano per prodotto e quantità. Puoi trovare tutte le informazioni sui prezzi nelle nostre pagine prodotto. Offriamo tariffe competitive e spedizione gratuita su ordini superiori a $50.',
     'chat.response.fallback': 'Grazie per il tuo messaggio! Un agente di supporto risponderà a breve. Puoi anche inviarci un\'email a support@mindvap.com.',
-    
+
     // Authentication - merged from auth.ts
     ...authTranslations.it
   }

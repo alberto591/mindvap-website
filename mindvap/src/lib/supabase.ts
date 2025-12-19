@@ -3,58 +3,59 @@
 
 import { createClient } from '@supabase/supabase-js';
 import type { MobileOtpType, EmailOtpType } from '@supabase/supabase-js';
+import { getEnvVariable } from './envUtils';
 
 // Get environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = getEnvVariable('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnvVariable('VITE_SUPABASE_ANON_KEY');
 
 // Check if we should use mock authentication
 const shouldUseMockAuth = () => {
   return !supabaseUrl || !supabaseAnonKey ||
-         supabaseUrl.includes('your-project') ||
-         supabaseUrl.includes('placeholder') ||
-         supabaseAnonKey.includes('your-') ||
-         supabaseAnonKey.includes('placeholder');
+    supabaseUrl.includes('your-project') ||
+    supabaseUrl.includes('placeholder') ||
+    supabaseAnonKey.includes('your-') ||
+    supabaseAnonKey.includes('placeholder');
 };
 
 // Create Supabase client or mock client
 export const supabase = shouldUseMockAuth()
   ? createClient('https://mock.supabase.co', 'mock-anon-key', {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-        flowType: 'pkce'
-      },
-      realtime: {
-        params: {
-          eventsPerSecond: 0
-        }
-      },
-      global: {
-        headers: {
-          'X-Client-Info': 'mindvap-mock-auth-system'
-        }
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
+      detectSessionInUrl: false,
+      flowType: 'pkce'
+    },
+    realtime: {
+      params: {
+        eventsPerSecond: 0
       }
-    })
+    },
+    global: {
+      headers: {
+        'X-Client-Info': 'mindvap-mock-auth-system'
+      }
+    }
+  })
   : createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        autoRefreshToken: true,
-        persistSession: true,
-        detectSessionInUrl: true,
-        flowType: 'pkce'
-      },
-      realtime: {
-        params: {
-          eventsPerSecond: 10
-        }
-      },
-      global: {
-        headers: {
-          'X-Client-Info': 'mindvap-auth-system'
-        }
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: 'pkce'
+    },
+    realtime: {
+      params: {
+        eventsPerSecond: 10
       }
-    });
+    },
+    global: {
+      headers: {
+        'X-Client-Info': 'mindvap-auth-system'
+      }
+    }
+  });
 
 // Export flag for mock usage
 export const isUsingMockAuth = shouldUseMockAuth();
@@ -93,12 +94,12 @@ export class SupabaseAuth {
       email,
       password
     });
-    
+
     if (error) {
       console.error('Sign in error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -113,12 +114,12 @@ export class SupabaseAuth {
         data: metadata
       }
     });
-    
+
     if (error) {
       console.error('Sign up error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -141,12 +142,12 @@ export class SupabaseAuth {
     redirectTo?: string;
   }) {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, options);
-    
+
     if (error) {
       console.error('Password reset error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -157,12 +158,12 @@ export class SupabaseAuth {
     const { data, error } = await supabase.auth.updateUser({
       password
     });
-    
+
     if (error) {
       console.error('Password update error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -173,12 +174,12 @@ export class SupabaseAuth {
     const { data, error } = await supabase.auth.updateUser({
       data: metadata
     });
-    
+
     if (error) {
       console.error('User metadata update error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -193,12 +194,12 @@ export class SupabaseAuth {
       email,
       options
     });
-    
+
     if (error) {
       console.error('Magic link error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -211,12 +212,12 @@ export class SupabaseAuth {
       token,
       type: type as any
     });
-    
+
     if (error) {
       console.error('OTP verification error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -225,12 +226,12 @@ export class SupabaseAuth {
    */
   static async exchangeCodeForSession(code: string) {
     const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    
+
     if (error) {
       console.error('Code exchange error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -239,12 +240,12 @@ export class SupabaseAuth {
    */
   static async refreshSession() {
     const { data, error } = await supabase.auth.refreshSession();
-    
+
     if (error) {
       console.error('Session refresh error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -292,12 +293,12 @@ export class SupabaseDatabase {
       .insert(record)
       .select()
       .single();
-    
+
     if (error) {
       console.error(`Error inserting into ${table}:`, error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -308,12 +309,12 @@ export class SupabaseDatabase {
     const queryBuilder = supabase.from(table).select(query);
 
     const { data, error } = await queryBuilder;
-    
+
     if (error) {
       console.error(`Error selecting from ${table}:`, error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -327,12 +328,12 @@ export class SupabaseDatabase {
       .eq('id', id)
       .select()
       .single();
-    
+
     if (error) {
       console.error(`Error updating ${table}:`, error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -346,12 +347,12 @@ export class SupabaseDatabase {
       .eq('id', id)
       .select()
       .single();
-    
+
     if (error) {
       console.error(`Error deleting from ${table}:`, error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -361,12 +362,12 @@ export class SupabaseDatabase {
   static async rpc<T>(functionName: string, params?: Record<string, any>) {
     const { data, error } = await supabase
       .rpc(functionName, params);
-    
+
     if (error) {
       console.error(`Error calling function ${functionName}:`, error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 }
@@ -379,7 +380,7 @@ export class SupabaseRealtime {
   static subscribe(table: string, callback: (payload: any) => void) {
     return supabase
       .channel(`${table}_changes`)
-      .on('postgres_changes', 
+      .on('postgres_changes',
         { event: '*', schema: 'public', table },
         callback
       )
@@ -407,12 +408,12 @@ export class SupabaseStorage {
     const { data, error } = await supabase.storage
       .from(bucket)
       .upload(path, file, options);
-    
+
     if (error) {
       console.error('File upload error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -423,12 +424,12 @@ export class SupabaseStorage {
     const { data, error } = await supabase.storage
       .from(bucket)
       .createSignedUrl(path, expiresIn);
-    
+
     if (error) {
       console.error('Signed URL error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 
@@ -439,12 +440,12 @@ export class SupabaseStorage {
     const { data, error } = await supabase.storage
       .from(bucket)
       .remove(paths);
-    
+
     if (error) {
       console.error('File deletion error:', error);
       return { data: null, error };
     }
-    
+
     return { data, error: null };
   }
 }

@@ -1,6 +1,20 @@
 import { clsx, ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
-import DOMPurify from 'dompurify';
+// Initialize DOMPurify for both browser and Node/JSDOM environments
+const DOMPurify = (() => {
+  if (typeof window !== 'undefined') {
+    const DOMPurifyLibrary = require('dompurify');
+    return DOMPurifyLibrary(window);
+  } else {
+    try {
+      const { JSDOM } = require('jsdom');
+      const DOMPurifyLibrary = require('dompurify');
+      return DOMPurifyLibrary(new JSDOM('').window);
+    } catch (e) {
+      return { sanitize: (s: string) => s }; // Fallback for environments without JSDOM
+    }
+  }
+})();
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

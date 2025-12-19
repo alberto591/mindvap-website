@@ -20,6 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <img
           src={product.image}
           alt={product.name[language]}
+          loading="lazy"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-standard"
         />
         {!product.inStock && (

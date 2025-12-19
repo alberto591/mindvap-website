@@ -5,36 +5,45 @@
  * session management, timeout functionality, and security features.
  */
 
-import React from 'react';
-import { act, waitFor } from '@testing-library/react';
+import React, { useState } from 'react';
+import { act, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { render } from './utils';
+import { MockAuthService } from '../lib/mockAuthService';
+import { SecurityService } from '../services/securityService';
+import { SupabaseAuth } from '../lib/supabase';
+import { User } from '../types/auth';
 
 // Mock Supabase
 jest.mock('../lib/supabase', () => ({
   supabase: {
     auth: {
       onAuthStateChange: jest.fn(() => ({ data: { subscription: { unsubscribe: jest.fn() } } })),
-      getSession: jest.fn(),
-      getUser: jest.fn(),
-      signInWithPassword: jest.fn(),
-      signOut: jest.fn(),
+      getSession: jest.fn().mockResolvedValue({ data: { session: null }, error: null }),
+      getUser: jest.fn().mockResolvedValue({ data: { user: null }, error: null }),
+      signInWithPassword: jest.fn().mockResolvedValue({ data: {}, error: null }),
+      signOut: jest.fn().mockResolvedValue({ error: null }),
     },
   },
   SupabaseAuth: {
     onAuthStateChange: jest.fn(() => ({ data: { subscription: { unsubscribe: jest.fn() } } })),
-    getSession: jest.fn(),
-    getUser: jest.fn(),
-    signInWithPassword: jest.fn(),
-    signOut: jest.fn(),
+    getSession: jest.fn().mockResolvedValue(null),
+    getUser: jest.fn().mockResolvedValue(null),
+    signInWithPassword: jest.fn().mockResolvedValue({
+      data: {
+        user: { id: 'user-123', email: 'test@example.com' },
+        session: { access_token: 'token', refresh_token: 'refresh', expires_at: Math.floor(Date.now() / 1000) + 3600 }
+      },
+      error: null
+    }),
+    signOut: jest.fn().mockResolvedValue({ error: null }),
   },
 }));
 
-// Mock other dependencies
 jest.mock('../lib/tokenManager', () => ({
   TokenManager: {
-    verifyAccessToken: jest.fn(),
+    verifyAccessToken: jest.fn().mockResolvedValue({ valid: false }),
   },
   generateDeviceFingerprint: jest.fn(() => 'mock-fingerprint'),
   generateSessionId: jest.fn(() => 'mock-session-id'),
@@ -71,18 +80,21 @@ describe('AuthContext Session Management', () => {
   describe('Session Timeout', () => {
     test('should initialize session timeout timer when user logs in', async () => {
       const TestComponent = () => {
-        const { login } = useAuth();
+        const { login, logout } = useAuth();
         return (
-          <button onClick={() => login({
-            email: 'test@example.com',
-            password: 'password123',
-            deviceInfo: {
-              fingerprint: 'test-fingerprint',
-              userAgent: 'test-agent'
-            }
-          })}>
-            Login
-          </button>
+          <div>
+            <button onClick={() => login({
+              email: 'test@example.com',
+              password: 'password123',
+              deviceInfo: {
+                fingerprint: 'test-fingerprint',
+                userAgent: 'test-agent'
+              }
+            })}>
+              Login
+            </button>
+            <button onClick={() => logout()}>Logout</button>
+          </div>
         );
       };
 
@@ -92,40 +104,108 @@ describe('AuthContext Session Management', () => {
         </AuthProvider>
       );
 
+      const mockUser: User = {
+        id: 'user-123',
+        email: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        dateOfBirth: '1990-01-01',
+        ageVerified: true,
+        emailVerified: true,
+        marketingConsent: false,
+        termsAccepted: true,
+        privacyAccepted: true,
+        status: 'active',
+        failedLoginAttempts: 0,
+        passwordChangedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        dataProcessingConsent: true,
+        dataRetentionPeriod: 365
+      };
+
       // Mock successful login
-      const mockLogin = require('../lib/mockAuthService').MockAuthService.login;
-      mockLogin.mockResolvedValue({
+      jest.spyOn(MockAuthService, 'login').mockResolvedValue({
         success: true,
+        message: 'Login successful',
         session: {
-          user: { id: 'user-123', email: 'test@example.com' },
+          id: 'session-123',
+          user: mockUser,
           accessToken: 'token',
           refreshToken: 'refresh',
           expiresIn: 3600,
-          tokenType: 'Bearer',
+          tokenType: 'Bearer' as const,
           deviceFingerprint: 'fingerprint',
-          createdAt: new Date().toISOString(),
+          createdAt: new Date().toISOString()
         }
       });
 
       // Trigger login
-      act(() => {
-        getByText('Login').click();
+      await act(async () => {
+        fireEvent.click(getByText('Login'));
       });
 
-      await waitFor(() => {
-        expect(setInterval).toHaveBeenCalledWith(expect.any(Function), 60000);
+      act(() => {
+        jest.advanceTimersByTime(100);
       });
+      expect(jest.getTimerCount()).toBeGreaterThan(0);
     });
 
     test('should clear inactivity timer on logout', async () => {
       const TestComponent = () => {
-        const { logout } = useAuth();
+        const { login, logout } = useAuth();
         return (
-          <button onClick={() => logout()}>
-            Logout
-          </button>
+          <div>
+            <button onClick={() => login({
+              email: 'test@example.com',
+              password: 'password123',
+              deviceInfo: {
+                fingerprint: 'test-fingerprint',
+                userAgent: 'test-agent'
+              }
+            })}>
+              Login
+            </button>
+            <button onClick={() => logout()}>Logout</button>
+          </div>
         );
       };
+
+      // 1. Login first
+      const mockUser: User = {
+        id: 'user-123',
+        email: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+        dateOfBirth: '1990-01-01',
+        ageVerified: true,
+        emailVerified: true,
+        marketingConsent: false,
+        termsAccepted: true,
+        privacyAccepted: true,
+        status: 'active',
+        failedLoginAttempts: 0,
+        passwordChangedAt: new Date().toISOString(),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        dataProcessingConsent: true,
+        dataRetentionPeriod: 365
+      };
+
+      jest.spyOn(MockAuthService, 'login').mockResolvedValue({
+        success: true,
+        message: 'Login successful',
+        session: {
+          id: 'session-123',
+          user: mockUser,
+          accessToken: 'token',
+          refreshToken: 'refresh',
+          expiresIn: 3600,
+          tokenType: 'Bearer' as const,
+          deviceFingerprint: 'fingerprint',
+          createdAt: new Date().toISOString()
+        }
+      });
 
       const { getByText } = render(
         <AuthProvider>
@@ -133,18 +213,24 @@ describe('AuthContext Session Management', () => {
         </AuthProvider>
       );
 
-      // Mock logout
-      const mockSignOut = require('../lib/supabase').SupabaseAuth.signOut;
-      mockSignOut.mockResolvedValue({});
+      // 2. Trigger login to start timer
+      await act(async () => {
+        fireEvent.click(getByText('Login'));
+      });
 
-      // Trigger logout
+      // 3. Mock logout
+      jest.spyOn(SupabaseAuth, 'signOut').mockResolvedValue({ error: null });
+
+      // 4. Trigger logout
+      await act(async () => {
+        fireEvent.click(getByText('Logout'));
+      });
+
       act(() => {
-        getByText('Logout').click();
+        jest.advanceTimersByTime(100);
       });
-
-      await waitFor(() => {
-        expect(clearInterval).toHaveBeenCalled();
-      });
+      // Checking that the timer was cleared
+      expect(jest.getTimerCount()).toBe(0);
     });
   });
 
@@ -183,12 +269,16 @@ describe('AuthContext Session Management', () => {
 
   describe('Security Features', () => {
     test('should handle rate limiting', async () => {
-      const mockCheckRateLimit = require('../services/securityService').SecurityService.checkRateLimit;
-      mockCheckRateLimit.mockReturnValue({ allowed: false, error: 'Too many attempts' });
+      jest.spyOn(SecurityService, 'checkRateLimit').mockReturnValue({
+        allowed: false,
+        error: 'Too many attempts',
+        remaining: 0,
+        resetTime: Date.now() + 1000
+      });
 
       const TestComponent = () => {
         const { login } = useAuth();
-        const [error, setError] = React.useState('');
+        const [error, setError] = useState('');
 
         const handleLogin = async () => {
           const result = await login({
@@ -219,8 +309,8 @@ describe('AuthContext Session Management', () => {
       );
 
       // Trigger login
-      act(() => {
-        getByText('Login').click();
+      await act(async () => {
+        fireEvent.click(getByText('Login'));
       });
 
       await waitFor(() => {

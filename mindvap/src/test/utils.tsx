@@ -42,16 +42,49 @@ export const mockUser = {
 // Mock product data
 export const mockProduct = {
   id: 'product-123',
-  name: 'Test Herbal Blend',
-  description: 'A test herbal blend for testing purposes',
+  name: {
+    en: 'Test Herbal Blend',
+    es: 'Mezcla Herbal de Prueba',
+    it: 'Miscela Erboristica di Prova'
+  },
+  description: {
+    en: 'A test herbal blend for testing purposes',
+    es: 'Una mezcla herbal de prueba para fines de prueba',
+    it: 'Una miscela erboristica di prova a scopo di test'
+  },
+  shortDescription: {
+    en: 'Test short description',
+    es: 'Descripción corta de prueba',
+    it: 'Breve descrizione di prova'
+  },
   price: 39.99,
-  category: 'Relaxation',
+  category: {
+    en: 'Relaxation',
+    es: 'Relajación',
+    it: 'Rilassamento'
+  },
   herbs: ['Lavender', 'Chamomile'],
-  image: '/images/test-product.png',
+  image: '/images/test-product.webp',
   stockLevel: 50,
-  isActive: true,
-  created_at: '2023-01-01T00:00:00Z',
-  updated_at: '2023-01-01T00:00:00Z',
+  inStock: true,
+  rating: 4.5,
+  reviews: 10,
+  temperature: '140-160°C',
+  benefits: {
+    en: ['Benefit 1', 'Benefit 2'],
+    es: ['Beneficio 1', 'Beneficio 2'],
+    it: ['Beneficio 1', 'Beneficio 2']
+  },
+  usage: {
+    en: 'Usage instructions',
+    es: 'Instrucciones de uso',
+    it: 'Istruzioni per l\'uso'
+  },
+  safety: {
+    en: 'Safety info',
+    es: 'Información de seguridad',
+    it: 'Informazioni sulla sicurezza'
+  }
 };
 
 // Mock cart item

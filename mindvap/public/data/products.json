@@ -12,13 +12,17 @@
       "es": "Alivio de Ansiedad",
       "it": "Sollievo dall'Ansia"
     },
-    "image": "/images/product_cbd_tranquil_relax.png",
+    "image": "/images/product_cbd_tranquil_relax.webp",
     "shortDescription": {
       "en": "Premium anxiety & stress relief blend",
       "es": "Mezcla premium para alivio de ansiedad y estrés",
       "it": "Miscela premium per sollievo da ansia e stress"
     },
-    "herbs": ["Ashwagandha", "Chamomile", "Lavender"],
+    "herbs": [
+      "Ashwagandha",
+      "Chamomile",
+      "Lavender"
+    ],
     "temperature": "160-204°C (320-400°F)",
     "inStock": true,
     "stockLevel": 12,
@@ -62,255 +66,716 @@
   },
   {
     "id": "herbal-harmony",
-    "name": "Herbal Harmony",
+    "name": {
+      "en": "Herbal Harmony",
+      "es": "Armonía Herbal",
+      "it": "Armonia Erboristica"
+    },
     "price": 34.99,
-    "category": "Mood Support",
-    "image": "/images/product_herbal_harmony.png",
-    "shortDescription": "Core mood support & emotional balance",
-    "herbs": ["Damiana", "Rose", "Chamomile", "Turmeric"],
+    "category": {
+      "en": "Mood Support",
+      "es": "Apoyo del Estado de Ánimo",
+      "it": "Supporto dell'Umore"
+    },
+    "image": "/images/product_herbal_harmony.webp",
+    "shortDescription": {
+      "en": "Core mood support & emotional balance",
+      "es": "Apoyo al estado de ánimo y equilibrio emocional",
+      "it": "Supporto all'umore ed equilibrio emotivo"
+    },
+    "herbs": [
+      "Damiana",
+      "Rose",
+      "Chamomile",
+      "Turmeric"
+    ],
     "temperature": "160-204°C (320-400°F)",
     "inStock": true,
     "stockLevel": 18,
     "rating": 4.6,
     "reviews": 34,
-    "description": "A sophisticated mood-supporting blend that combines Damiana, Rose, Chamomile, and Turmeric to promote emotional balance and well-being. Designed for evening reflection and mood enhancement.",
-    "benefits": [
-      "Damiana provides sweet-herbal aromatics traditionally used for mood support and relaxation",
-      "Rose offers gentle mood-lifting properties with floral aromatic benefits",
-      "Chamomile supports anxiety reduction and overall emotional well-being",
-      "Turmeric (curcumin) shows promising effects in depression and anxiety through anti-inflammatory pathways"
-    ],
-    "usage": "Begin at 160°C (320°F) and increase gradually to 190°C (374°F) to discover preferred intensity. Rose aromatics are best preserved at lower temperatures. Session length: 5-15 minutes.",
-    "safety": "Damiana: Generally safe in moderate amounts. Rose: No significant contraindications. Chamomile: Caution with Asteraceae allergies. Turmeric: Watch for GI effects at high doses. Not evaluated by FDA."
+    "description": {
+      "en": "A sophisticated mood-supporting blend that combines Damiana, Rose, Chamomile, and Turmeric to promote emotional balance and well-being. Designed for evening reflection and mood enhancement.",
+      "es": "Una mezcla sofisticada para el estado de ánimo que combina Damiana, Rosa, Manzanilla y Cúrcuma para promover el equilibrio emocional y el bienestar. Diseñada para la reflexión nocturna y la mejora del ánimo.",
+      "it": "Una miscela sofisticata per l'umore che combina Damiana, Rosa, Camomilla e Curcuma per promuovere l'equilibrio emotivo e il benessere. Progettata per la riflessione serale e il miglioramento dell'umore."
+    },
+    "benefits": {
+      "en": [
+        "Damiana provides sweet-herbal aromatics traditionally used for mood support and relaxation",
+        "Rose offers gentle mood-lifting properties with floral aromatic benefits",
+        "Chamomile supports anxiety reduction and overall emotional well-being",
+        "Turmeric (curcumin) shows promising effects in depression and anxiety through anti-inflammatory pathways"
+      ],
+      "es": [
+        "La Damiana proporciona aromáticos dulces y herbales usados tradicionalmente para el apoyo del ánimo y la relajación",
+        "La Rosa ofrece propiedades suaves para mejorar el estado de ánimo con beneficios aromáticos florales",
+        "La Manzanilla apoya la reducción de la ansiedad y el bienestar emocional general",
+        "La Cúrcuma (curcumina) muestra efectos prometedores en la depresión y ansiedad a través de vías antiinflamatorias"
+      ],
+      "it": [
+        "La Damiana fornisce aromi dolci ed erboristici tradizionalmente usati per il supporto dell'umore e il rilassamento",
+        "La Rosa offre proprietà dolci per il sollevamento dell'umore con benefici aromatici floreali",
+        "La Camomilla supporta la riduzione dell'ansia e il benessere emotivo generale",
+        "La Curcuma (curcumina) mostra effetti promettenti nella depressione e nell'ansia attraverso percorsi antinfiammatori"
+      ]
+    },
+    "usage": {
+      "en": "Begin at 160°C (320°F) and increase gradually to 190°C (374°F) to discover preferred intensity. Rose aromatics are best preserved at lower temperatures. Session length: 5-15 minutes.",
+      "es": "Comience a 160°C (320°F) y aumente gradualmente a 190°C (374°F) para descubrir la intensidad preferida. Los aromáticos de rosa se conservan mejor a temperaturas bajas. Duración: 5-15 minutos.",
+      "it": "Inizia a 160°C (320°F) e aumenta gradualmente a 190°C (374°F) per scoprire l'intensità preferita. Gli aromi di rosa sono conservati meglio a temperature più basse. Durata sessione: 5-15 minuti."
+    },
+    "safety": {
+      "en": "Damiana: Generally safe in moderate amounts. Rose: No significant contraindications. Chamomile: Caution with Asteraceae allergies. Turmeric: Watch for GI effects at high doses. Not evaluated by FDA.",
+      "es": "Damiana: Generalmente segura en cantidades moderadas. Rosa: Sin contraindicaciones significativas. Manzanilla: Precaución con alergias a Asteraceae. Cúrcuma: Vigilar efectos GI a dosis altas. No evaluado por la FDA.",
+      "it": "Damiana: Generalmente sicura in quantità moderate. Rosa: Nessuna controindicazione significativa. Camomilla: Cautela con le allergie alle Asteraceae. Curcuma: Monitorare gli effetti GI ad alte dosi. Non valutato dalla FDA."
+    }
   },
   {
     "id": "focus-flow",
-    "name": "Focus Flow",
+    "name": {
+      "en": "Focus Flow",
+      "es": "Flujo de Enfoque",
+      "it": "Flusso di Concentrazione"
+    },
     "price": 34.99,
-    "category": "Focus & Clarity",
-    "image": "/images/product_focus_flow.png",
-    "shortDescription": "Premium focus & mental clarity",
-    "herbs": ["Rosemary", "Peppermint", "Ginger"],
+    "category": {
+      "en": "Focus & Clarity",
+      "es": "Enfoque y Claridad",
+      "it": "Focus e Chiarezza"
+    },
+    "image": "/images/product_focus_flow.webp",
+    "shortDescription": {
+      "en": "Premium focus & mental clarity",
+      "es": "Enfoque premium y claridad mental",
+      "it": "Focus premium e chiarezza mentale"
+    },
+    "herbs": [
+      "Rosemary",
+      "Peppermint",
+      "Ginger"
+    ],
     "temperature": "130-176°C (266-350°F)",
     "inStock": true,
     "stockLevel": 15,
     "rating": 4.7,
     "reviews": 41,
-    "description": "A clarifying blend featuring Rosemary, Peppermint, and Ginger to enhance focus, attention, and cognitive performance. Pine-rosemary aroma with cooling mint undertones.",
-    "benefits": [
-      "Rosemary aroma correlates with cognitive performance; 1,8-cineole levels linked to improved attention and memory",
-      "Peppermint essential oil shows promise for alertness and processing speed in controlled studies",
-      "Ginger improves attention and memory in middle-aged women (RCT evidence at 400-800mg/day oral)",
-      "Combined volatile fractions support cognitive enhancement without stimulants"
-    ],
-    "usage": "Start at 125-150°C (257-302°F) for optimal volatile release. Rosemary and peppermint benefit from moderate heat. Avoid temperatures above 176°C to prevent bitterness. Session: 5-10 minutes for focus.",
-    "safety": "Rosemary: Safe in aromatherapy amounts; avoid during pregnancy. Peppermint: Generally safe; may interact with certain medications. Ginger: Well-tolerated; caution with blood thinners. Not for minors."
+    "description": {
+      "en": "A clarifying blend featuring Rosemary, Peppermint, and Ginger to enhance focus, attention, and cognitive performance. Pine-rosemary aroma with cooling mint undertones.",
+      "es": "Una mezcla clarificante que incluye Romero, Menta y Jengibre para mejorar el enfoque, la atención y el rendimiento cognitivo. Aroma de pino y romero con matices refrescantes de menta.",
+      "it": "Una miscela chiarificante che presenta Rosmarino, Menta e Zenzero per migliorare la concentrazione, l'attenzione e le prestazioni cognitive. Aroma di pino e rosmarino con sfumature rinfrescanti di menta."
+    },
+    "benefits": {
+      "en": [
+        "Rosemary aroma correlates with cognitive performance; 1,8-cineole levels linked to improved attention and memory",
+        "Peppermint essential oil shows promise for alertness and processing speed in controlled studies",
+        "Ginger improves attention and memory in middle-aged women (RCT evidence at 400-800mg/day oral)",
+        "Combined volatile fractions support cognitive enhancement without stimulants"
+      ],
+      "es": [
+        "El aroma de Romero se correlaciona con el rendimiento cognitivo; niveles de 1,8-cineol vinculados a mejora en atención y memoria",
+        "El aceite esencial de Menta muestra promesa para la alerta y velocidad de procesamiento en estudios controlados",
+        "El Jengibre mejora la atención y memoria en mujeres de mediana edad (evidencia de ECA a 400-800mg/día oral)",
+        "Las fracciones volátiles combinadas apoyan la mejora cognitiva sin estimulantes"
+      ],
+      "it": [
+        "L'aroma di Rosmarino correla con le prestazioni cognitive; livelli di 1,8-cineolo legati al miglioramento dell'attenzione e della memoria",
+        "L'olio essenziale di Menta mostra promesse per la vigilanza e la velocità di elaborazione in studi controllati",
+        "Lo Zenzero migliora l'attenzione e la memoria nelle donne di mezza età (evidenza RCT a 400-800mg/giorno orale)",
+        "Le frazioni volatili combinate supportano il potenziamento cognitivo senza stimolanti"
+      ]
+    },
+    "usage": {
+      "en": "Start at 125-150°C (257-302°F) for optimal volatile release. Rosemary and peppermint benefit from moderate heat. Avoid temperatures above 176°C to prevent bitterness. Session: 5-10 minutes for focus.",
+      "es": "Comience a 125-150°C (257-302°F) para una liberación volátil óptima. El romero y la menta se benefician de calor moderado. Evite temperaturas superiores a 176°C para evitar el amargor. Sesión: 5-10 minutos para enfoque.",
+      "it": "Inizia a 125-150°C (257-302°F) per un rilascio volatile ottimale. Il rosmarino e la menta beneficiano del calore moderato. Evita temperature superiori a 176°C per prevenire l'amarezza. Sessione: 5-10 minuti per il focus."
+    },
+    "safety": {
+      "en": "Rosemary: Safe in aromatherapy amounts; avoid during pregnancy. Peppermint: Generally safe; may interact with certain medications. Ginger: Well-tolerated; caution with blood thinners. Not for minors.",
+      "es": "Romero: Seguro en cantidades de aromaterapia; evite durante el embarazo. Menta: Generalmente segura; puede interactuar con ciertos medicamentos. Jengibre: Bien tolerado; precaución con anticoagulantes. No para menores.",
+      "it": "Rosmarino: Sicuro nelle quantità da aromaterapia; evitare durante la gravidanza. Menta: Generalmente sicura; può interagire con certi farmaci. Zenzero: Ben tollerato; cautela con anticoagulanti. Non per minori."
+    }
   },
   {
     "id": "midnight-calm",
-    "name": "Midnight Calm",
+    "name": {
+      "en": "Midnight Calm",
+      "es": "Calma de Medianoche",
+      "it": "Calma di Mezzanotte"
+    },
     "price": 29.99,
-    "category": "Sleep Support",
-    "image": "/images/product_midnight_calm.png",
-    "shortDescription": "Core sleep support blend",
-    "herbs": ["Chamomile", "Lavender", "Mullein"],
+    "category": {
+      "en": "Sleep Support",
+      "es": "Apoyo para el Sueño",
+      "it": "Supporto per il Sonno"
+    },
+    "image": "/images/product_midnight_calm.webp",
+    "shortDescription": {
+      "en": "Core sleep support blend",
+      "es": "Mezcla principal de apoyo para el sueño",
+      "it": "Miscela principale di supporto per il sonno"
+    },
+    "herbs": [
+      "Chamomile",
+      "Lavender",
+      "Mullein"
+    ],
     "temperature": "150-204°C (302-400°F)",
     "inStock": true,
     "stockLevel": 22,
     "rating": 4.9,
     "reviews": 58,
-    "description": "A soothing bedtime blend combining Chamomile and Lavender with a Mullein base for gentle vapor and honeyed floral aroma. Perfect for evening wind-down rituals.",
-    "benefits": [
-      "Chamomile improves sleep quality and reduces insomnia through GABA modulation",
-      "Lavender inhalation reduces stress and promotes relaxation via limbic system pathways",
-      "Mullein provides smooth, neutral base for comfortable vapor production",
-      "Combined effects support natural sleep onset without pharmaceutical sedation"
-    ],
-    "usage": "Start at low temperatures (150-177°C / 302-350°F) to emphasize floral aromatics. Gradually increase to 190-204°C (374-400°F) for fuller extraction. Longer sessions (10-15 minutes) work well for bedtime.",
-    "safety": "Chamomile: Generally safe; Asteraceae allergy caution. Lavender: Safe for most; mild sedation possible. Mullein: Well-tolerated respiratory herb. May enhance sedative effects of other sleep aids. Not for pregnancy/nursing."
+    "description": {
+      "en": "A soothing bedtime blend combining Chamomile and Lavender with a Mullein base for gentle vapor and honeyed floral aroma. Perfect for evening wind-down rituals.",
+      "es": "Una mezcla relajante para antes de dormir que combina Manzanilla y Lavanda con una base de Gordolobo para un vapor suave y un aroma floral meloso. Perfecto para los rituales de relajación nocturna.",
+      "it": "Una miscela rilassante per prima di dormire che combina Camomilla e Lavanda con una base di Verbasco per un vapore delicato e un aroma floreale mielato. Perfetto per i rituali di relax serale."
+    },
+    "benefits": {
+      "en": [
+        "Chamomile improves sleep quality and reduces insomnia through GABA modulation",
+        "Lavender inhalation reduces stress and promotes relaxation via limbic system pathways",
+        "Mullein provides smooth, neutral base for comfortable vapor production",
+        "Combined effects support natural sleep onset without pharmaceutical sedation"
+      ],
+      "es": [
+        "La Manzanilla mejora la calidad del sueño y reduce el insomnio a través de la modulación GABA",
+        "La inhalación de Lavanda reduce el estrés y promueve la relajación a través de las vías del sistema límbico",
+        "El Gordolobo proporciona una base suave y neutra para una producción de vapor cómoda",
+        "Los efectos combinados apoyan el inicio natural del sueño sin sedación farmacéutica"
+      ],
+      "it": [
+        "La Camomilla migliora la qualità del sonno e riduce l'insonnia attraverso la modulazione GABA",
+        "L'inalazione di Lavanda riduce lo stress e promuove il rilassamento attraverso i percorsi del sistema limbico",
+        "Il Verbasco fornisce una base delicata e neutra per una produzione di vapore confortevole",
+        "Gli effetti combinati supportano l'inizio naturale del sonno senza sedazione farmaceutica"
+      ]
+    },
+    "usage": {
+      "en": "Start at low temperatures (150-177°C / 302-350°F) to emphasize floral aromatics. Gradually increase to 190-204°C (374-400°F) for fuller extraction. Longer sessions (10-15 minutes) work well for bedtime.",
+      "es": "Comience a temperaturas bajas (150-177°C / 302-350°F) para enfatizar los aromáticos florales. Aumente gradualmente a 190-204°C (374-400°F) para una extracción completa. Sesiones más largas (10-15 minutos) funcionan bien para la hora de dormir.",
+      "it": "Inizia a temperature basse (150-177°C / 302-350°F) per enfatizzare gli aromi floreali. Aumenta gradualmente a 190-204°C (374-400°F) per un'estrazione più completa. Sessioni più lunghe (10-15 minuti) funzionano bene per l'ora di andare a dormire."
+    },
+    "safety": {
+      "en": "Chamomile: Generally safe; Asteraceae allergy caution. Lavender: Safe for most; mild sedation possible. Mullein: Well-tolerated respiratory herb. May enhance sedative effects of other sleep aids. Not for pregnancy/nursing.",
+      "es": "Manzanilla: Generalmente segura; precaución con alergias a Asteraceae. Lavanda: Segura para la mayoría; posible sedación leve. Gordolobo: Hierba respiratoria bien tolerada. Puede potenciar los efectos sedantes de otros auxiliares del sueño. No para embarazo/lactancia.",
+      "it": "Camomilla: Generalmente sicura; cautela per l'allergia alle Asteraceae. Lavanda: Sicura per la maggior parte; possibile lieve sedazione. Verbasco: Erba respiratoria ben tollerata. Può potenziare gli effetti sedativi di altri coadiuvanti del sonno. Non per gravidanza/allattamento."
+    }
   },
   {
     "id": "zen-garden",
-    "name": "Zen Garden",
+    "name": {
+      "en": "Zen Garden",
+      "es": "Jardín Zen",
+      "it": "Giardino Zen"
+    },
     "price": 24.99,
-    "category": "Anxiety Relief",
-    "image": "/images/product_zen_garden.png",
-    "shortDescription": "Value anxiety relief formula",
-    "herbs": ["Lemon Balm", "Chamomile"],
+    "category": {
+      "en": "Anxiety Relief",
+      "es": "Alivio de Ansiedad",
+      "it": "Sollievo dall'Ansia"
+    },
+    "image": "/images/product_zen_garden.webp",
+    "shortDescription": {
+      "en": "Value anxiety relief formula",
+      "es": "Fórmula económica para alivio de ansiedad",
+      "it": "Formula economica per sollievo dall'ansia"
+    },
+    "herbs": [
+      "Lemon Balm",
+      "Chamomile"
+    ],
     "temperature": "160-204°C (320-400°F)",
     "inStock": true,
     "stockLevel": 25,
     "rating": 4.5,
     "reviews": 39,
-    "description": "A gentle calming blend featuring Lemon Balm and Chamomile for anxiety relief with citrus-herbal notes. Value-priced for daily stress management.",
-    "benefits": [
-      "Lemon Balm shows anxiolytic effects in clinical studies, particularly effective for stress-related symptoms",
-      "Chamomile reduces anxiety across multiple populations (GAD, insomnia, menstrual-related anxiety)",
-      "Combined formula provides gentle reassurance and calming without sedation",
-      "Citrus-herbal profile makes it pleasant for daytime use"
-    ],
-    "usage": "Low to medium temperatures (160-190°C / 320-374°F) emphasize flavor without harshness. Start low and adjust to taste. Session: 5-10 minutes as needed for anxiety relief.",
-    "safety": "Lemon Balm: Generally safe; may cause mild drowsiness. Chamomile: Caution with Asteraceae family allergies; may interact with sedatives. Avoid during pregnancy. Age 21+ only."
+    "description": {
+      "en": "A gentle and cost-effective anxiety relief blend combining Lemon Balm and Chamomile. Offers a light, citrusy floral profile ideal for daily stress management.",
+      "es": "Una mezcla de alivio de ansiedad suave y rentable que combina Toronjil y Manzanilla. Ofrece un perfil floral ligero y cítrico ideal para el manejo diario del estrés.",
+      "it": "Una miscela delicata ed economica per il sollievo dall'ansia che combina Melissa e Camomilla. Offre un profilo floreale leggero e agrumato ideale per la gestione quotidiana dello stress."
+    },
+    "benefits": {
+      "en": [
+        "Lemon Balm (Melissa officinalis) provides anxiolytic effects through GABA-transaminase inhibition",
+        "Chamomile supports relaxation and reduces mild anxiety across clinical reports",
+        "Value-oriented formula for regular use without sacrificing botanical quality",
+        "Clean, refreshing taste profile for pleasant daily sessions"
+      ],
+      "es": [
+        "El Toronjil (Melissa officinalis) proporciona efectos ansiolíticos a través de la inhibición de la GABA-transaminasa",
+        "La Manzanilla apoya la relajación y reduce la ansiedad leve según informes clínicos",
+        "Fórmula orientada al valor para uso regular sin sacrificar la calidad botánica",
+        "Perfil de sabor limpio y refrescante para sesiones diarias agradables"
+      ],
+      "it": [
+        "La Melissa (Melissa officinalis) fornisce effetti ansiolitici attraverso l'inibizione della GABA-transaminasi",
+        "La Camomilla supporta il rilassamento e riduce la lieve ansia attraverso report clinici",
+        "Formula orientata al valore per un uso regolare senza sacrificare la qualità botanica",
+        "Profilo di gusto pulito e rinfrescante per piacevoli sessiones diarias"
+      ]
+    },
+    "usage": {
+      "en": "Start at 160-177°C (320-350°F) for best flavor profile. Increase to 190-204°C (374-400°F) for deeper relaxation. Session length: 5-10 minutes.",
+      "es": "Comience a 160-177°C (320-350°F) para el mejor perfil de sabor. Aumente a 190-204°C (374-400°F) para una relajación más profunda. Duración de la sesión: 5-10 minutos.",
+      "it": "Inizia a 160-177°C (320-350°F) per il miglior profilo di sapore. Aumenta a 190-204°C (374-400°F) per un relax più profondo. Durata della sessione: 5-10 minuti."
+    },
+    "safety": {
+      "en": "Lemon Balm: Generally safe; may cause mild drowsiness. Chamomile: Avoid if allergic to Asteraceae family. Both herbs are well-tolerated for general use. Not for minors.",
+      "es": "Toronjil: Generalmente seguro; puede causar somnolencia leve. Manzanilla: Evite si es alérgico a la familia Asteraceae. Ambas hierbas son bien toleradas para uso general. No para menores.",
+      "it": "Melissa: Generalmente sicura; può causare lieve sonnolenza. Camomilla: Evitare se allergici alla famiglia delle Asteraceae. Entrambe le erbe sono ben tollerate per l'uso generale. Non per minori."
+    }
   },
   {
     "id": "luna-mist",
-    "name": "Luna Mist",
+    "name": {
+      "en": "Luna Mist",
+      "es": "Niebla de Luna",
+      "it": "Nebbia di Luna"
+    },
     "price": 29.99,
-    "category": "Sleep Support",
-    "image": "/images/product_luna_mist.png",
-    "shortDescription": "Core sleep & relaxation blend",
-    "herbs": ["Passionflower", "Hops", "Chamomile"],
+    "category": {
+      "en": "Sleep Support",
+      "es": "Apoyo para el Sueño",
+      "it": "Supporto per il Sonno"
+    },
+    "image": "/images/product_luna_mist.webp",
+    "shortDescription": {
+      "en": "Core sleep & relaxation blend",
+      "es": "Mezcla principal de sueño y relajación",
+      "it": "Miscela principale di sonno e rilassamento"
+    },
+    "herbs": [
+      "Passionflower",
+      "Hops",
+      "Chamomile"
+    ],
     "temperature": "150-204°C (302-400°F)",
     "inStock": true,
     "stockLevel": 19,
     "rating": 4.7,
     "reviews": 43,
-    "description": "A bedtime blend featuring Passionflower, Hops, and Chamomile for sleep support with honeyed floral aromatics. Hospital data suggests fixed herbal combinations reduce benzodiazepine use.",
-    "benefits": [
-      "Passionflower in fixed combinations shows signals for anxiety and sleep improvement",
-      "Hops contributes to sedative effects and sleep quality enhancement",
-      "Chamomile provides anxiolytic and sleep-promoting effects",
-      "Real-world data shows reduced benzodiazepine co-prescription with such combinations"
-    ],
-    "usage": "A longer, low-heat session (150-177°C / 302-350°F) works well for evening wind-down. Gradually increase to 190-204°C (374-400°F) as desired. Session: 10-15 minutes before bed.",
-    "safety": "Passionflower: Monitor sedation; may interact with CNS depressants. Hops: Generally safe; sedative effects. Chamomile: Safe for most; allergy caution. Avoid combining with alcohol or sedative medications."
+    "description": {
+      "en": "A bedtime blend featuring Passionflower, Hops, and Chamomile for sleep support with honeyed floral aromatics. Hospital data suggests fixed herbal combinations reduce benzodiazepine use.",
+      "es": "Una mezcla para dormir con Pasiflora, Lúpulo y Manzanilla para el apoyo del sueño con aromáticos florales melosos. Los datos hospitalarios sugieren que las combinaciones herbales fijas reducen el uso de benzodiacepinas.",
+      "it": "Una miscela per dormire con Passiflora, Luppolo e Camomilla per il supporto del sonno con aromi floreali mielati. I dati ospedalieri suggeriscono che le combinazioni erboristiche fisse riducono l'uso di benzodiazepine."
+    },
+    "benefits": {
+      "en": [
+        "Passionflower in fixed combinations shows signals for anxiety and sleep improvement",
+        "Hops contributes to sedative effects and sleep quality enhancement",
+        "Chamomile provides anxiolytic and sleep-promoting effects",
+        "Real-world data shows reduced benzodiazepine co-prescription with such combinations"
+      ],
+      "es": [
+        "La Pasiflora en combinaciones fijas muestra señales de mejora en la ansiedad y el sueño",
+        "El Lúpulo contribuye a los efectos sedantes y a la mejora de la calidad del sueño",
+        "La Manzanilla proporciona efectos ansiolíticos y promotores del sueño",
+        "Los datos del mundo real muestran una reducción en la co-prescripción de benzodiacepinas con tales combinaciones"
+      ],
+      "it": [
+        "La Passiflora in combinazioni fisse mostra segnali di miglioramento dell'ansia e del sonno",
+        "Il Luppolo contribuisce agli effetti sedativi e al miglioramento della qualità del sonno",
+        "La Camomilla fornisce effetti ansiolitici e favorente il sonno",
+        "I dati del mondo reale mostrano una riduzione della co-prescrizione di benzodiazepine con tali combinazioni"
+      ]
+    },
+    "usage": {
+      "en": "A longer, low-heat session (150-177°C / 302-350°F) works well for evening wind-down. Gradually increase to 190-204°C (374-400°F) as desired. Session: 10-15 minutes before bed.",
+      "es": "Una sesión más larga y a baja temperatura (150-177°C / 302-350°F) funciona bien para relajarse por la noche. Aumente gradualmente a 190-204°C (374-400°F) según desee. Sesión: 10-15 minutos antes de acostarse.",
+      "it": "Una sessione più lunga a basso calore (150-177°C / 302-350°F) funziona bene per il rilassamento serale. Aumenta gradualmente a 190-204°C (374-400°F) come desiderato. Sessione: 10-15 minuti prima di dormire."
+    },
+    "safety": {
+      "en": "Passionflower: Monitor sedation; may interact with CNS depressants. Hops: Generally safe; sedative effects. Chamomile: Safe for most; allergy caution. Avoid combining with alcohol or sedative medications.",
+      "es": "Pasiflora: Monitorear sedación; puede interactuar con depresores del SNC. Lúpulo: Generalmente seguro; efectos sedantes. Manzanilla: Segura para la mayoría; precaución por alergia. Evite combinar con alcohol o medicamentos sedantes.",
+      "it": "Passiflora: Monitorare la sedazione; può interagire con depressivi del SNC. Luppolo: Generalmente sicuro; effetti sedativi. Camomilla: Sicura per la maggior parte; cautela per le allergie. Evitare di combinare con alcol o farmaci sedativi."
+    }
   },
   {
     "id": "mental-clarity",
-    "name": "Mental Clarity",
+    "name": {
+      "en": "Mental Clarity",
+      "es": "Claridad Mental",
+      "it": "Chiareza Mentale"
+    },
     "price": 29.99,
-    "category": "Focus & Clarity",
-    "image": "/images/product_mental_clarity.png",
-    "shortDescription": "Core focus & concentration",
-    "herbs": ["Peppermint", "Rosemary"],
+    "category": {
+      "en": "Focus & Clarity",
+      "es": "Enfoque y Claridad",
+      "it": "Focus e Chiarezza"
+    },
+    "image": "/images/product_mental_clarity.webp",
+    "shortDescription": {
+      "en": "Core focus & concentration",
+      "es": "Enfoque principal y concentración",
+      "it": "Focus principale e concentrazione"
+    },
+    "herbs": [
+      "Peppermint",
+      "Rosemary"
+    ],
     "temperature": "125-176°C (257-350°F)",
     "inStock": true,
     "stockLevel": 21,
     "rating": 4.6,
     "reviews": 37,
-    "description": "A crisp, refreshing blend of Peppermint and Rosemary for mental clarity and focus. Cool mint with pine-rosemary aromatics for cognitive enhancement.",
-    "benefits": [
-      "Peppermint aroma and essential oil show pre-clinical cognitive benefits and human alertness signals",
-      "Rosemary systemic 1,8-cineole levels correlate with cognitive performance in controlled studies",
-      "Combined monoterpenes support attention, memory, and processing speed",
-      "Straightforward clarity-focused profile without medical claims"
-    ],
-    "usage": "Use lower temperatures (125-150°C / 257-302°F) to accentuate mint freshness. Raise to 160-176°C (320-350°F) for fuller body. Session: 5-10 minutes for focus periods.",
-    "safety": "Peppermint: Generally safe; may interact with certain medications. Rosemary: Safe in aromatherapy; avoid during pregnancy. Both well-tolerated at vaporization temperatures. Not for minors."
+    "description": {
+      "en": "A crisp, refreshing blend of Peppermint and Rosemary for mental clarity and focus. Cool mint with pine-rosemary aromatics for cognitive enhancement.",
+      "es": "Una mezcla fresca y refrescante de Menta y Romero para la claridad mental y el enfoque. Menta fresca con aromáticos de pino y romero para la mejora cognitiva.",
+      "it": "Una miscela fresca e rinfrescante di Menta e Rosmarino per la chiarezza mentale e la concentrazione. Menta fresca con aromi di pino e rosmarino per il potenziamento cognitivo."
+    },
+    "benefits": {
+      "en": [
+        "Peppermint aroma and essential oil show pre-clinical cognitive benefits and human alertness signals",
+        "Rosemary systemic 1,8-cineole levels correlate with cognitive performance in controlled studies",
+        "Combined monoterpenes support attention, memory, and processing speed",
+        "Straightforward clarity-focused profile without medical claims"
+      ],
+      "es": [
+        "El aroma de menta y el aceite esencial muestran beneficios cognitivos pre-clínicos y señales de alerta humana",
+        "Los niveles sistémicos de 1,8-cineol del romero se correlacionan con el rendimiento cognitivo en estudios controlados",
+        "Los monoterpenos combinados apoyan la atención, la memoria y la velocidad de procesamiento",
+        "Perfil sencillo centrado en la claridad sin afirmaciones médicas"
+      ],
+      "it": [
+        "L'aroma e l'olio essenziale di menta mostrano benefici cognitivi pre-clinici e segnali di vigilanza umana",
+        "I livelli sistemici di 1,8-cineolo del rosmarino correlano con le prestazioni cognitive in studi controllati",
+        "I monoterpeni combinati supportano l'attenzione, la memoria e la velocità di elaborazione",
+        "Profilo semplice incentrato sulla chiarezza senza affermazioni mediche"
+      ]
+    },
+    "usage": {
+      "en": "Use lower temperatures (125-150°C / 257-302°F) to accentuate mint freshness. Raise to 160-176°C (320-350°F) for fuller body. Session: 5-10 minutes for focus periods.",
+      "es": "Use temperaturas más bajas (125-150°C / 257-302°F) para acentuar la frescura de la menta. Suba a 160-176°C (320-350°F) para un cuerpo más completo. Sesión: 5-10 minutos para periodos de enfoque.",
+      "it": "Usa temperature più basse (125-150°C / 257-302°F) per accentuare la freschezza della menta. Aumenta a 160-176°C (320-350°F) per una consistenza più piena. Sessione: 5-10 minuti per i periodi di concentrazione."
+    },
+    "safety": {
+      "en": "Peppermint: Generally safe; may interact with certain medications. Rosemary: Safe in aromatherapy; avoid during pregnancy. Both well-tolerated at vaporization temperatures. Not for minors.",
+      "es": "Menta: Generalmente segura; puede interactuar con ciertos medicamentos. Romero: Seguro en aromaterapia; evite durante el embarazo. Ambos bien tolerados a temperaturas de vaporización. No para menores.",
+      "it": "Menta: Generalmente sicura; può interagire con certi farmaci. Rosmarino: Sicuro in aromaterapia; evitare durante la gravidanza. Entrambi ben tollerati alle temperature di vaporizzazione. Non per minori."
+    }
   },
   {
     "id": "sunrise-energy",
-    "name": "Sunrise Energy",
+    "name": {
+      "en": "Sunrise Energy",
+      "es": "Energía del Amanecer",
+      "it": "Energia dell'Alba"
+    },
     "price": 34.99,
-    "category": "Stress Relief",
-    "image": "/images/product_sunrise_energy.png",
-    "shortDescription": "Premium stress relief & vitality",
-    "herbs": ["Ginger", "Peppermint", "Tulsi"],
+    "category": {
+      "en": "Stress Relief",
+      "es": "Alivio de Estrés",
+      "it": "Sollievo dello Stress"
+    },
+    "image": "/images/product_sunrise_energy.webp",
+    "shortDescription": {
+      "en": "Premium stress relief & vitality",
+      "es": "Alivio de estrés y vitalidad premium",
+      "it": "Sollievo dallo stress e vitalità premium"
+    },
+    "herbs": [
+      "Ginger",
+      "Peppermint",
+      "Tulsi"
+    ],
     "temperature": "130-176°C (266-350°F)",
     "inStock": true,
     "stockLevel": 17,
     "rating": 4.5,
     "reviews": 31,
-    "description": "An energizing stress relief blend featuring Ginger, Peppermint, and Tulsi (Holy Basil). Combines stress reduction with gentle vitality for daytime use.",
-    "benefits": [
-      "Ginger supports cognitive processing and attention in RCT evidence",
-      "Peppermint provides alertness and cooling sensory effects",
-      "Tulsi (Holy Basil) reduces stress and stress biomarkers in 8-week RCT at 125mg twice daily",
-      "Combined profile supports stress resilience while maintaining clarity"
-    ],
-    "usage": "Start at 130-150°C (266-302°F) for optimal terpene extraction. Lower heat preserves ginger's subtle spice. Session: 5-10 minutes as needed for stress management.",
-    "safety": "Ginger: Well-tolerated; caution with blood thinners. Peppermint: Safe for most. Tulsi: Well-tolerated; may aid sleep and stress resilience. Not for pregnancy or nursing. Age 21+."
+    "description": {
+      "en": "An energizing stress relief blend featuring Ginger, Peppermint, and Tulsi (Holy Basil). Combines stress reduction with gentle vitality for daytime use.",
+      "es": "Una mezcla energizante para el alivio del estrés con Jengibre, Menta y Tulsi (Albahaca Sagrada). Combina la reducción del estrés con una suave vitalidad para el uso diurno.",
+      "it": "Una miscela energizzante per il sollievo dallo stress con Zenzero, Menta e Tulsi (Basilico Sacro). Combina la riduzione dello stress con una dolce vitalità per l'uso diurno."
+    },
+    "benefits": {
+      "en": [
+        "Ginger supports cognitive processing and attention in RCT evidence",
+        "Peppermint provides alertness and cooling sensory effects",
+        "Tulsi (Holy Basil) reduces stress and stress biomarkers in 8-week RCT at 125mg twice daily",
+        "Combined profile supports stress resilience while maintaining clarity"
+      ],
+      "es": [
+        "El jengibre apoya el procesamiento cognitivo y la atención en evidencia de ECA",
+        "La menta proporciona alerta y efectos sensoriales refrescantes",
+        "El Tulsi (Albahaca Sagrada) reduce el estrés y los biomarcadores de estrés en un ECA de 8 semanas a 125mg dos veces al día",
+        "El perfil combinado apoya la resiliencia al estrés manteniendo la claridad"
+      ],
+      "it": [
+        "Lo zenzero supporta l'elaborazione cognitiva e l'attenzione nell'evidenza RCT",
+        "La menta fornisce vigilanza ed effetti sensoriali rinfrescanti",
+        "Il Tulsi (Basilico Sacro) riduce lo stress e i biomarcatori di stress in un RCT di 8 settimane a 125mg due volte al giorno",
+        "Il profilo combinato supporta la resilienza allo stress mantenendo la chiarezza"
+      ]
+    },
+    "usage": {
+      "en": "Start at 130-150°C (266-302°F) for optimal terpene extraction. Lower heat preserves ginger's subtle spice. Session: 5-10 minutes as needed for stress management.",
+      "es": "Comience a 130-150°C (266-302°F) para una extracción óptima de terpenos. El calor bajo conserva la sutil especia del jengibre. Sesión: 5-10 minutos según sea necesario para el manejo del estrés.",
+      "it": "Inizia a 130-150°C (266-302°F) per un'estrazione ottimale dei terpeni. Il calore basso conserva la sottile spezia dello zenzero. Sessione: 5-10 minuti come necessario per la gestione dello stress."
+    },
+    "safety": {
+      "en": "Ginger: Well-tolerated; caution with blood thinners. Peppermint: Safe for most. Tulsi: Well-tolerated; may aid sleep and stress resilience. Not for pregnancy or nursing. Age 21+.",
+      "es": "Jengibre: Bien tolerado; precaución con anticoagulantes. Menta: Segura para la mayoría. Tulsi: Bien tolerado; puede ayudar al sueño y a la resiliencia al estrés. No para embarazo ni lactancia. Edad 21+.",
+      "it": "Zenzero: Ben tollerato; cautela con anticoagulanti. Menta: Sicura per la maggior parte. Tulsi: Ben tollerato; può aiutare il sonno e la resilienza allo stress. Non per gravidanza o allattamento. Età 21+."
+    }
   },
   {
     "id": "breathe-easy",
-    "name": "Breathe Easy",
+    "name": {
+      "en": "Breathe Easy",
+      "es": "Respira Fácil",
+      "it": "Respira Facile"
+    },
     "price": 19.99,
-    "category": "Stress Relief",
-    "image": "/images/product_breathe_easy.png",
-    "shortDescription": "Entry-level stress relief",
-    "herbs": ["Peppermint", "Mullein"],
+    "category": {
+      "en": "Stress Relief",
+      "es": "Alivio de Estrés",
+      "it": "Sollievo dello Stress"
+    },
+    "image": "/images/product_breathe_easy.webp",
+    "shortDescription": {
+      "en": "Entry-level stress relief",
+      "es": "Alivio de estrés inicial",
+      "it": "Sollievo dello stress iniziale"
+    },
+    "herbs": [
+      "Peppermint",
+      "Mullein"
+    ],
     "temperature": "150-232°C (302-450°F)",
     "inStock": true,
     "stockLevel": 28,
     "rating": 4.4,
     "reviews": 52,
-    "description": "An entry-level stress relief blend featuring Peppermint and Mullein for smooth, refreshing vapor. Value-priced for those new to herbal vaping.",
-    "benefits": [
-      "Peppermint provides cooling aromatics with alertness support",
-      "Mullein offers smooth, neutral base for comfortable vapor",
-      "Simple, clean profile ideal for beginners",
-      "Cost-effective introduction to herbal vaping"
-    ],
-    "usage": "Start at 150°C (302°F) for smooth vapor production. Mullein's neutral base accommodates wide temperature range. Session: 5-10 minutes as desired.",
-    "safety": "Peppermint: Generally safe. Mullein: Well-tolerated respiratory herb with long history of use. Both safe for vaporization. Not for minors. FDA disclaimer applies."
+    "description": {
+      "en": "An entry-level stress relief blend featuring Peppermint and Mullein for smooth, refreshing vapor. Value-priced for those new to herbal vaping.",
+      "es": "Una mezcla de alivio de estrés inicial con Menta y Gordolobo para un vapor suave y refrescante. Precio económico para quienes se inician en el vapeo herbal.",
+      "it": "Una miscela di sollievo dallo stress iniziale con Menta e Verbasco per un vapore delicato e rinfrescante. Prezzo economico per chi è nuovo allo svapo erboristico."
+    },
+    "benefits": {
+      "en": [
+        "Peppermint provides cooling aromatics with alertness support",
+        "Mullein offers smooth, neutral base for comfortable vapor",
+        "Simple, clean profile ideal for beginners",
+        "Cost-effective introduction to herbal vaping"
+      ],
+      "es": [
+        "La menta proporciona aromáticos refrescantes con apoyo a la alerta",
+        "El gordolobo ofrece una base suave y neutra para un vapor cómodo",
+        "Perfil sencillo y limpio ideal para principiantes",
+        "Introducción rentable al vapeo herbal"
+      ],
+      "it": [
+        "La menta fornisce aromi rinfrescanti con supporto alla vigilanza",
+        "Il verbasco offre una base delicata e neutra per un vapore confortevole",
+        "Profilo semplice e pulito ideale per i principianti",
+        "Introduzione conveniente allo svapo erboristico"
+      ]
+    },
+    "usage": {
+      "en": "Start at 150°C (302°F) for smooth vapor production. Mullein's neutral base accommodates wide temperature range. Session: 5-10 minutes as desired.",
+      "es": "Comience a 150°C (302°F) para una producción de vapor suave. La base neutra del gordolobo permite un amplio rango de temperatura. Sesión: 5-10 minutos según se desee.",
+      "it": "Inizia a 150°C (302°F) per una produzione di vapore delicata. La base neutra del verbasco permette un ampio intervallo di temperatura. Sessione: 5-10 minuti come desiderato."
+    },
+    "safety": {
+      "en": "Peppermint: Generally safe. Mullein: Well-tolerated respiratory herb with long history of use. Both safe for vaporization. Not for minors. FDA disclaimer applies.",
+      "es": "Menta: Generalmente segura. Gordolobo: Hierba respiratoria bien tolerada con larga historia de uso. Ambos seguros para vaporización. No para menores. Aplica descargo de responsabilidad de la FDA.",
+      "it": "Menta: Generalmente sicura. Verbasco: Erba respiratoria ben tollerata con una lunga storia d'uso. Entrambi sicuri per la vaporizzazione. Non per minori. Si applica il disclaimer FDA."
+    }
   },
   {
     "id": "dream-weaver",
-    "name": "Dream Weaver",
+    "name": {
+      "en": "Dream Weaver",
+      "es": "Tejedor de Sueños",
+      "it": "Tessitore di Sogni"
+    },
     "price": 39.99,
-    "category": "Sleep Support",
-    "image": "/images/product_dream_weaver.png",
-    "shortDescription": "Premium sleep support blend",
-    "herbs": ["Valerian", "Lavender", "Hops"],
+    "category": {
+      "en": "Sleep Support",
+      "es": "Apoyo para el Sueño",
+      "it": "Supporto per il Sonno"
+    },
+    "image": "/images/product_dream_weaver.webp",
+    "shortDescription": {
+      "en": "Premium sleep support blend",
+      "es": "Mezcla premium de apoyo para el sueño",
+      "it": "Miscela premium di supporto per il sonno"
+    },
+    "herbs": [
+      "Valerian",
+      "Lavender",
+      "Hops"
+    ],
     "temperature": "150-204°C (302-400°F)",
     "inStock": true,
     "stockLevel": 14,
     "rating": 4.8,
     "reviews": 49,
-    "description": "A premium sleep support blend combining Valerian, Lavender, and Hops for profound relaxation and sleep enhancement. Honeyed aromatics with sedative botanicals.",
-    "benefits": [
-      "Valerian in fixed combinations shows strong signals for sleep quality improvement",
-      "Lavender reduces stress and anxiety via limbic system modulation",
-      "Hops contributes sedative effects for sleep onset",
-      "Premium combination for those with persistent sleep difficulties"
-    ],
-    "usage": "Low-to-moderate temperatures (150-177°C / 302-350°F) preserve delicate volatiles. Increase to 190-204°C (374-400°F) for fuller extraction. Extended session (10-20 minutes) before bedtime.",
-    "safety": "Valerian: Monitor sedation; may interact with CNS depressants. Lavender: Safe; mild sedation. Hops: Sedative effects. Avoid with alcohol or other sleep medications. Not for pregnancy/nursing."
+    "description": {
+      "en": "A premium sleep support blend combining Valerian, Lavender, and Hops for profound relaxation and sleep enhancement. Honeyed aromatics with sedative botanicals.",
+      "es": "Una mezcla premium de apoyo para el sueño que combina Valeriana, Lavanda y Lúpulo para una relajación profunda y mejora del sueño. Aromáticos melosos con botánicos sedantes.",
+      "it": "Una miscela premium di supporto per il sonno che combina Valeriana, Lavanda e Luppolo per un profondo rilassamento e potenziamento del sonno. Aromi mielati con botanici sedativi."
+    },
+    "benefits": {
+      "en": [
+        "Valerian in fixed combinations shows strong signals for sleep quality improvement",
+        "Lavender reduces stress and anxiety via limbic system modulation",
+        "Hops contributes sedative effects for sleep onset",
+        "Premium combination for those with persistent sleep difficulties"
+      ],
+      "es": [
+        "La valeriana en combinaciones fijas muestra fuertes señales de mejora de la calidad del sueño",
+        "La lavanda reduce el estrés y la ansiedad a través de la modulación del sistema límbico",
+        "El lúpulo contribuye con efectos sedantes para el inicio del sueño",
+        "Combinación premium para quienes tienen dificultades persistentes para dormir"
+      ],
+      "it": [
+        "La valeriana in combinazioni fisse mostra forti segnali di miglioramento della qualità del sonno",
+        "La lavanda riduce lo stress e l'ansia attraverso la modulazione del sistema limbico",
+        "Il luppolo contribuisce con effetti sedativi per l'inizio del sonno",
+        "Combinazione premium per chi ha persistenti difficoltà a dormire"
+      ]
+    },
+    "usage": {
+      "en": "Low-to-moderate temperatures (150-177°C / 302-350°F) preserve delicate volatiles. Increase to 190-204°C (374-400°F) for fuller extraction. Extended session (10-20 minutes) before bedtime.",
+      "es": "Las temperaturas bajas a moderadas (150-177°C / 302-350°F) conservan los volátiles delicados. Aumente a 190-204°C (374-400°F) para una extracción completa. Sesión prolongada (10-20 minutos) antes de acostarse.",
+      "it": "Le temperature da basse a moderate (150-177°C / 302-350°F) conservano i volatili delicati. Aumenta a 190-204°C (374-400°F) per un'estrazione più completa. Sessione estesa (10-20 minuti) prima di andare a dormire."
+    },
+    "safety": {
+      "en": "Valerian: Monitor sedation; may interact with CNS depressants. Lavender: Safe; mild sedation. Hops: Sedative effects. Avoid with alcohol or other sleep medications. Not for pregnancy/nursing.",
+      "es": "Valeriana: Monitorear sedación; puede interactuar con depresores del SNC. Lavanda: Segura; sedación leve. Lúpulo: Efectos sedantes. Evite con alcohol u otros medicamentos para el sueño. No para embarazo ni lactancia.",
+      "it": "Valeriana: Monitorare la sedazione; può interagire con depressivi del SNC. Lavanda: Sicura; lieve sedazione. Luppolo: Effetti sedativi. Evitare con alcol o altri farmaci per il sonno. Non per gravidanza o allattamento."
+    }
   },
   {
     "id": "soothing-essence",
-    "name": "Soothing Essence",
+    "name": {
+      "en": "Soothing Essence",
+      "es": "Esencia Relajante",
+      "it": "Essenza Rilassante"
+    },
     "price": 29.99,
-    "category": "Anxiety Relief",
-    "image": "/images/product_soothing_essence.png",
-    "shortDescription": "Core anxiety relief blend",
-    "herbs": ["Chamomile", "Lavender", "Lemon Balm"],
+    "category": {
+      "en": "Anxiety Relief",
+      "es": "Alivio de Ansiedad",
+      "it": "Sollievo dall'Ansia"
+    },
+    "image": "/images/product_soothing_essence.webp",
+    "shortDescription": {
+      "en": "Core anxiety relief blend",
+      "es": "Mezcla principal para alivio de ansiedad",
+      "it": "Miscela principale per il sollievo dall'ansia"
+    },
+    "herbs": [
+      "Chamomile",
+      "Lavender",
+      "Lemon Balm"
+    ],
     "temperature": "150-204°C (302-400°F)",
     "inStock": true,
     "stockLevel": 20,
     "rating": 4.7,
     "reviews": 45,
-    "description": "A comprehensive anxiety relief blend combining Chamomile, Lavender, and Lemon Balm. Floral and citrus notes with multiple anxiolytic mechanisms.",
-    "benefits": [
-      "Chamomile reduces anxiety through GABA modulation across multiple populations",
-      "Lavender inhalation significantly reduces anxiety in systematic review of 11 trials",
-      "Lemon Balm provides additional anxiolytic support with calming properties",
-      "Triple-action formula for comprehensive anxiety management"
-    ],
-    "usage": "Start at 150-177°C (302-350°F) to preserve floral aromatics. Gradually increase to 190-204°C (374-400°F) for balanced extraction. Session: 5-15 minutes as needed.",
-    "safety": "Chamomile: Asteraceae allergy caution. Lavender: Safe for most. Lemon Balm: Generally safe; mild drowsiness possible. May enhance effects of other sedatives. Not for pregnancy."
+    "description": {
+      "en": "A comprehensive anxiety relief blend combining Chamomile, Lavender, and Lemon Balm. Floral and citrus notes with multiple anxiolytic mechanisms.",
+      "es": "Una mezcla integral de alivio de la ansiedad que combina Manzanilla, Lavanda y Toronjil. Notas florales y cítricas con múltiples mecanismos ansiolíticos.",
+      "it": "Una miscela completa per il sollievo dall'ansia che combina Camomilla, Lavanda e Melissa. Note floreali e agrumate con molteplici meccanismi ansiolitici."
+    },
+    "benefits": {
+      "en": [
+        "Chamomile reduces anxiety through GABA modulation across multiple populations",
+        "Lavender inhalation significantly reduces anxiety in systematic review of 11 trials",
+        "Lemon Balm provides additional anxiolytic support with calming properties",
+        "Triple-action formula for comprehensive anxiety management"
+      ],
+      "es": [
+        "La manzanilla reduce la ansiedad a través de la modulación GABA en múltiples poblaciones",
+        "La inhalación de lavanda reduce significativamente la ansiedad en una revisión sistemática de 11 ensayos",
+        "El toronjil proporciona apoyo ansiolítico adicional con propiedades calmantes",
+        "Fórmula de triple acción para el manejo integral de la ansiedad"
+      ],
+      "it": [
+        "La camomilla riduce l'ansia attraverso la modulazione GABA in più popolazioni",
+        "L'inalazione di lavanda riduce significativamente l'ansia in una revisione sistematica di 11 studi",
+        "La melissa fornisce ulteriore supporto ansiolitico con proprietà calmanti",
+        "Formula a tripla azione per la gestione completa dell'ansia"
+      ]
+    },
+    "usage": {
+      "en": "Start at 150-177°C (302-350°F) to preserve floral aromatics. Gradually increase to 190-204°C (374-400°F) for balanced extraction. Session: 5-15 minutes as needed.",
+      "es": "Comience a 150-177°C (302-350°F) para conservar los aromáticos florales. Aumente gradualmente a 190-204°C (374-400°F) para una extracción equilibrada. Sesión: 5-15 minutos según sea necesario.",
+      "it": "Inizia a 150-177°C (302-350°F) per conservare gli aromi floreali. Aumenta gradualmente a 190-204°C (374-400°F) per un'estrazione equilibrata. Sessione: 5-15 minuti al bisogno."
+    },
+    "safety": {
+      "en": "Chamomile: Asteraceae allergy caution. Lavender: Safe for most. Lemon Balm: Generally safe; mild drowsiness possible. May enhance effects of other sedatives. Not for pregnancy.",
+      "es": "Manzanilla: Precaución por alergia a Asteraceae. Lavanda: Segura para la mayoría. Toronjil: Generalmente seguro; posible somnolencia leve. Puede potenciar los efectos de otros sedantes. No para embarazo.",
+      "it": "Camomilla: Cautela per l'allergia alle Asteraceae. Lavanda: Sicura per la maggior parte. Melissa: Generalmente sicura; possibile lieve sonnolenza. Può potenziare gli effetti di altri sedativi. Non per gravidanza."
+    }
   },
   {
     "id": "emotion-balance",
-    "name": "Emotion Balance",
+    "name": {
+      "en": "Emotion Balance",
+      "es": "Equilibrio Emocional",
+      "it": "Equilibrio Emotivo"
+    },
     "price": 34.99,
-    "category": "Mood Support",
-    "image": "/images/product_emotion_balance.png",
-    "shortDescription": "Premium mood & emotional wellness",
-    "herbs": ["Damiana", "Rose", "Chamomile", "St. John's Wort"],
+    "category": {
+      "en": "Mood Support",
+      "es": "Apoyo del Estado de Ánimo",
+      "it": "Supporto dell'Umore"
+    },
+    "image": "/images/product_emotion_balance.webp",
+    "shortDescription": {
+      "en": "Premium mood & emotional wellness",
+      "es": "Bienestar emocional y del ánimo premium",
+      "it": "Benessere emotivo e dell'umore premium"
+    },
+    "herbs": [
+      "Damiana",
+      "Rose",
+      "Chamomile",
+      "St. John's Wort"
+    ],
     "temperature": "160-204°C (320-400°F)",
     "inStock": true,
     "stockLevel": 16,
     "rating": 4.6,
     "reviews": 38,
-    "description": "A premium mood support blend featuring Damiana, Rose, Chamomile, and St. John's Wort for emotional balance and well-being. Complex sweet-herbal profile.",
-    "benefits": [
-      "St. John's Wort shows efficacy comparable to SSRIs for mild-to-moderate depression in meta-analyses",
-      "Damiana provides traditional mood support with pleasant aromatics",
-      "Rose offers gentle mood-lifting properties",
-      "Chamomile supports overall emotional well-being and anxiety reduction"
-    ],
-    "usage": "Begin at 160°C (320°F) to preserve delicate aromatics. Increase to 190-204°C (374-400°F) as desired. Session: 10-15 minutes for mood support.",
-    "safety": "St. John's Wort: HIGH interaction risk via CYP3A4 induction; avoid with many medications. Consult healthcare provider. Damiana: Safe in moderation. Rose: No contraindications. Chamomile: Allergy caution. Not for use with antidepressants without medical supervision."
+    "description": {
+      "en": "A premium mood support blend featuring Damiana, Rose, Chamomile, and St. John's Wort for emotional balance and well-being. Complex sweet-herbal profile.",
+      "es": "Una mezcla premium de apoyo para el ánimo con Damiana, Rosa, Manzanilla e Hipérico para el equilibrio emocional y el bienestar. Perfil dulce y herbal complejo.",
+      "it": "Una miscela premium di supporto per l'umore con Damiana, Rosa, Camomilla e Erba di San Giovanni per l'equilibrio emotivo e il benessere. Profilo dolce ed erboristico complesso."
+    },
+    "benefits": {
+      "en": [
+        "St. John's Wort shows efficacy comparable to SSRIs for mild-to-moderate depression in meta-analyses",
+        "Damiana provides traditional mood support with pleasant aromatics",
+        "Rose offers gentle mood-lifting properties",
+        "Chamomile supports overall emotional well-being and anxiety reduction"
+      ],
+      "es": [
+        "El hipérico muestra una eficacia comparable a los ISRS para la depresión leve a moderada en meta-análisis",
+        "La damiana proporciona apoyo tradicional al ánimo con aromáticos agradables",
+        "La rosa ofrece suaves propiedades para elevar el estado de ánimo",
+        "La manzanilla apoya el bienestar emocional general y la reducción de la ansiedad"
+      ],
+      "it": [
+        "L'erba di San Giovanni mostra un'efficacia paragonabile ai SSRI per la depressione da lieve a moderata nelle meta-analisi",
+        "La damiana fornisce un supporto tradizionale all'umore con aromi piacevoli",
+        "La rosa offre dolci proprietà per sollevare l'umore",
+        "La camomilla supporta il benessere emotivo generale e la riduzione dell'ansia"
+      ]
+    },
+    "usage": {
+      "en": "Begin at 160°C (320°F) to preserve delicate aromatics. Increase to 190-204°C (374-400°F) as desired. Session: 10-15 minutes for mood support.",
+      "es": "Comience a 160°C (320°F) para conservar los aromáticos delicados. Aumente a 190-204°C (374-400°F) según desee. Sesión: 10-15 minutos para apoyo del ánimo.",
+      "it": "Inizia a 160°C (320°F) per conservare gli aromi delicati. Aumenta a 190-204°C (374-400°F) come desiderato. Sessione: 10-15 minuti per il supporto dell'umore."
+    },
+    "safety": {
+      "en": "St. John's Wort: HIGH interaction risk via CYP3A4 induction; avoid with many medications. Consult healthcare provider. Damiana: Safe in moderation. Rose: No contraindications. Chamomile: Allergy caution. Not for use with antidepressants without medical supervision.",
+      "es": "Hipérico: ALTO riesgo de interacción vía inducción de CYP3A4; evite con muchos medicamentos. Consulte al médico. Damiana: Segura con moderación. Rosa: Sin contraindicazioni. Manzanilla: Precaución por alergia. No usar con antidepresivos sin supervisión médica.",
+      "it": "Erba di San Giovanni: ALTO rischio di interazione via induzione del CYP3A4; evitare con molti farmaci. Consultare un medico. Damiana: Sicura con moderazione. Rosa: Nessuna controindicazione. Camomilla: Cautela per le allergie. Non usare con antidepressivi senza supervisione medica."
+    }
   }
 ]

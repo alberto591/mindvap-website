@@ -39,7 +39,7 @@ export default function CheckoutSuccessPage() {
     const loadOrderData = async () => {
       try {
         setLoading(true);
-        
+
         if (!paymentIntentId && !orderId) {
           setError('No order information found');
           return;
@@ -74,7 +74,7 @@ export default function CheckoutSuccessPage() {
           }));
         } else {
           console.log('🎭 No mock order found, trying database...');
-          
+
           // If not found in mock orders, try to find order by payment intent ID first
           if (paymentIntentId) {
             foundOrder = await OrderService.getOrderByPaymentIntent(paymentIntentId);
@@ -225,7 +225,7 @@ export default function CheckoutSuccessPage() {
           <p className="text-sm text-text-tertiary mb-4">
             Order #{order.id.substring(0, 8).toUpperCase()} • {orderDate.toLocaleDateString()}
           </p>
-          
+
           {/* Development Notice for Mock Orders */}
           {order.stripe_payment_intent_id.startsWith('pi_mock_') && (
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 max-w-2xl mx-auto">
@@ -249,7 +249,7 @@ export default function CheckoutSuccessPage() {
                   {order.status.toUpperCase()}
                 </span>
               </div>
-              
+
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
                   <h3 className="font-semibold text-text-primary mb-3">Order Information</h3>
@@ -272,7 +272,7 @@ export default function CheckoutSuccessPage() {
                     </div>
                   </div>
                 </div>
-                
+
                 <div>
                   <h3 className="font-semibold text-text-primary mb-3">Contact Information</h3>
                   <div className="space-y-2 text-sm">
@@ -296,8 +296,9 @@ export default function CheckoutSuccessPage() {
                 {orderItems.map((item) => (
                   <div key={item.id} className="flex gap-4 p-4 border border-gray-200 rounded-lg">
                     <img
-                      src={item.product_image_url || '/images/placeholder-product.png'}
+                      src={item.product_image_url || '/images/placeholder-product.webp'}
                       alt={item.product_name}
+                      loading="lazy"
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="flex-1">
@@ -349,7 +350,7 @@ export default function CheckoutSuccessPage() {
             {/* Order Summary */}
             <div className="bg-white rounded-lg p-8 shadow-sm sticky top-24">
               <h2 className="font-serif text-2xl text-text-primary mb-6">Order Summary</h2>
-              
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-text-secondary">Subtotal</span>
@@ -384,14 +385,14 @@ export default function CheckoutSuccessPage() {
                   <Package className="w-4 h-4" />
                   Track Your Order
                 </button>
-                
+
                 <button
                   onClick={handleViewOrders}
                   className="w-full border border-brand text-brand hover:bg-brand-hover hover:text-white font-semibold py-3 px-6 rounded-full transition-all"
                 >
                   View Order History
                 </button>
-                
+
                 <button
                   onClick={handlePrintOrder}
                   className="w-full border border-gray-300 text-text-primary hover:bg-gray-50 font-semibold py-3 px-6 rounded-full transition-all flex items-center justify-center gap-2"
@@ -399,7 +400,7 @@ export default function CheckoutSuccessPage() {
                   <Download className="w-4 h-4" />
                   Print Order
                 </button>
-                
+
                 <button
                   onClick={handleShareOrder}
                   className="w-full border border-gray-300 text-text-primary hover:bg-gray-50 font-semibold py-3 px-6 rounded-full transition-all flex items-center justify-center gap-2"

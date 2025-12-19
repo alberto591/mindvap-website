@@ -88,7 +88,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
 
     setIsProcessing(true);
     setError(null);
-    
+
     try {
       const cartItems = cart.map(item => ({
         product_id: item.product.id,
@@ -213,7 +213,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
         {/* Development Notice */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-8">
           <p className="text-blue-800 text-sm">
-            🎭 <strong>Development Mode:</strong> Using mock payment service for testing. 
+            🎭 <strong>Development Mode:</strong> Using mock payment service for testing.
             No real charges will be made.
           </p>
         </div>
@@ -235,7 +235,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                         id="guest-checkout"
                         name="checkoutType"
                         checked={!formData.createAccount}
-                        onChange={() => setFormData({...formData, createAccount: false})}
+                        onChange={() => setFormData({ ...formData, createAccount: false })}
                         className="w-5 h-5 text-brand focus:ring-brand"
                       />
                       <label htmlFor="guest-checkout" className="flex items-center gap-2 text-text-primary font-medium">
@@ -246,14 +246,14 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                     <p className="text-sm text-text-secondary ml-8">
                       Complete your purchase without creating an account
                     </p>
-                    
+
                     <div className="flex items-center gap-3">
                       <input
                         type="radio"
                         id="create-account"
                         name="checkoutType"
                         checked={formData.createAccount}
-                        onChange={() => setFormData({...formData, createAccount: true})}
+                        onChange={() => setFormData({ ...formData, createAccount: true })}
                         className="w-5 h-5 text-brand focus:ring-brand"
                       />
                       <label htmlFor="create-account" className="flex items-center gap-2 text-text-primary font-medium">
@@ -288,7 +288,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand focus:border-transparent"
                     />
                   </div>
-                  
+
                   {/* Password fields for account creation */}
                   {formData.createAccount && !isAuthenticated && (
                     <>
@@ -416,11 +416,11 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="zipCode" className="block text-sm font-medium text-text-primary mb-2">
-                        {formData.country === 'GB' ? 'Postcode' : 
-                         formData.country === 'CH' ? 'Postleitzahl' : 
-                         formData.country === 'NL' ? 'Postcode' : 
-                         formData.country === 'IE' ? 'Eircode' :
-                         'Postal Code'} *
+                        {formData.country === 'GB' ? 'Postcode' :
+                          formData.country === 'CH' ? 'Postleitzahl' :
+                            formData.country === 'NL' ? 'Postcode' :
+                              formData.country === 'IE' ? 'Eircode' :
+                                'Postal Code'} *
                       </label>
                       <input
                         type="text"
@@ -577,6 +577,7 @@ export default function CheckoutPage({ cart, clearCart }: CheckoutPageProps) {
                     <img
                       src={item.product.image}
                       alt={item.product.name[language]}
+                      loading="lazy"
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="flex-1">
@@ -642,13 +643,13 @@ function MockPaymentForm({ onSuccess, onError }: MockPaymentFormProps) {
     try {
       // In mock mode, we'll simulate a successful payment
       console.log('🎭 Mock Payment: Simulating successful payment');
-      
+
       // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Simulate successful payment
       onSuccess();
-      
+
     } catch (err: any) {
       onError(err.message || 'An unexpected error occurred.');
       setIsProcessing(false);
@@ -731,13 +732,13 @@ function PaymentForm({ onSuccess, onError }: PaymentFormProps) {
     try {
       // In mock mode, we'll simulate a successful payment
       console.log('🎭 Mock Payment: Simulating successful payment');
-      
+
       // Simulate processing delay
       await new Promise(resolve => setTimeout(resolve, 2000));
-      
+
       // Simulate successful payment
       onSuccess();
-      
+
     } catch (err: any) {
       onError(err.message || 'An unexpected error occurred.');
       setIsProcessing(false);

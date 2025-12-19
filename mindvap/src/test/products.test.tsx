@@ -7,7 +7,7 @@
  */
 
 describe('Product Listing Tests (Documentation)', () => {
-  
+
   describe('Product Display', () => {
     test('should load and display products correctly', () => {
       // Test product grid rendering:
@@ -15,7 +15,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Proper layout and responsive design
       // - Loading state handling
       // - Empty state display
-      
+
       // Verify product information display
       // Check image loading and fallbacks
     });
@@ -27,7 +27,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Category and herb information
       // - Stock status indication
       // - Product ratings/reviews (if implemented)
-      
+
       // Verify information accuracy
       // Check currency formatting
     });
@@ -38,7 +38,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Disabled "Add to Cart" button
       // - Different visual styling
       // - Estimated restock date (if available)
-      
+
       // Test stock status accuracy
       // Verify user experience for unavailable products
     });
@@ -49,7 +49,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Image fallbacks for missing images
       // - Lazy loading implementation
       // - Image optimization (WebP with fallbacks)
-      
+
       // Test image accessibility
       // Verify loading performance
     });
@@ -63,7 +63,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // 3. Verify results contain matching products
       // 4. Test search with partial matches
       // 5. Test search with special characters
-      
+
       // Mock search API responses
       // Test search result accuracy
     });
@@ -74,7 +74,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Show search suggestions
       // - Provide clear next steps
       // - Maintain search functionality
-      
+
       // Test user guidance
       // Verify helpful messaging
     });
@@ -85,7 +85,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Popular search terms
       // - Product name suggestions
       // - Category suggestions
-      
+
       // Test suggestion accuracy
       // Verify performance with many suggestions
     });
@@ -97,7 +97,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Categories
       // - Herb ingredients
       // - Tags/keywords
-      
+
       // Test search relevance
       // Verify result ranking
     });
@@ -108,7 +108,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Handle Unicode characters
       // - Trim whitespace
       // - Prevent SQL injection
-      
+
       // Test input sanitization
       // Verify security measures
     });
@@ -121,7 +121,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Display only products in selected category
       // - Handle multiple category selection
       // - Clear filters functionality
-      
+
       // Test category accuracy
       // Verify filter results
     });
@@ -132,7 +132,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Display products within range
       // - Handle edge cases (min > max)
       // - Real-time price updates
-      
+
       // Test price calculation accuracy
       // Verify range filtering
     });
@@ -143,7 +143,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Out of stock only filter
       // - Low stock indication
       // - Pre-order availability filter
-      
+
       // Test stock status accuracy
       // Verify availability filtering
     });
@@ -154,7 +154,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Show products containing selected herbs
       // - Multiple herb selection (AND/OR logic)
       // - Herb-based recommendations
-      
+
       // Test ingredient matching
       // Verify filtering logic
     });
@@ -165,7 +165,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Search + Category + Herbs
       // - Filter persistence during search
       // - Clear individual filters
-      
+
       // Test filter combination logic
       // Verify result accuracy
     });
@@ -176,7 +176,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Selected filter display
       // - Filter chips/tags
       // - Clear all filters option
-      
+
       // Test user interface
       // Verify filter management
     });
@@ -189,7 +189,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Handle products with same price
       // - Maintain filter results during sort
       // - Update sort indicator
-      
+
       // Test sort accuracy
       // Verify result ordering
     });
@@ -200,7 +200,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Handle products with same price
       // - Maintain filter results during sort
       // - Update sort indicator
-      
+
       // Test sort accuracy
       // Verify result ordering
     });
@@ -211,7 +211,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Handle recently updated products
       // - Show new product badges
       // - Consider product launch dates
-      
+
       // Test date sorting accuracy
       // Verify new product identification
     });
@@ -222,7 +222,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Handle special characters
       // - Case-insensitive sorting
       // - Unicode character handling
-      
+
       // Test alphabetical accuracy
       // Verify character handling
     });
@@ -233,7 +233,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Consider customer ratings
       // - Factor in wishlist additions
       // - Update popularity metrics
-      
+
       // Test popularity calculation
       // Verify sorting algorithm
     });
@@ -244,7 +244,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Update sort when filters change
       // - Reset sort to default when clearing filters
       // - Show current sort selection
-      
+
       // Test sort state management
       // Verify user experience
     });
@@ -257,7 +257,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Display stock status (In Stock, Low Stock, Out of Stock)
       // - Color-coded stock indicators
       // - Real-time stock updates
-      
+
       // Test stock accuracy
       // Verify status indicators
     });
@@ -268,7 +268,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Display urgency messaging
       // - Suggest limited quantity
       // - Encourage quick purchase
-      
+
       // Test threshold accuracy
       // Verify user messaging
     });
@@ -279,7 +279,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Reserve stock during checkout
       // - Handle concurrent purchases
       // - Update stock in real-time
-      
+
       // Test inventory synchronization
       // Verify stock protection
     });
@@ -290,7 +290,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Update product displays
       // - Notify users of changes
       // - Handle pre-order situations
-      
+
       // Test real-time updates
       // Verify user notifications
     });
@@ -303,7 +303,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Pagination for large product sets
       // - Infinite scroll implementation
       // - Image optimization
-      
+
       // Test loading performance
       // Verify optimization effectiveness
     });
@@ -314,7 +314,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Memory usage optimization
       // - Rendering performance
       // - Search speed with large datasets
-      
+
       // Test system performance
       // Verify scalability metrics
     });
@@ -325,7 +325,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Tablet layout (2-3 columns)
       // - Mobile layout (1-2 columns)
       // - Touch-friendly interactions
-      
+
       // Test various screen sizes
       // Verify responsive behavior
     });
@@ -338,7 +338,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Update cart count in header
       // - Show add to cart feedback
       // - Handle cart updates
-      
+
       // Test cart synchronization
       // Verify user feedback
     });
@@ -349,7 +349,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Wishlist count updates
       // - Persist wishlist items
       // - Cross-device synchronization
-      
+
       // Test wishlist functionality
       // Verify data persistence
     });
@@ -360,7 +360,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Search result highlighting
       // - Search history
       // - Popular searches
-      
+
       // Test search functionality
       // Verify integration accuracy
     });
@@ -373,7 +373,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - GBP for UK customers
       // - Real-time currency conversion
       // - Proper currency symbols
-      
+
       // Test currency formatting
       // Verify conversion accuracy
     });
@@ -384,7 +384,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Shipping restrictions
       // - Legal compliance indicators
       // - Age verification requirements
-      
+
       // Test regional logic
       // Verify compliance messaging
     });
@@ -395,7 +395,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Localized product descriptions
       // - Cultural preferences
       // - Regulatory classifications
-      
+
       // Test localization accuracy
       // Verify cultural appropriateness
     });
@@ -408,7 +408,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Product schema markup
       // - Meta descriptions and titles
       // - Alt text for images
-      
+
       // Test SEO implementation
       // Verify search engine optimization
     });
@@ -419,7 +419,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Screen reader compatibility
       // - ARIA labels and descriptions
       // - Focus management
-      
+
       // Test WCAG 2.1 AA compliance
       // Verify accessibility features
     });
@@ -430,7 +430,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Social media integration
       // - Product link generation
       // - Open Graph meta tags
-      
+
       // Test sharing functionality
       // Verify social media integration
     });
@@ -443,7 +443,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Click-through rates
       // - Search query analytics
       // - Filter usage statistics
-      
+
       // Test tracking accuracy
       // Verify privacy compliance
     });
@@ -454,7 +454,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Product page visits
       // - Search to purchase funnel
       // - Filter effectiveness
-      
+
       // Test conversion analytics
       // Verify attribution tracking
     });
@@ -467,7 +467,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - API rate limiting
       // - Server errors
       // - Timeout handling
-      
+
       // Test error recovery
       // Verify user messaging
     });
@@ -478,7 +478,7 @@ describe('Product Listing Tests (Documentation)', () => {
       // - Invalid search queries
       // - Search timeout handling
       // - Fallback to basic search
-      
+
       // Test search fallbacks
       // Verify error handling
     });
@@ -493,7 +493,7 @@ const mockProduct = {
   price: 39.99,
   category: 'Relaxation',
   herbs: ['Lavender', 'Chamomile', 'Mint'],
-  image: '/images/product-test-blend.png',
+  image: '/images/product-test-blend.webp',
   stockLevel: 15,
   isActive: true,
   created_at: '2023-12-01T10:00:00Z',

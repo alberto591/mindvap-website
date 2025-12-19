@@ -45,7 +45,7 @@ export default function OrderConfirmation({
             {order.status.toUpperCase()}
           </span>
         </div>
-        
+
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <h3 className="font-medium text-text-primary mb-2">Order Information</h3>
@@ -57,7 +57,7 @@ export default function OrderConfirmation({
               <p><strong>Payment Method:</strong> Credit Card (Stripe)</p>
             </div>
           </div>
-          
+
           <div>
             <h3 className="font-medium text-text-primary mb-2">Contact Information</h3>
             <div className="space-y-1 text-sm text-text-secondary">
@@ -75,8 +75,9 @@ export default function OrderConfirmation({
           {orderItems.map((item) => (
             <div key={item.id} className="flex gap-4 p-4 border border-gray-200 rounded-lg">
               <img
-                src={item.product_image_url || '/images/placeholder-product.png'}
+                src={item.product_image_url || '/images/placeholder-product.webp'}
                 alt={item.product_name}
+                loading="lazy"
                 className="w-16 h-16 object-cover rounded-lg"
               />
               <div className="flex-1">
@@ -184,7 +185,7 @@ export default function OrderConfirmation({
           <h3 className="font-medium text-amber-900">Confirmation Email Sent</h3>
         </div>
         <p className="text-amber-800 text-sm">
-          We've sent a detailed order confirmation to <strong>{customerEmail}</strong>. 
+          We've sent a detailed order confirmation to <strong>{customerEmail}</strong>.
           Please check your email (including spam folder) for your order details and tracking information.
         </p>
       </div>

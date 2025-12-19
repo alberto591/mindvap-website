@@ -20,7 +20,7 @@ const WishlistPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await AccountService.getWishlist();
-      
+
       if (response.success) {
         setWishlistItems(response.items);
       } else {
@@ -37,7 +37,7 @@ const WishlistPage: React.FC = () => {
   const handleRemoveFromWishlist = async (id: string) => {
     try {
       const result = await AccountService.removeFromWishlist(id);
-      
+
       if (result.success) {
         setMessage({ type: 'success', text: 'Item removed from wishlist' });
         loadWishlist();
@@ -53,7 +53,7 @@ const WishlistPage: React.FC = () => {
   const handleMoveToCart = async (wishlistItemId: string) => {
     try {
       const result = await AccountService.moveWishlistToCart(wishlistItemId);
-      
+
       if (result.success) {
         setMessage({ type: 'success', text: 'Item moved to cart' });
         loadWishlist();
@@ -85,11 +85,10 @@ const WishlistPage: React.FC = () => {
       <div className="p-6">
         {/* Success/Error Messages */}
         {message && (
-          <div className={`mb-6 p-4 rounded-md ${
-            message.type === 'success' 
-              ? 'bg-green-50 text-green-800 border border-green-200' 
-              : 'bg-red-50 text-red-800 border border-red-200'
-          }`}>
+          <div className={`mb-6 p-4 rounded-md ${message.type === 'success'
+            ? 'bg-green-50 text-green-800 border border-green-200'
+            : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
             <div className="flex">
               <svg className="h-5 w-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                 {message.type === 'success' ? (
@@ -134,21 +133,22 @@ const WishlistPage: React.FC = () => {
               <div key={item.id} className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="aspect-w-1 aspect-h-1 w-full">
                   <img
-                    src={item.product?.image || '/images/placeholder-product.png'}
+                    src={item.product?.image || '/images/placeholder-product.webp'}
                     alt={item.product?.name || 'Product'}
+                    loading="lazy"
                     className="w-full h-48 object-cover"
                   />
                 </div>
-                
+
                 <div className="p-4">
                   <h3 className="text-lg font-medium text-gray-900 mb-2">
                     {item.product?.name || 'Product Name'}
                   </h3>
-                  
+
                   <p className="text-sm text-gray-600 mb-3">
                     {item.product?.description || 'Product description'}
                   </p>
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-semibold text-gray-900">
                       ${item.product?.price || '0.00'}
@@ -157,7 +157,7 @@ const WishlistPage: React.FC = () => {
                       Added {new Date(item.addedAt).toLocaleDateString()}
                     </span>
                   </div>
-                  
+
                   <div className="flex space-x-2">
                     <Link
                       to={`/product/${item.productId}`}
@@ -172,7 +172,7 @@ const WishlistPage: React.FC = () => {
                       Add to Cart
                     </button>
                   </div>
-                  
+
                   <button
                     onClick={() => handleRemoveFromWishlist(item.id)}
                     className="mt-2 w-full px-3 py-2 text-red-600 text-sm font-medium hover:text-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"

@@ -52,10 +52,10 @@ const getPageData = (t: (key: string) => string): PageResult[] => [
 const fuzzyMatch = (text: string, query: string): boolean => {
   const normalizedText = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   const normalizedQuery = query.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-  
+
   // Check if query is contained in text
   if (normalizedText.includes(normalizedQuery)) return true;
-  
+
   // Check word by word
   const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 0);
   return queryWords.every(word => normalizedText.includes(word));
@@ -94,7 +94,7 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
     }
 
     setIsLoading(true);
-    
+
     // Simulate a small delay for better UX
     setTimeout(() => {
       // Search products
@@ -176,9 +176,9 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
     return (
       <div className="w-full" ref={searchRef}>
         <div className="relative">
-          <SearchIcon 
-            size={18} 
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" 
+          <SearchIcon
+            size={18}
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
           />
           <input
             ref={inputRef}
@@ -232,6 +232,7 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
                         <img
                           src={product.image}
                           alt={product.name[language]}
+                          loading="lazy"
                           className="w-12 h-12 object-cover rounded-lg"
                         />
                         <div className="flex-1 min-w-0">
@@ -280,9 +281,9 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
   return (
     <div className="relative" ref={searchRef}>
       <div className="relative">
-        <SearchIcon 
-          size={18} 
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" 
+        <SearchIcon
+          size={18}
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
         />
         <input
           ref={inputRef}
@@ -342,6 +343,7 @@ export default function Search({ mobile = false, onClose }: SearchProps) {
                       <img
                         src={product.image}
                         alt={product.name[language]}
+                        loading="lazy"
                         className="w-12 h-12 object-cover rounded-lg flex-shrink-0"
                       />
                       <div className="flex-1 min-w-0">

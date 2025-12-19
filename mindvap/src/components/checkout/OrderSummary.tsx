@@ -21,7 +21,7 @@ export default function OrderSummary({
 }: OrderSummaryProps) {
   const { language } = useLanguage();
   const subtotal = cart.reduce((sum, item) => sum + (item.product.price * item.quantity), 0);
-  
+
   // Calculate totals based on current shipping address
   let totals = {
     subtotal: 0,
@@ -36,7 +36,7 @@ export default function OrderSummary({
       quantity: item.quantity,
       price: item.product.price
     }));
-    
+
     totals = CalculationService.calculateTotals(cartItems, shippingAddress);
   }
 
@@ -62,6 +62,7 @@ export default function OrderSummary({
             <img
               src={item.product.image}
               alt={item.product.name[language]}
+              loading="lazy"
               className="w-16 h-16 object-cover rounded-lg"
             />
             <div className="flex-1">
@@ -115,7 +116,7 @@ export default function OrderSummary({
           <span>Subtotal</span>
           <span>${totals.subtotal.toFixed(2)}</span>
         </div>
-        
+
         <div className="flex justify-between text-text-secondary">
           <span>Shipping</span>
           <span>
@@ -126,12 +127,12 @@ export default function OrderSummary({
             )}
           </span>
         </div>
-        
+
         <div className="flex justify-between text-text-secondary">
           <span>Tax</span>
           <span>${totals.tax.toFixed(2)}</span>
         </div>
-        
+
         <div className="pt-3 border-t border-gray-200">
           <div className="flex justify-between items-center">
             <span className="font-semibold text-text-primary text-lg">Total</span>

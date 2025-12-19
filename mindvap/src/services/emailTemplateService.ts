@@ -2,13 +2,14 @@
 // Comprehensive email notification system with template management, rendering, and analytics
 
 import emailjs from '@emailjs/browser';
+import { getEnvVariable } from '../lib/envUtils';
 
 // EmailJS Configuration - Load from environment variables
-const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_mindvap';
-const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_EMAILJS_PUBLIC_KEY';
+const EMAILJS_SERVICE_ID = getEnvVariable('VITE_EMAILJS_SERVICE_ID') || 'service_mindvap';
+const EMAILJS_PUBLIC_KEY = getEnvVariable('VITE_EMAILJS_PUBLIC_KEY') || 'YOUR_EMAILJS_PUBLIC_KEY';
 
 // Email Template Types
-export type EmailTemplateType = 
+export type EmailTemplateType =
   | 'welcome'
   | 'email-verification'
   | 'password-reset'
@@ -36,17 +37,17 @@ export interface EmailContext {
   toEmail: string;
   customerName?: string;
   customerEmail?: string;
-  
+
   // Company Information
   companyName: string;
   supportEmail: string;
   supportPhone: string;
   baseUrl: string;
   currentYear: string;
-  
+
   // Email Specific Data
   templateType: EmailTemplateType;
-  
+
   // Authentication Data
   verificationLink?: string;
   resetLink?: string;
@@ -57,7 +58,7 @@ export interface EmailContext {
   ipAddress?: string;
   changeTime?: string;
   changeMethod?: string;
-  
+
   // Order Data
   orderNumber?: string;
   orderDate?: string;
@@ -92,7 +93,7 @@ export interface EmailContext {
   estimatedDelivery?: string;
   estimatedDeliveryDate?: string;
   deliveryTimeframe?: string;
-  
+
   // Shipping Data
   trackingNumber?: string;
   carrier?: string;
@@ -100,7 +101,7 @@ export interface EmailContext {
   carrierTrackingUrl?: string;
   shipDate?: string;
   shipTime?: string;
-  
+
   // Security Data
   deviceType?: string;
   browser?: string;
@@ -108,14 +109,14 @@ export interface EmailContext {
   location?: string;
   loginTime?: string;
   loginLocation?: string;
-  
+
   // GDPR Data
   consentUrl?: string;
   declineUrl?: string;
   consentDeadline?: string;
   privacyPolicyUrl?: string;
   contactGdprUrl?: string;
-  
+
   // URLs
   accountUrl?: string;
   orderTrackingUrl?: string;
@@ -130,7 +131,7 @@ export interface EmailContext {
   supportEmailUrl?: string;
   preferencesUrl?: string;
   unsubscribeUrl?: string;
-  
+
   // Newsletter/Marketing Data
   newsletterTitle?: string;
   newsletterContent?: string;
@@ -138,7 +139,7 @@ export interface EmailContext {
   discountPercentage?: string;
   productName?: string;
   productDescription?: string;
-  
+
   // Additional Metadata
   [key: string]: any;
 }
@@ -181,8 +182,8 @@ class EmailTemplateService {
   private analytics: Map<EmailTemplateType, EmailAnalytics> = new Map();
   private templateCache: Map<string, string> = new Map();
   private isProduction: boolean = process.env.NODE_ENV === 'production';
-  private simulationMode: boolean = import.meta.env.EMAIL_SIMULATION_MODE === 'true' ||
-                                   import.meta.env.ENABLE_REAL_EMAIL_SENDING === 'false';
+  private simulationMode: boolean = getEnvVariable('EMAIL_SIMULATION_MODE') === 'true' ||
+    getEnvVariable('ENABLE_REAL_EMAIL_SENDING') === 'false';
 
   private constructor() {
     this.initializeAnalytics();
@@ -239,7 +240,7 @@ class EmailTemplateService {
     try {
       const templatePath = this.getTemplatePath(templateType);
       const response = await fetch(templatePath);
-      
+
       if (!response.ok) {
         throw new Error(`Failed to load template: ${templateType}`);
       }
@@ -357,7 +358,7 @@ class EmailTemplateService {
   private renderConditionals(template: string, context: EmailContext): string {
     // Handle conditional blocks like {{#if ipAddress}}...{{/if}}
     const conditionalRegex = /{{#if (\w+)}}([\s\S]*?){{\/if}}/g;
-    
+
     return template.replace(conditionalRegex, (match, condition, content) => {
       if (context[condition]) {
         return this.renderTemplate(content, context);
@@ -464,7 +465,7 @@ class EmailTemplateService {
 
     } catch (error) {
       console.error('Email sending failed:', error);
-      
+
       // Update analytics for failed send
       this.updateAnalytics(templateType, 'bounced', 1);
 
@@ -578,7 +579,7 @@ class EmailTemplateService {
     const analytics = this.analytics.get(templateType);
     if (analytics) {
       (analytics[metric] as number) += count;
-      
+
       // Recalculate rates
       if (analytics.sent > 0) {
         analytics.deliveryRate = (analytics.delivered / analytics.sent) * 100;
@@ -588,7 +589,7 @@ class EmailTemplateService {
         analytics.complaintRate = (analytics.complained / analytics.sent) * 100;
         analytics.unsubscribedRate = (analytics.unsubscribed / analytics.sent) * 100;
       }
-      
+
       this.analytics.set(templateType, analytics);
     }
   }

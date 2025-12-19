@@ -72,6 +72,7 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
                 <img
                   src={product.image}
                   alt={product.name[language]}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -165,13 +166,12 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               <button
                 onClick={handleAddToCart}
                 disabled={!product.inStock}
-                className={`w-full py-4 px-6 rounded-sm font-semibold uppercase tracking-wider transition-all duration-standard mb-4 ${
-                  addedToCart
+                className={`w-full py-4 px-6 rounded-sm font-semibold uppercase tracking-wider transition-all duration-standard mb-4 ${addedToCart
                     ? 'bg-semantic-success text-white'
                     : product.inStock
-                    ? 'bg-cta-primary hover:bg-cta-hover text-cta-text hover:-translate-y-1 shadow-cta hover:shadow-card-hover'
-                    : 'bg-border-light text-text-tertiary cursor-not-allowed'
-                }`}
+                      ? 'bg-cta-primary hover:bg-cta-hover text-cta-text hover:-translate-y-1 shadow-cta hover:shadow-card-hover'
+                      : 'bg-border-light text-text-tertiary cursor-not-allowed'
+                  }`}
               >
                 <div className="flex items-center justify-center gap-2">
                   <ShoppingCart size={20} />
@@ -182,13 +182,13 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               {/* Secondary Actions */}
               <div className="flex gap-3 mb-6">
                 <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
-                 <Heart size={18} className="inline mr-2" />
-                 {t('product.wishlist')}
-               </button>
-               <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
-                 <Share2 size={18} className="inline mr-2" />
-                 {t('product.share')}
-               </button>
+                  <Heart size={18} className="inline mr-2" />
+                  {t('product.wishlist')}
+                </button>
+                <button className="flex-1 py-3 px-4 border-2 border-brand-primary text-brand-primary rounded-sm hover:bg-brand-light transition-colors">
+                  <Share2 size={18} className="inline mr-2" />
+                  {t('product.share')}
+                </button>
               </div>
 
               {/* Trust Signals */}
@@ -229,11 +229,10 @@ export default function ProductDetailPage({ onAddToCart }: ProductDetailPageProp
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-6 py-3 font-semibold whitespace-nowrap transition-colors ${
-                  activeTab === tab.id
+                className={`px-6 py-3 font-semibold whitespace-nowrap transition-colors ${activeTab === tab.id
                     ? 'text-brand-primary border-b-2 border-brand-primary'
                     : 'text-text-secondary hover:text-text-primary'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>

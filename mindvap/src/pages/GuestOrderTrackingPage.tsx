@@ -54,7 +54,7 @@ export default function GuestOrderTrackingPage() {
 
       if (mockOrder) {
         console.log('🎭 Found mock order:', mockOrder.orderNumber);
-        
+
         // Convert mock order to expected format
         const mockOrderData: Order = {
           id: mockOrder.id,
@@ -78,7 +78,7 @@ export default function GuestOrderTrackingPage() {
         setOrder(mockOrderData);
       } else {
         console.log('🎭 No mock order found, searching database...');
-        
+
         // Search for order by order number and email in database
         const { data: orderData, error: orderError } = await supabase
           .from('orders')
@@ -284,6 +284,7 @@ export default function GuestOrderTrackingPage() {
                       <img
                         src={item.product_image_url}
                         alt={item.product_name}
+                        loading="lazy"
                         className="w-16 h-16 object-cover rounded-lg"
                       />
                     )}
@@ -323,7 +324,7 @@ export default function GuestOrderTrackingPage() {
                     </p>
                   </div>
                 </div>
-                
+
                 {(order.status === 'completed' || order.status === 'shipped') && (
                   <div className="flex items-center gap-4">
                     <div className="w-3 h-3 bg-green-600 rounded-full"></div>

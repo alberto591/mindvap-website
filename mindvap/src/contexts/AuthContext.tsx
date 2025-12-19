@@ -10,6 +10,7 @@ import { PasswordSecurity } from '../lib/passwordSecurity';
 import { SecurityService } from '../services/securityService';
 import { PasswordResetService } from '../services/passwordResetService';
 import { MockAuthService } from '../lib/mockAuthService';
+import { getEnvVariable } from '../lib/envUtils';
 
 // Create the authentication context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,9 +34,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   });
 
-  const refreshTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const refreshTimerRef = useRef<any>(null);
   const isRefreshingRef = useRef(false);
-  const inactivityTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const inactivityTimerRef = useRef<any>(null);
   const lastActivityRef = useRef<number>(Date.now());
 
   // Session timeout configuration (30 minutes of inactivity)
@@ -53,15 +54,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Clear refresh timer
       if (refreshTimerRef.current) {
-        clearTimeout(refreshTimerRef.current);
+        globalThis.clearTimeout(refreshTimerRef.current);
         refreshTimerRef.current = null;
       }
 
-      // Sign out from Supabase
-      await SupabaseAuth.signOut();
-
       // Stop inactivity timer
       stopInactivityTimer();
+
+      // Sign out from Supabase
+      await SupabaseAuth.signOut();
 
       // Clear local state
       setState(prev => ({
@@ -96,17 +97,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Start inactivity timer
   const startInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
-      clearInterval(inactivityTimerRef.current);
+      globalThis.clearInterval(inactivityTimerRef.current);
     }
 
     // Check every minute for session timeout
-    inactivityTimerRef.current = setInterval(checkSessionTimeout, 60 * 1000);
+    inactivityTimerRef.current = globalThis.setInterval(checkSessionTimeout, 60 * 1000);
   }, [checkSessionTimeout]);
 
   // Stop inactivity timer
   const stopInactivityTimer = useCallback(() => {
     if (inactivityTimerRef.current) {
-      clearInterval(inactivityTimerRef.current);
+      globalThis.clearInterval(inactivityTimerRef.current);
       inactivityTimerRef.current = null;
     }
   }, []);
@@ -132,7 +133,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => {
       subscription.unsubscribe();
       if (refreshTimerRef.current) {
-        clearTimeout(refreshTimerRef.current);
+        globalThis.clearTimeout(refreshTimerRef.current);
       }
       stopInactivityTimer();
       events.forEach(event => {
@@ -143,14 +144,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Check if we should use mock authentication
   const shouldUseMockAuth = () => {
-    return isUsingMockAuth || import.meta.env.SKIP_EMAIL_VERIFICATION === 'true';
+    return isUsingMockAuth || getEnvVariable('SKIP_EMAIL_VERIFICATION') === 'true';
   };
 
   // Initialize authentication
   const initializeAuth = async () => {
     try {
       setState(prev => ({ ...prev, status: 'loading', error: null }));
-      
+
       // Check if we should use mock auth
       if (shouldUseMockAuth()) {
         // Use mock authentication
@@ -174,16 +175,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
         return;
       }
-      
+
       // Get current session from Supabase
       const session = await SupabaseAuth.getSession();
       const user = await SupabaseAuth.getUser();
-      
+
       if (session && user) {
         // Validate session and update state
         const accessToken = session.access_token;
         const validation = await TokenManager.verifyAccessToken(accessToken);
-        
+
         if (validation.valid && validation.payload) {
           const userSession: Session = {
             id: validation.payload.sessionId,
@@ -195,7 +196,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             deviceFingerprint: state.deviceInfo.fingerprint,
             createdAt: new Date().toISOString()
           };
-          
+
           setState(prev => ({
             ...prev,
             status: 'authenticated',
@@ -203,7 +204,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             session: userSession,
             error: null
           }));
-          
+
           // Set up token refresh
           scheduleTokenRefresh(userSession);
         } else {
@@ -272,12 +273,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Schedule token refresh
   const scheduleTokenRefresh = (session: Session) => {
     if (refreshTimerRef.current) {
-      clearTimeout(refreshTimerRef.current);
+      globalThis.clearTimeout(refreshTimerRef.current);
     }
 
     const timeUntilRefresh = Math.max(0, session.expiresIn - (5 * 60 * 1000)); // 5 minutes before expiry
-    
-    refreshTimerRef.current = setTimeout(() => {
+
+    refreshTimerRef.current = globalThis.setTimeout(() => {
       refreshSession();
     }, timeUntilRefresh);
   };
@@ -286,7 +287,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = useCallback(async (credentials: LoginRequest): Promise<any> => {
     try {
       setState(prev => ({ ...prev, status: 'loading', error: null }));
-      
+
       // Check rate limiting
       const rateLimitCheck = SecurityService.checkRateLimit(credentials.email, 'login');
       if (!rateLimitCheck.allowed) {
@@ -347,10 +348,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       // Attempt to sign in with Supabase
-      const { data, error } = await SupabaseAuth.signInWithPassword(
+      const result = await SupabaseAuth.signInWithPassword(
         credentials.email,
         credentials.password
-      );
+      ) || { data: {}, error: { message: 'Unexpected empty response from auth service' } };
+
+      const { data, error } = result;
 
       if (error) {
         // Handle specific Supabase errors
@@ -424,6 +427,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           error: null
         }));
 
+        // Start inactivity timer for session management
+        updateActivity();
+        startInactivityTimer();
+
         // Schedule token refresh
         scheduleTokenRefresh(userSession);
 
@@ -439,7 +446,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Login error:', error);
       const errorMessage = 'An unexpected error occurred during login';
-      
+
       setState(prev => ({
         ...prev,
         status: 'error',
@@ -458,7 +465,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = useCallback(async (userData: RegisterRequest): Promise<any> => {
     try {
       setState(prev => ({ ...prev, status: 'loading', error: null }));
-      
+
       // Validate input
       if (!userData.email || !userData.password || !userData.firstName || !userData.lastName || !userData.dateOfBirth) {
         return {
@@ -493,7 +500,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // const today = new Date();
       // let age = today.getFullYear() - birthDate.getFullYear();
       // const monthDiff = today.getMonth() - birthDate.getMonth();
-      
+
       // if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       //   age--;
       // }
@@ -603,7 +610,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (error) {
       console.error('Registration error:', error);
       const errorMessage = 'An unexpected error occurred during registration';
-      
+
       setState(prev => ({
         ...prev,
         status: 'error',
@@ -627,9 +634,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       isRefreshingRef.current = true;
-      
+
       const { data, error } = await SupabaseAuth.refreshSession();
-      
+
       if (error) {
         // Refresh failed, log out user
         await logout();
@@ -743,15 +750,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Check rate limiting
       const rateLimitCheck = SecurityService.checkRateLimit(email, 'passwordReset');
       if (!rateLimitCheck.allowed) {
-        return { 
-          success: false, 
-          message: rateLimitCheck.error || 'Too many reset requests', 
-          error: { code: 'RATE_LIMIT_EXCEEDED', message: rateLimitCheck.error || 'Too many reset requests' } 
+        return {
+          success: false,
+          message: rateLimitCheck.error || 'Too many reset requests',
+          error: { code: 'RATE_LIMIT_EXCEEDED', message: rateLimitCheck.error || 'Too many reset requests' }
         };
       }
 
       const result = await PasswordResetService.requestPasswordReset(email);
-      
+
       if (result.success) {
         SecurityService.logSecurityEvent({
           type: 'password_reset',
@@ -783,7 +790,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       const result = await PasswordResetService.resetPassword(data.token, data.newPassword);
-      
+
       if (result.success) {
         SecurityService.logSecurityEvent({
           type: 'password_reset',
@@ -813,9 +820,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // may vary based on the version and configuration. In a real implementation, you would:
       // 1. Call the appropriate Supabase method for email verification
       // 2. Handle the response and update the user's email verification status
-      
+
       console.log('Email verification token:', token);
-      
+
       // For now, simulate successful verification
       // In a real implementation, you would use:
       // const { data, error } = await SupabaseAuth.verifyOtp({ token_hash: token, type: 'email' });
