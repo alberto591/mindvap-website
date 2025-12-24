@@ -3,6 +3,7 @@
 
 import { SecurityEvent } from '../../domain/entities/auth';
 import { log } from '../../infrastructure/lib/logger';
+import { SecurityMetricService } from './security-metric-service';
 
 export interface RateLimitConfig {
   windowMs: number;      // Time window in milliseconds
@@ -83,6 +84,13 @@ export class SecurityService {
 
     // Check if blocked
     if (entry.blocked && entry.blockedUntil && now < entry.blockedUntil) {
+      const fingerprint = this.generateDeviceFingerprint();
+      log.warn(`Blocked rate limit hit for action: ${action} `, {
+        identifier,
+        fingerprint,
+        blockedUntil: new Date(entry.blockedUntil).toISOString()
+      });
+
       return {
         allowed: false,
         remaining: 0,
@@ -115,6 +123,21 @@ export class SecurityService {
         entry.blockedUntil = now + (blockMinutes * 60 * 1000);
       }
 
+      const fingerprint = this.generateDeviceFingerprint();
+      log.warn(`Rate limit exceeded for action: ${action} `, {
+        identifier,
+        fingerprint,
+        limit: config.max
+      });
+
+      // Track metric for exceeded rate limit
+      SecurityMetricService.trackEvent({
+        type: 'rate_limit',
+        identifier,
+        action,
+        metadata: { status: 'exceeded', limit: config.max, windowMs: config.windowMs }
+      });
+
       return {
         allowed: false,
         remaining: 0,
@@ -143,14 +166,26 @@ export class SecurityService {
       const key = `${action}:${identifier} `;
       delete this.rateLimitStore[key];
     }
+
+    // Track metric for successful action
+    SecurityMetricService.trackEvent({
+      type: 'rate_limit',
+      identifier,
+      action,
+      metadata: { status: 'success' }
+    });
   }
 
   /**
    * Record failed action
    */
   static recordFailure(identifier: string, action: keyof typeof SecurityService.DEFAULT_RATE_LIMIT): void {
-    // Additional failure tracking can be added here
-    // For now, just use the rate limiting logic
+    SecurityMetricService.trackEvent({
+      type: 'auth_failure',
+      identifier,
+      action,
+      metadata: { status: 'failure' }
+    });
   }
 
   /**
@@ -284,7 +319,18 @@ export class SecurityService {
    */
   static validateCSRFToken(token: string): boolean {
     const storedToken = sessionStorage.getItem('mindvap_csrf_token');
-    return storedToken === token;
+    const isValid = storedToken === token;
+
+    if (!isValid) {
+      SecurityMetricService.trackEvent({
+        type: 'auth_failure',
+        identifier: 'csrf',
+        action: 'validate_token',
+        metadata: { status: 'invalid_token' }
+      });
+    }
+
+    return isValid;
   }
 
   /**
@@ -419,6 +465,13 @@ export class SecurityService {
     ];
 
     if (injectionPatterns.some(p => p.test(textLower))) {
+      SecurityMetricService.trackEvent({
+        type: 'content_moderation',
+        identifier: 'system',
+        action: 'block_injection',
+        metadata: { severity: 'high' }
+      });
+
       return {
         allowed: false,
         flagged: true,

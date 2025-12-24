@@ -8,6 +8,8 @@ import CircuitBreaker from 'opossum';
 import { EmailRateLimiter } from './email-rate-limiter';
 import { EmailOrderService } from './email-order-service';
 import { EmailAuthService } from './email-auth-service';
+import { DeviceDetectorService } from './device-detector-service';
+import { SecurityMetricService } from './security-metric-service';
 
 export interface EmailNotificationConfig {
   enableWelcomeEmail: boolean;
@@ -92,6 +94,7 @@ export class EmailNotificationService {
   private breaker: CircuitBreaker<any[], EmailServiceResponse>;
   private rateLimiter: EmailRateLimiter;
   private authEmails: EmailAuthService;
+  private deviceDetector: DeviceDetectorService;
 
   constructor(
     private emailService: EmailTemplateService,
@@ -99,6 +102,7 @@ export class EmailNotificationService {
   ) {
     this.config = this.getDefaultConfig();
     this.rateLimiter = new EmailRateLimiter();
+    this.deviceDetector = new DeviceDetectorService();
     this.initializeCircuitBreaker();
     this.authEmails = new EmailAuthService(this.emailService, this.executeWithBreaker.bind(this));
   }
@@ -126,14 +130,31 @@ export class EmailNotificationService {
 
     this.breaker.on('open', () => {
       log.warn('Email Service Circuit Breaker OPENED');
+      SecurityMetricService.trackEvent({
+        type: 'circuit_breaker',
+        identifier: 'email_notifications',
+        action: 'open',
+        metadata: { status: 'service_unavailable' }
+      });
     });
 
     this.breaker.on('halfOpen', () => {
       log.info('Email Service Circuit Breaker HALF-OPEN');
+      SecurityMetricService.trackEvent({
+        type: 'circuit_breaker',
+        identifier: 'email_notifications',
+        action: 'halfOpen'
+      });
     });
 
     this.breaker.on('close', () => {
       log.info('Email Service Circuit Breaker CLOSED');
+      SecurityMetricService.trackEvent({
+        type: 'circuit_breaker',
+        identifier: 'email_notifications',
+        action: 'close',
+        metadata: { status: 'service_restored' }
+      });
     });
 
     this.breaker.fallback(() => ({
@@ -338,12 +359,13 @@ export class EmailNotificationService {
     }
 
     try {
+      const deviceInfo = this.deviceDetector.getDeviceInfo();
       const response = await this.executeWithBreaker('sendLoginAlert', {
         toEmail: user.email!,
         firstName: user.firstName || 'Valued Customer',
-        deviceType: eventData.deviceInfo?.type || this.detectDeviceType(),
-        browser: eventData.deviceInfo?.browser || this.detectBrowser(),
-        operatingSystem: eventData.deviceInfo?.os || this.detectOS(),
+        deviceType: eventData.deviceInfo?.type || deviceInfo.type,
+        browser: eventData.deviceInfo?.browser || deviceInfo.browser,
+        operatingSystem: eventData.deviceInfo?.os || deviceInfo.os,
         ipAddress: eventData.ipAddress,
         location: eventData.location,
         loginTime: eventData.timestamp.toLocaleString(),
@@ -638,13 +660,9 @@ export class EmailNotificationService {
           userEmail: user.email!,
           firstName: user.firstName || 'Valued Customer',
           ipAddress: await this.getClientIP(),
-          userAgent: navigator.userAgent,
+          userAgent: this.deviceDetector.getUserAgent(),
           location: await this.getLocation(),
-          deviceInfo: {
-            type: this.detectDeviceType(),
-            browser: this.detectBrowser(),
-            os: this.detectOS()
-          },
+          deviceInfo: this.deviceDetector.getDeviceInfo(),
           timestamp: new Date(),
           metadata: { isNewDevice, isNewLocation }
         };
@@ -742,7 +760,7 @@ export class EmailNotificationService {
    * Generate device fingerprint
    */
   private generateDeviceFingerprint(deviceInfo: any): string {
-    const data = `${navigator.userAgent}_${navigator.platform}_${screen.width}x${screen.height}`;
+    const data = `${this.deviceDetector.getUserAgent()}_${navigator.platform}_${screen.width}x${screen.height}`;
     return btoa(data).slice(0, 16);
   }
 
@@ -760,36 +778,6 @@ export class EmailNotificationService {
   private async getLocation(): Promise<string> {
     // In a real implementation, this would use geolocation or IP geolocation
     return 'Unknown Location';
-  }
-
-  /**
-   * Device detection utilities
-   */
-  private detectDeviceType(): string {
-    const userAgent = navigator.userAgent;
-    if (/tablet|ipad|playbook|silk/i.test(userAgent)) return 'Tablet';
-    if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) return 'Mobile';
-    return 'Desktop';
-  }
-
-  private detectBrowser(): string {
-    const userAgent = navigator.userAgent;
-    if (userAgent.includes('Chrome')) return 'Chrome';
-    if (userAgent.includes('Firefox')) return 'Firefox';
-    if (userAgent.includes('Safari')) return 'Safari';
-    if (userAgent.includes('Edge')) return 'Edge';
-    if (userAgent.includes('Opera')) return 'Opera';
-    return 'Unknown';
-  }
-
-  private detectOS(): string {
-    const userAgent = navigator.userAgent;
-    if (userAgent.includes('Windows')) return 'Windows';
-    if (userAgent.includes('Mac')) return 'macOS';
-    if (userAgent.includes('Linux')) return 'Linux';
-    if (userAgent.includes('Android')) return 'Android';
-    if (userAgent.includes('iOS')) return 'iOS';
-    return 'Unknown';
   }
 
   /**

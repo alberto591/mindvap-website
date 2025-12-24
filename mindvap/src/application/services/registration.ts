@@ -112,20 +112,7 @@ export class RegistrationService {
   /**
    * Get registration statistics (for admin dashboard)
    */
-  static getRegistrationStats(): Promise<{
-    totalRegistrations: number;
-    todayRegistrations: number;
-    verificationRate: number;
-    ageVerifiedRate: number;
-  }> {
-    // In production, this would query the database
-    return Promise.resolve({
-      totalRegistrations: 0,
-      todayRegistrations: 0,
-      verificationRate: 0,
-      ageVerifiedRate: 0
-    });
-  }
+  static getRegistrationStats = RegistrationExecutionService.getRegistrationStats;
 }
 
 // Export utility functions for easy access

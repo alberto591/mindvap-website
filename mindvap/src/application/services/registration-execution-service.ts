@@ -173,4 +173,22 @@ export class RegistrationExecutionService {
         const random = Math.random().toString(36).substr(2, 9);
         return `${timestamp}_${random}`;
     }
+
+    /**
+     * Get registration statistics (for admin dashboard)
+     */
+    static async getRegistrationStats(): Promise<{
+        totalRegistrations: number;
+        todayRegistrations: number;
+        verificationRate: number;
+        ageVerifiedRate: number;
+    }> {
+        // In production, this would query the database
+        return {
+            totalRegistrations: 0,
+            todayRegistrations: 0,
+            verificationRate: 0,
+            ageVerifiedRate: 0
+        };
+    }
 }
