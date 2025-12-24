@@ -8,10 +8,10 @@
 import React, { useState } from 'react';
 import { act, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
+import { AuthProvider, useAuth } from '../contexts/auth-context';
 import { render } from './utils';
-import { MockAuthService } from '../lib/mockAuthService';
-import { SecurityService } from '../services/securityService';
+import { MockAuthService } from '../lib/mock-auth-service';
+import { SecurityService } from '../services/security-service';
 import { SupabaseAuth } from '../lib/supabase';
 import { User } from '../types/auth';
 
@@ -41,7 +41,7 @@ jest.mock('../lib/supabase', () => ({
   },
 }));
 
-jest.mock('../lib/tokenManager', () => ({
+jest.mock('../lib/token-manager', () => ({
   TokenManager: {
     verifyAccessToken: jest.fn().mockResolvedValue({ valid: false }),
   },
@@ -49,7 +49,7 @@ jest.mock('../lib/tokenManager', () => ({
   generateSessionId: jest.fn(() => 'mock-session-id'),
 }));
 
-jest.mock('../services/securityService', () => ({
+jest.mock('../services/security-service', () => ({
   SecurityService: {
     checkRateLimit: jest.fn(() => ({ allowed: true })),
     generateDeviceFingerprint: jest.fn(() => 'mock-fingerprint'),
@@ -60,7 +60,7 @@ jest.mock('../services/securityService', () => ({
   },
 }));
 
-jest.mock('../lib/mockAuthService', () => ({
+jest.mock('../lib/mock-auth-service', () => ({
   MockAuthService: {
     getSession: jest.fn(),
     login: jest.fn(),

@@ -1,8 +1,8 @@
 import React, { ReactElement } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from '../contexts/AuthContext';
-import { LanguageProvider } from '../contexts/LanguageContext';
+import { AuthProvider } from '../contexts/auth-context';
+import { LanguageProvider } from '../contexts/language-context';
 
 // Test wrapper component that provides all necessary providers
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {

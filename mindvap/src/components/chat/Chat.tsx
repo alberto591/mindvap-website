@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MessageCircle, X, Minimize2, Send, Clock } from 'lucide-react';
-import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useAuth } from '../../contexts/auth-context';
+import { useLanguage } from '../../contexts/language-context';
 
 interface Message {
   id: string;

@@ -1,4 +1,4 @@
-import { generateSearchQuery, analyzeProvidersWithAI } from '../services/sourcingService';
+import { generateSearchQuery, analyzeProvidersWithAI } from '../services/sourcing-service';
 
 describe('Sourcing Service', () => {
     const mockCriteria = {

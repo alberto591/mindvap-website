@@ -1,4 +1,4 @@
-import { generateFormulation } from '../services/formulationService';
+import { generateFormulation } from '../services/formulation-service';
 
 describe('Formulation Service', () => {
     const mockCriteria = {

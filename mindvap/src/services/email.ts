@@ -1,5 +1,5 @@
 import emailjs from '@emailjs/browser';
-import { getEnvVariable } from '../lib/envUtils';
+import { getEnvVariable } from '../lib/env-utils';
 
 // EmailJS Configuration - Load from environment variables
 const EMAILJS_SERVICE_ID = getEnvVariable('VITE_EMAILJS_SERVICE_ID') || 'service_mindvap';

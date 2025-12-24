@@ -1,20 +1,17 @@
 import { Link } from 'react-router-dom';
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
-import { useAuth } from '../../contexts/AuthContext';
-import LanguageSelector from '../LanguageSelector';
-import UnifiedAuthButton from '../auth/UnifiedAuthButton';
-import Search from '../Search';
+import { useLanguage } from '../../contexts/language-context';
+import { useAuth } from '../../contexts/auth-context';
+import LanguageSelector from '../language-selector';
+import UnifiedAuthButton from '../auth/unified-auth-button';
+import Search from '../search';
+import { useCart } from '../../contexts/cart-context';
 
-interface HeaderProps {
-  cartItemCount: number;
-}
-
-export default function Header({ cartItemCount }: HeaderProps) {
+export default function Header() {
+  const { cartCount } = useCart();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { t } = useLanguage();
-  const { isAuthenticated } = useAuth();
 
   const navLinks = [
     { to: '/shop', label: t('nav.shop') },
@@ -58,9 +55,9 @@ export default function Header({ cartItemCount }: HeaderProps) {
               className="relative p-2 hover:bg-background-accent rounded-md transition-colors"
             >
               <ShoppingCart size={24} className="text-text-primary" />
-              {cartItemCount > 0 && (
+              {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-cta-primary text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartItemCount}
+                  {cartCount}
                 </span>
               )}
             </Link>
@@ -85,7 +82,7 @@ export default function Header({ cartItemCount }: HeaderProps) {
             <div className="mb-4">
               <Search mobile={true} onClose={() => setMobileMenuOpen(false)} />
             </div>
-            
+
             {navLinks.map((link) => (
               <Link
                 key={link.to}
@@ -96,11 +93,11 @@ export default function Header({ cartItemCount }: HeaderProps) {
                 {link.label}
               </Link>
             ))}
-            
+
             {/* Mobile Auth Links */}
             <div className="pt-4 border-t border-border-light">
               <UnifiedAuthButton mobile={true} />
-              
+
               <div className="pt-4">
                 <LanguageSelector />
               </div>

@@ -3,7 +3,7 @@
 
 import { createClient } from '@supabase/supabase-js';
 import type { MobileOtpType, EmailOtpType } from '@supabase/supabase-js';
-import { getEnvVariable } from './envUtils';
+import { getEnvVariable } from './env-utils';
 
 // Get environment variables
 const supabaseUrl = getEnvVariable('VITE_SUPABASE_URL');

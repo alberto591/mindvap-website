@@ -1,12 +1,12 @@
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { LanguageProvider, useLanguage } from '../contexts/LanguageContext';
+import { LanguageProvider, useLanguage } from '../contexts/language-context';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
     <LanguageProvider>{children}</LanguageProvider>
 );
 
-describe('LanguageContext', () => {
+describe('language-context', () => {
     beforeEach(() => {
         localStorage.clear();
     });

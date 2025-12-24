@@ -2,7 +2,8 @@
 -- This script creates useful views and additional functions for the authentication system
 
 -- View for active users with verification status
-CREATE OR REPLACE VIEW active_users_verification AS
+CREATE OR REPLACE VIEW active_users_verification
+WITH (security_invoker = true) AS
 SELECT 
     id,
     email,
@@ -24,7 +25,8 @@ FROM users
 WHERE status = 'active';
 
 -- View for user security summary
-CREATE OR REPLACE VIEW user_security_summary AS
+CREATE OR REPLACE VIEW user_security_summary
+WITH (security_invoker = true) AS
 SELECT 
     u.id,
     u.email,
@@ -43,7 +45,8 @@ LEFT JOIN user_sessions us ON u.id = us.user_id AND us.is_active = TRUE
 GROUP BY u.id, u.email, u.failed_login_attempts, u.account_locked_until, u.last_login, u.age_verified, u.email_verified;
 
 -- View for GDPR compliance summary
-CREATE OR REPLACE VIEW gdpr_compliance_summary AS
+CREATE OR REPLACE VIEW gdpr_compliance_summary
+WITH (security_invoker = true) AS
 SELECT 
     u.id,
     u.email,

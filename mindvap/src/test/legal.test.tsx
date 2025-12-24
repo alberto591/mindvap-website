@@ -1,4 +1,4 @@
-import { generateLegalSearchQuery, analyzeRegulationsWithAI } from '../services/legalService';
+import { generateLegalSearchQuery, analyzeRegulationsWithAI } from '../services/legal-service';
 
 describe('Legal Service', () => {
     const mockCriteria = {

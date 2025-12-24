@@ -2,6 +2,7 @@
 // Handles registration logic, email notifications, and integrates with AuthContext
 
 import { RegisterRequest, RegisterResponse } from '../types/auth';
+import { log } from '../lib/logger';
 import { sendContactEmail } from './email';
 
 export interface RegistrationEmailData {
@@ -65,7 +66,7 @@ export class RegistrationService {
       // In a real implementation, this would create the user in the database
       // For now, we'll simulate the user creation and return success
       const userId = await this.createUserAccount(userData);
-      
+
       if (!userId) {
         return {
           success: false,
@@ -90,7 +91,7 @@ export class RegistrationService {
 
       return {
         success: true,
-        message: emailSent 
+        message: emailSent
           ? 'Account created successfully! Please check your email to verify your account.'
           : 'Account created successfully! Please verify your email address.',
         emailSent,
@@ -99,7 +100,7 @@ export class RegistrationService {
       };
 
     } catch (error) {
-      console.error('Registration service error:', error);
+      log.error('Registration service error', error, { userData });
       return {
         success: false,
         message: 'An unexpected error occurred during registration',
@@ -116,8 +117,8 @@ export class RegistrationService {
    */
   private static validateRegistrationData(userData: RegisterRequest): { valid: boolean; message?: string } {
     // Required fields check
-    if (!userData.email || !userData.password || !userData.firstName || 
-        !userData.lastName || !userData.dateOfBirth) {
+    if (!userData.email || !userData.password || !userData.firstName ||
+      !userData.lastName || !userData.dateOfBirth) {
       return {
         valid: false,
         message: 'All required fields must be provided'
@@ -169,11 +170,11 @@ export class RegistrationService {
     const birthDate = new Date(dateOfBirth);
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
-    
+
     return age;
   }
 
@@ -184,7 +185,7 @@ export class RegistrationService {
     // In production, this would make an API call to check email uniqueness
     // For demo purposes, we'll simulate a check
     await new Promise(resolve => setTimeout(resolve, 500));
-    
+
     // Simulate checking against existing emails
     const existingEmails = ['admin@mindvap.com', 'test@example.com'];
     return existingEmails.includes(email.toLowerCase());
@@ -207,8 +208,8 @@ export class RegistrationService {
 
       // Generate a mock user ID
       const userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      
-      console.log('✅ User account created successfully:', {
+
+      log.info('User account created successfully', {
         userId,
         email: userData.email,
         firstName: userData.firstName,
@@ -219,7 +220,7 @@ export class RegistrationService {
 
       return userId;
     } catch (error) {
-      console.error('❌ Failed to create user account:', error);
+      log.error('Failed to create user account', error, { userData });
       return null;
     }
   }
@@ -257,20 +258,20 @@ export class RegistrationService {
         message: message
       };
 
-      console.log('📧 Sending welcome email via EmailJS...');
-      
+      log.info('Sending welcome email via EmailJS', { email: emailData.userEmail });
+
       // Send email using existing EmailJS service
       const success = await sendContactEmail(formData);
 
       if (success) {
-        console.log('✅ Welcome email sent successfully to:', emailData.userEmail);
+        log.info('Welcome email sent successfully', { email: emailData.userEmail });
       } else {
-        console.warn('⚠️ Failed to send welcome email to:', emailData.userEmail);
+        log.warn('Failed to send welcome email', { email: emailData.userEmail });
       }
 
       return success;
     } catch (error) {
-      console.error('❌ Failed to send welcome email:', error);
+      log.error('Failed to send welcome email', error, { emailData });
       return false;
     }
   }
@@ -311,7 +312,7 @@ export class RegistrationService {
 
       return await sendContactEmail(formData);
     } catch (error) {
-      console.error('Failed to send age verification reminder:', error);
+      log.error('Failed to send age verification reminder', error, { emailData });
       return false;
     }
   }
@@ -346,7 +347,7 @@ export class RegistrationService {
 
       return await sendContactEmail(formData);
     } catch (error) {
-      console.error('Failed to send admin notification:', error);
+      log.error('Failed to send admin notification', error, { userData, userId });
       return false;
     }
   }

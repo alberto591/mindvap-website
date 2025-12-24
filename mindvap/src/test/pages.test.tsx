@@ -1,8 +1,8 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import HomePage from '../pages/HomePage';
-import ShopPage from '../pages/ShopPage';
+import HomePage from '../pages/home-page';
+import ShopPage from '../pages/shop-page';
 import { MemoryRouter } from 'react-router-dom';
-import { LanguageProvider } from '../contexts/LanguageContext';
+import { LanguageProvider } from '../contexts/language-context';
 
 // Mock Lucide icons
 jest.mock('lucide-react', () => ({
@@ -20,7 +20,7 @@ jest.mock('lucide-react', () => ({
 }));
 
 // Mock ProductCard
-jest.mock('../components/ui/ProductCard', () => ({
+jest.mock('../components/ui/product-card', () => ({
     default: ({ product }: any) => <div data-testid="product-card">{product.name.en}</div>
 }));
 
@@ -67,7 +67,7 @@ describe('Page Tests', () => {
         );
     };
 
-    describe('HomePage', () => {
+    describe('home-page', () => {
         it('should render and fetch featured products', async () => {
             renderWithProviders(<HomePage />);
 
@@ -86,7 +86,7 @@ describe('Page Tests', () => {
         });
     });
 
-    describe('ShopPage', () => {
+    describe('shop-page', () => {
         it('should render products and filters', async () => {
             renderWithProviders(<ShopPage />);
 
