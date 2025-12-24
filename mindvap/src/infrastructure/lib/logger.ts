@@ -1,39 +1,24 @@
-import winston from 'winston';
-
-// Custom format for browser console logging that maintains some structure
-// while being readable in the console
-const browserFormat = winston.format.printf(({ level, message, timestamp, ...metadata }) => {
-    let msg = `[${timestamp}] [${level.toUpperCase()}]: ${message}`;
-    if (Object.keys(metadata).length > 0) {
-        msg += ` ${JSON.stringify(metadata)}`;
-    }
-    return msg;
-});
-
-const logger = winston.createLogger({
-    level: import.meta.env.MODE === 'production' ? 'info' : 'debug',
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json()
-    ),
-    transports: [
-        new winston.transports.Console({
-            format: winston.format.combine(
-                winston.format.timestamp({ format: 'HH:mm:ss' }),
-                browserFormat
-            )
-        })
-    ]
-});
-
 /**
- * Structured logger utility
+ * Structured logger utility for Browser environment
+ * Replaces winston which is Node.js only
  */
+
+const getTimestamp = () => {
+    const now = new Date();
+    return now.toLocaleTimeString('en-US', { hour12: false });
+};
+
 export const log = {
     info: (message: string, context?: Record<string, any>) => {
-        logger.info(message, context);
+        const timestamp = getTimestamp();
+        if (context && Object.keys(context).length > 0) {
+            console.info(`[${timestamp}] [INFO]: ${message}`, context);
+        } else {
+            console.info(`[${timestamp}] [INFO]: ${message}`);
+        }
     },
     error: (message: string, error?: Error | unknown, context?: Record<string, any>) => {
+        const timestamp = getTimestamp();
         const errorContext = error instanceof Error
             ? {
                 error_name: error.name,
@@ -43,13 +28,26 @@ export const log = {
             }
             : { error, ...context };
 
-        logger.error(message, errorContext);
+        console.error(`[${timestamp}] [ERROR]: ${message}`, errorContext);
     },
     warn: (message: string, context?: Record<string, any>) => {
-        logger.warn(message, context);
+        const timestamp = getTimestamp();
+        if (context && Object.keys(context).length > 0) {
+            console.warn(`[${timestamp}] [WARN]: ${message}`, context);
+        } else {
+            console.warn(`[${timestamp}] [WARN]: ${message}`);
+        }
     },
     debug: (message: string, context?: Record<string, any>) => {
-        logger.debug(message, context);
+        // Only log debug in development
+        if (import.meta.env.MODE !== 'production') {
+            const timestamp = getTimestamp();
+            if (context && Object.keys(context).length > 0) {
+                console.debug(`[${timestamp}] [DEBUG]: ${message}`, context);
+            } else {
+                console.debug(`[${timestamp}] [DEBUG]: ${message}`);
+            }
+        }
     }
 };
 
