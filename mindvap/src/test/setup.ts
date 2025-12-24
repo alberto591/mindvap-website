@@ -2,7 +2,7 @@ import '@testing-library/jest-dom';
 
 // Mock IntersectionObserver
 (global as any).IntersectionObserver = class IntersectionObserver {
-  constructor() {}
+  constructor() { }
   observe() { return null; }
   disconnect() { return null; }
   unobserve() { return null; }
@@ -10,7 +10,7 @@ import '@testing-library/jest-dom';
 
 // Mock ResizeObserver
 (global as any).ResizeObserver = class ResizeObserver {
-  constructor() {}
+  constructor() { }
   observe() { return null; }
   disconnect() { return null; }
   unobserve() { return null; }
@@ -23,20 +23,20 @@ Object.defineProperty(window, 'matchMedia', {
     matches: false,
     media: '',
     onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => {},
+    addListener: () => { },
+    removeListener: () => { },
+    addEventListener: () => { },
+    removeEventListener: () => { },
+    dispatchEvent: () => { },
   }),
 });
 
 // Mock localStorage
 const localStorageMock: any = {
   getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
-  clear: () => {},
+  setItem: () => { },
+  removeItem: () => { },
+  clear: () => { },
   length: 0,
   key: () => null,
 };
@@ -45,9 +45,9 @@ const localStorageMock: any = {
 // Mock sessionStorage
 const sessionStorageMock: any = {
   getItem: () => null,
-  setItem: () => {},
-  removeItem: () => {},
-  clear: () => {},
+  setItem: () => { },
+  removeItem: () => { },
+  clear: () => { },
   length: 0,
   key: () => null,
 };
@@ -66,7 +66,7 @@ Object.defineProperty(global, 'crypto', {
 
 // Mock scrollTo
 Object.defineProperty(window, 'scrollTo', {
-  value: () => {},
+  value: () => { },
 });
 
 // Suppress console warnings in tests
@@ -80,3 +80,13 @@ console.warn = (...args: any[]) => {
   }
   originalWarn.call(console, ...args);
 };
+
+// Mock log service globally to avoid import.meta issues in tests
+jest.mock('../infrastructure/lib/logger', () => ({
+  log: {
+    info: jest.fn(),
+    error: jest.fn(),
+    warn: jest.fn(),
+    debug: jest.fn(),
+  },
+}));

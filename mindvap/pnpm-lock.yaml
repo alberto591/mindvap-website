@@ -146,6 +146,9 @@ importers:
       next-themes:
         specifier: ^0.4.4
         version: 0.4.6(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      opossum:
+        specifier: ^9.0.0
+        version: 9.0.0
       react:
         specifier: ^18.3.1
         version: 18.3.1
@@ -219,6 +222,9 @@ importers:
       '@types/node':
         specifier: ^22.10.7
         version: 22.14.1
+      '@types/opossum':
+        specifier: ^8.1.9
+        version: 8.1.9
       '@types/react':
         specifier: ^18.3.12
         version: 18.3.20
@@ -1925,6 +1931,9 @@ packages:
   '@types/node@22.14.1':
     resolution: {integrity: sha512-u0HuPQwe/dHrItgHHpmw3N2fYCR6x4ivMNbPHRkBVP4CvN+kiRrKHWk3i8tXiO/joPwXLMYvF9TTF0eqgHIuOw==}
 
+  '@types/opossum@8.1.9':
+    resolution: {integrity: sha512-Jm/tYxuJFefiwRYs+/EOsUP3ktk0c8siMgAHPLnA4PXF4wKghzcjqf88dY+Xii5jId5Txw4JV0FMKTpjbd7KJA==}
+
   '@types/phoenix@1.6.7':
     resolution: {integrity: sha512-oN9ive//QSBkf19rfDv45M7eZPi0eEXylht2OLEXicu5b4KoQ1OzXIw+xDSGWxSxe1JmepRR/ZH283vsu518/Q==}
 
@@ -3526,6 +3535,10 @@ packages:
   onetime@5.1.2:
     resolution: {integrity: sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==}
     engines: {node: '>=6'}
+
+  opossum@9.0.0:
+    resolution: {integrity: sha512-K76U0QkxOfUZamneQuzz+AP0fyfTJcCplZ2oZL93nxeupuJbN4s6uFNbmVCt4eWqqGqRnnowdFuBicJ1fLMVxw==}
+    engines: {node: ^24 || ^22 || ^20}
 
   optionator@0.9.4:
     resolution: {integrity: sha512-6IpQ7mKUxRcZNLIObR0hz7lxsapSSIYNZJwXPGeF0mTVqGKFIXj1DQcMoT22S3ROcLyY/rz0PWaWZ9ayWmad9g==}
@@ -6145,6 +6158,10 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/opossum@8.1.9':
+    dependencies:
+      '@types/node': 22.14.1
+
   '@types/phoenix@1.6.7': {}
 
   '@types/prop-types@15.7.14': {}
@@ -8028,6 +8045,8 @@ snapshots:
   onetime@5.1.2:
     dependencies:
       mimic-fn: 2.1.0
+
+  opossum@9.0.0: {}
 
   optionator@0.9.4:
     dependencies:

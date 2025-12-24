@@ -1,5 +1,6 @@
 import { supabase } from '../../infrastructure/lib/supabase';
 import { log } from '../../infrastructure/lib/logger';
+import { moderateContent } from './security-service';
 
 export interface ChatMessage {
   id: string;
@@ -72,6 +73,14 @@ export class ChatService {
     sender: 'user' | 'bot' | 'agent',
     quickReplies?: string[]
   ): Promise<ChatMessage> {
+    // ADR-0012: Content Moderation via reasoning
+    const moderation = await moderateContent(messageText);
+
+    if (moderation.blocked) {
+      log.warn('Message blocked by content moderation', { sessionId, messageText, reasoning: moderation.reasoning });
+      throw new Error(`Message blocked: ${moderation.reasoning}`);
+    }
+
     const { data, error } = await supabase
       .from('chat_messages')
       .insert({

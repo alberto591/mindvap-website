@@ -4,6 +4,10 @@
 import { EmailTemplateService, EmailContext, EmailTemplateType, EmailServiceResponse } from './email-template-service';
 import { User } from '../../domain/entities/auth';
 import { log } from '../../infrastructure/lib/logger';
+import CircuitBreaker from 'opossum';
+import { EmailRateLimiter } from './email-rate-limiter';
+import { EmailOrderService } from './email-order-service';
+import { EmailAuthService } from './email-auth-service';
 
 export interface EmailNotificationConfig {
   enableWelcomeEmail: boolean;
@@ -85,11 +89,69 @@ export interface GDPRNotificationData {
 
 export class EmailNotificationService {
   private config: EmailNotificationConfig;
-  private rateLimitCache: Map<string, { lastSent: number; count: number }> = new Map();
+  private breaker: CircuitBreaker<any[], EmailServiceResponse>;
+  private rateLimiter: EmailRateLimiter;
+  private authEmails: EmailAuthService;
 
-  constructor(private emailService: EmailTemplateService) {
+  constructor(
+    private emailService: EmailTemplateService,
+    private emailOrderService: EmailOrderService
+  ) {
     this.config = this.getDefaultConfig();
-    this.initializeRateLimiting();
+    this.rateLimiter = new EmailRateLimiter();
+    this.initializeCircuitBreaker();
+    this.authEmails = new EmailAuthService(this.emailService, this.executeWithBreaker.bind(this));
+  }
+
+  /**
+   * Initialize circuit breaker for email sending
+   */
+  private initializeCircuitBreaker(): void {
+    const options = {
+      timeout: 5000, // 5 seconds
+      errorThresholdPercentage: 50,
+      resetTimeout: 30000 // 30 seconds
+    };
+
+    // We'll use a generic fire method that takes service method name and args
+    const sendWithRetry = async (methodName: string, args: any[]): Promise<EmailServiceResponse> => {
+      const method = (this.emailService as any)[methodName];
+      if (typeof method !== 'function') {
+        throw new Error(`Method ${methodName} not found on EmailTemplateService`);
+      }
+      return method.apply(this.emailService, args);
+    };
+
+    this.breaker = new CircuitBreaker(sendWithRetry, options);
+
+    this.breaker.on('open', () => {
+      log.warn('Email Service Circuit Breaker OPENED');
+    });
+
+    this.breaker.on('halfOpen', () => {
+      log.info('Email Service Circuit Breaker HALF-OPEN');
+    });
+
+    this.breaker.on('close', () => {
+      log.info('Email Service Circuit Breaker CLOSED');
+    });
+
+    this.breaker.fallback(() => ({
+      success: false,
+      message: 'Email service currently unavailable (Circuit Breaker)',
+    }));
+  }
+
+  /**
+   * Execute email service method through circuit breaker
+   */
+  private async executeWithBreaker(methodName: string, ...args: any[]): Promise<EmailServiceResponse> {
+    try {
+      return await this.breaker.fire(methodName, args);
+    } catch (error) {
+      log.error(`Circuit breaker error during ${methodName}`, error);
+      return { success: false, error: 'SERVICE_UNAVAILABLE' };
+    }
   }
 
   /**
@@ -151,39 +213,14 @@ export class EmailNotificationService {
    * Check if email can be sent based on rate limiting
    */
   private checkRateLimit(emailType: string, email: string): boolean {
-    const key = `${emailType}_${email}`;
-    const now = Date.now();
-    const rateLimit = this.rateLimitCache.get(key);
-
-    if (!rateLimit) {
-      this.rateLimitCache.set(key, { lastSent: now, count: 1 });
-      this.saveRateLimitData();
-      return true;
-    }
-
-    const timeDiff = now - rateLimit.lastSent;
-    const configLimit = this.getRateLimitForType(emailType);
-
-    if (timeDiff >= configLimit * 60 * 1000) { // Convert minutes to milliseconds
-      this.rateLimitCache.set(key, { lastSent: now, count: 1 });
-      this.saveRateLimitData();
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Get rate limit for email type
-   */
-  private getRateLimitForType(emailType: string): number {
-    const limitMap: Record<string, number> = {
-      'password_reset': this.config.emailFrequencyLimits.passwordReset,
-      'login_alert': this.config.emailFrequencyLimits.loginAlert,
-      'marketing': this.config.emailFrequencyLimits.marketing * 24 * 60 // Convert days to minutes
+    // Legacy mapping or specific types
+    const typeMapping: Record<string, any> = {
+      'password_reset': 'passwordReset',
+      'login_alert': 'loginAlert',
+      'marketing': 'marketing'
     };
-
-    return limitMap[emailType] || 60; // Default 60 minutes
+    const mappedType = typeMapping[emailType] || 'verification';
+    return this.rateLimiter.checkRateLimit(mappedType, email);
   }
 
   /**
@@ -195,21 +232,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const verificationLink = verificationToken
-        ? `${window.location.origin}/verify-email?token=${verificationToken}`
-        : '';
-
-      const response = await this.emailService.sendWelcomeEmail({
-        toEmail: user.email!,
-        firstName: user.firstName || 'Valued Customer',
-        verificationLink,
-        verificationToken,
-        expiresIn: '24 hours',
-        loginUrl: `${window.location.origin}/login`,
-        supportEmail: 'support@mindvap.com',
-        supportPhone: '1-800-MINDVAP',
-        baseUrl: window.location.origin
-      });
+      const response = await this.authEmails.sendWelcomeEmail(user, verificationToken);
 
       if (response.success) {
         log.info('Welcome email sent successfully', { userEmail: user.email });
@@ -231,17 +254,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const verificationLink = `${window.location.origin}/verify-email?token=${verificationToken}`;
-
-      const response = await this.emailService.sendEmailVerification({
-        toEmail: user.email!,
-        firstName: user.firstName || 'Valued Customer',
-        verificationLink,
-        expiresIn: '24 hours',
-        supportEmail: 'support@mindvap.com',
-        supportPhone: '1-800-MINDVAP',
-        baseUrl: window.location.origin
-      });
+      const response = await this.authEmails.sendEmailVerification(user, verificationToken);
 
       if (response.success) {
         log.info('Email verification sent', { userEmail: user.email });
@@ -272,19 +285,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const resetLink = `${window.location.origin}/login?token=${resetToken}&type=recovery`;
-
-      const response = await this.emailService.sendPasswordReset({
-        toEmail: user.email!,
-        firstName: user.firstName || 'Valued Customer',
-        resetLink,
-        expiresIn: '1 hour',
-        requestTime: new Date().toLocaleString(),
-        userAgent: navigator.userAgent,
-        supportEmail: 'support@mindvap.com',
-        supportPhone: '1-800-MINDVAP',
-        baseUrl: window.location.origin
-      });
+      const response = await this.authEmails.sendPasswordReset(user, resetToken);
 
       if (response.success) {
         log.info('Password reset email sent', { userEmail: user.email });
@@ -306,15 +307,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const response = await this.emailService.sendPasswordChanged({
-        toEmail: user.email!,
-        firstName: user.firstName || 'Valued Customer',
-        changeMethod,
-        ipAddress: await this.getClientIP(),
-        supportEmail: 'support@mindvap.com',
-        supportPhone: '1-800-MINDVAP',
-        baseUrl: window.location.origin
-      });
+      const response = await this.authEmails.sendPasswordChanged(user, changeMethod, await this.getClientIP());
 
       if (response.success) {
         log.info('Password change notification sent', { userEmail: user.email });
@@ -345,7 +338,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const response = await this.emailService.sendLoginAlert({
+      const response = await this.executeWithBreaker('sendLoginAlert', {
         toEmail: user.email!,
         firstName: user.firstName || 'Valued Customer',
         deviceType: eventData.deviceInfo?.type || this.detectDeviceType(),
@@ -380,7 +373,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const response = await this.emailService.sendOrderConfirmation({
+      const response = await this.executeWithBreaker('sendOrderConfirmation', {
         toEmail: orderData.customerEmail,
         customerName: orderData.customerName,
         orderNumber: orderData.orderNumber,
@@ -424,7 +417,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const response = await this.emailService.sendOrderShipped({
+      const response = await this.executeWithBreaker('sendOrderShipped', {
         toEmail: orderData.customerEmail,
         customerName: orderData.customerName,
         orderNumber: orderData.orderNumber,
@@ -458,7 +451,7 @@ export class EmailNotificationService {
     }
 
     try {
-      const response = await this.emailService.sendGDPRConsent({
+      const response = await this.executeWithBreaker('sendGDPRConsent', {
         toEmail: gdprData.userEmail,
         firstName: gdprData.firstName,
         verificationLink: gdprData.exportUrl || '', // Reuse for token

@@ -1,229 +1,30 @@
-// Enhanced Email Template Service
-// Comprehensive email notification system with template management, rendering, and analytics
 
 import emailjs from '@emailjs/browser';
 import { getEnvVariable } from '../../infrastructure/lib/env-utils';
+import { EmailTemplateType, EmailTemplateRegistry } from './email-template-registry';
+import { EmailContext, EmailServiceResponse, EmailAnalytics } from './email-types';
+import { EmailRenderer } from './email-renderer';
+import { EmailAnalyticsService } from './email-analytics-service';
+import { DeviceDetectorService } from './device-detector-service';
 
 // EmailJS Configuration - Load from environment variables
 const EMAILJS_SERVICE_ID = getEnvVariable('VITE_EMAILJS_SERVICE_ID') || 'service_mindvap';
 const EMAILJS_PUBLIC_KEY = getEnvVariable('VITE_EMAILJS_PUBLIC_KEY') || 'YOUR_EMAILJS_PUBLIC_KEY';
 
-// Email Template Types
-export type EmailTemplateType =
-  | 'welcome'
-  | 'email-verification'
-  | 'password-reset'
-  | 'password-changed'
-  | 'order-confirmation'
-  | 'order-shipped'
-  | 'order-delivered'
-  | 'order-cancelled'
-  | 'order-refunded'
-  | 'login-alert'
-  | 'account-locked'
-  | 'suspicious-activity'
-  | 'gdpr-consent'
-  | 'data-export'
-  | 'account-deletion'
-  | 'newsletter'
-  | 'product-launch'
-  | 'special-offer';
-
-// Email Context Interface
-export interface EmailContext {
-  // User Information
-  firstName?: string;
-  lastName?: string;
-  toEmail: string;
-  customerName?: string;
-  customerEmail?: string;
-
-  // Company Information
-  companyName: string;
-  supportEmail: string;
-  supportPhone: string;
-  baseUrl: string;
-  currentYear: string;
-
-  // Email Specific Data
-  templateType: EmailTemplateType;
-
-  // Authentication Data
-  verificationLink?: string;
-  resetLink?: string;
-  loginUrl?: string;
-  expiresIn?: string;
-  requestTime?: string;
-  userAgent?: string;
-  ipAddress?: string;
-  changeTime?: string;
-  changeMethod?: string;
-
-  // Order Data
-  orderNumber?: string;
-  orderDate?: string;
-  orderTime?: string;
-  items?: Array<{
-    name: string;
-    description: string;
-    quantity: number;
-    price: string;
-  }>;
-  subtotal?: string;
-  shipping?: string;
-  tax?: string;
-  total?: string;
-  shippingAddress?: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  billingAddress?: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  paymentMethod?: string;
-  paymentStatus?: string;
-  shippingMethod?: string;
-  estimatedDelivery?: string;
-  estimatedDeliveryDate?: string;
-  deliveryTimeframe?: string;
-
-  // Shipping Data
-  trackingNumber?: string;
-  carrier?: string;
-  trackingUrl?: string;
-  carrierTrackingUrl?: string;
-  shipDate?: string;
-  shipTime?: string;
-
-  // Security Data
-  deviceType?: string;
-  browser?: string;
-  operatingSystem?: string;
-  location?: string;
-  loginTime?: string;
-  loginLocation?: string;
-
-  // GDPR Data
-  consentUrl?: string;
-  declineUrl?: string;
-  consentDeadline?: string;
-  privacyPolicyUrl?: string;
-  contactGdprUrl?: string;
-
-  // URLs
-  accountUrl?: string;
-  orderTrackingUrl?: string;
-  accountSettingsUrl?: string;
-  securitySettingsUrl?: string;
-  twoFactorUrl?: string;
-  accountActivityUrl?: string;
-  passwordChangeUrl?: string;
-  confirmLoginUrl?: string;
-  secureAccountUrl?: string;
-  supportUrl?: string;
-  supportEmailUrl?: string;
-  preferencesUrl?: string;
-  unsubscribeUrl?: string;
-
-  // Newsletter/Marketing Data
-  newsletterTitle?: string;
-  newsletterContent?: string;
-  offerCode?: string;
-  discountPercentage?: string;
-  productName?: string;
-  productDescription?: string;
-
-  // Additional Metadata
-  [key: string]: any;
-}
-
-// Email Service Response
-export interface EmailServiceResponse {
-  success: boolean;
-  messageId?: string;
-  message?: string;
-  error?: string;
-  metadata?: {
-    templateType: EmailTemplateType;
-    recipient: string;
-    sentAt: string;
-    deliveryTime?: number;
-  };
-}
-
-// Email Analytics Interface
-export interface EmailAnalytics {
-  templateType: EmailTemplateType;
-  sent: number;
-  delivered: number;
-  opened: number;
-  clicked: number;
-  bounced: number;
-  complained: number;
-  unsubscribed: number;
-  deliveryRate: number;
-  openRate: number;
-  clickRate: number;
-  bounceRate: number;
-  complaintRate: number;
-  unsubscribedRate: number;
-  period: string;
-}
-
 export class EmailTemplateService {
-  private analytics: Map<EmailTemplateType, EmailAnalytics> = new Map();
+  private analyticsService: EmailAnalyticsService;
+  private deviceDetector: DeviceDetectorService;
   private templateCache: Map<string, string> = new Map();
-  private isProduction: boolean = process.env.NODE_ENV === 'production';
   private simulationMode: boolean = getEnvVariable('EMAIL_SIMULATION_MODE') === 'true' ||
     getEnvVariable('ENABLE_REAL_EMAIL_SENDING') === 'false';
 
   public constructor() {
-    this.initializeAnalytics();
-  }
-
-
-  /**
-   * Initialize analytics data structure
-   */
-  private initializeAnalytics(): void {
-    const templateTypes: EmailTemplateType[] = [
-      'welcome', 'email-verification', 'password-reset', 'password-changed',
-      'order-confirmation', 'order-shipped', 'order-delivered', 'order-cancelled', 'order-refunded',
-      'login-alert', 'account-locked', 'suspicious-activity',
-      'gdpr-consent', 'data-export', 'account-deletion',
-      'newsletter', 'product-launch', 'special-offer'
-    ];
-
-    templateTypes.forEach(type => {
-      this.analytics.set(type, {
-        templateType: type,
-        sent: 0,
-        delivered: 0,
-        opened: 0,
-        clicked: 0,
-        bounced: 0,
-        complained: 0,
-        unsubscribed: 0,
-        deliveryRate: 0,
-        openRate: 0,
-        clickRate: 0,
-        bounceRate: 0,
-        complaintRate: 0,
-        unsubscribedRate: 0,
-        period: 'current'
-      });
-    });
+    this.analyticsService = new EmailAnalyticsService();
+    this.deviceDetector = new DeviceDetectorService();
   }
 
   /**
-   * Load email template from file system
+   * Load email template from file system or cache
    */
   private async loadTemplate(templateType: EmailTemplateType): Promise<string> {
     if (this.templateCache.has(templateType)) {
@@ -231,7 +32,7 @@ export class EmailTemplateService {
     }
 
     try {
-      const templatePath = this.getTemplatePath(templateType);
+      const templatePath = EmailTemplateRegistry.getTemplatePath(templateType);
       const response = await fetch(templatePath);
 
       if (!response.ok) {
@@ -248,153 +49,14 @@ export class EmailTemplateService {
   }
 
   /**
-   * Get template file path based on template type
-   */
-  private getTemplatePath(templateType: EmailTemplateType): string {
-    const templateMap: Record<EmailTemplateType, string> = {
-      'welcome': '/src/email-templates/authentication/welcome.html',
-      'email-verification': '/src/email-templates/authentication/email-verification.html',
-      'password-reset': '/src/email-templates/authentication/password-reset.html',
-      'password-changed': '/src/email-templates/authentication/password-changed.html',
-      'order-confirmation': '/src/email-templates/orders/order-confirmation.html',
-      'order-shipped': '/src/email-templates/orders/order-shipped.html',
-      'order-delivered': '/src/email-templates/orders/order-delivered.html',
-      'order-cancelled': '/src/email-templates/orders/order-cancelled.html',
-      'order-refunded': '/src/email-templates/orders/order-refunded.html',
-      'login-alert': '/src/email-templates/security/login-alert.html',
-      'account-locked': '/src/email-templates/security/account-locked.html',
-      'suspicious-activity': '/src/email-templates/security/suspicious-activity.html',
-      'gdpr-consent': '/src/email-templates/compliance/gdpr-consent.html',
-      'data-export': '/src/email-templates/compliance/data-export.html',
-      'account-deletion': '/src/email-templates/compliance/account-deletion.html',
-      'newsletter': '/src/email-templates/marketing/newsletter.html',
-      'product-launch': '/src/email-templates/marketing/product-launch.html',
-      'special-offer': '/src/email-templates/marketing/special-offer.html'
-    };
-
-    return templateMap[templateType];
-  }
-
-  /**
-   * Get EmailJS template ID for the template type
-   */
-  private getEmailJSTemplateId(templateType: EmailTemplateType): string {
-    const templateIdMap: Record<EmailTemplateType, string> = {
-      'welcome': 'template_welcome',
-      'email-verification': 'template_email_verification',
-      'password-reset': 'template_password_reset',
-      'password-changed': 'template_password_changed',
-      'order-confirmation': 'template_order_confirmation',
-      'order-shipped': 'template_order_shipped',
-      'order-delivered': 'template_order_delivered',
-      'order-cancelled': 'template_order_cancelled',
-      'order-refunded': 'template_order_refunded',
-      'login-alert': 'template_login_alert',
-      'account-locked': 'template_account_locked',
-      'suspicious-activity': 'template_suspicious_activity',
-      'gdpr-consent': 'template_gdpr_consent',
-      'data-export': 'template_data_export',
-      'account-deletion': 'template_account_deletion',
-      'newsletter': 'template_newsletter',
-      'product-launch': 'template_product_launch',
-      'special-offer': 'template_special_offer'
-    };
-
-    return templateIdMap[templateType];
-  }
-
-  /**
-   * Render template with context data
-   */
-  private renderTemplate(template: string, context: EmailContext): string {
-    let rendered = template;
-
-    // Replace simple variables
-    Object.keys(context).forEach(key => {
-      const value = context[key];
-      if (typeof value === 'string') {
-        const regex = new RegExp(`{{${key}}}`, 'g');
-        rendered = rendered.replace(regex, value);
-      }
-    });
-
-    // Handle arrays (like items in order confirmation)
-    rendered = this.renderArrays(rendered, context);
-
-    // Handle conditional sections
-    rendered = this.renderConditionals(rendered, context);
-
-    return rendered;
-  }
-
-  /**
-   * Render array sections in templates
-   */
-  private renderArrays(template: string, context: EmailContext): string {
-    // Handle items array in order templates
-    if (context.items && Array.isArray(context.items)) {
-      const itemTemplate = this.extractArraySection(template, 'items');
-      if (itemTemplate) {
-        const itemsHtml = context.items
-          .map(item => this.renderTemplate(itemTemplate, { ...context, ...item }))
-          .join('');
-        template = template.replace(/{{#each items}}[\s\S]*?{{\/each}}/g, itemsHtml);
-      }
-    }
-
-    return template;
-  }
-
-  /**
-   * Render conditional sections in templates
-   */
-  private renderConditionals(template: string, context: EmailContext): string {
-    // Handle conditional blocks like {{#if ipAddress}}...{{/if}}
-    const conditionalRegex = /{{#if (\w+)}}([\s\S]*?){{\/if}}/g;
-
-    return template.replace(conditionalRegex, (match, condition, content) => {
-      if (context[condition]) {
-        return this.renderTemplate(content, context);
-      }
-      return '';
-    });
-  }
-
-  /**
-   * Extract array section from template
-   */
-  private extractArraySection(template: string, arrayName: string): string | null {
-    const regex = new RegExp(`{{#each ${arrayName}}}([\\s\\S]*?){{/each}}`);
-    const match = template.match(regex);
-    return match ? match[1] : null;
-  }
-
-  /**
-   * Generate plain text version from HTML
-   */
-  private generatePlainText(html: string): string {
-    return html
-      .replace(/<style[\s\S]*?<\/style>/gi, '')
-      .replace(/<script[\s\S]*?<\/script>/gi, '')
-      .replace(/<[^>]*>/g, '')
-      .replace(/&nbsp;/g, ' ')
-      .replace(/&/g, '&')
-      .replace(/</g, '<')
-      .replace(/>/g, '>')
-      .replace(/"/g, '"')
-      .replace(/\s+/g, ' ')
-      .trim();
-  }
-
-  /**
    * Send email using EmailJS
    */
-  private async sendEmail(templateType: EmailTemplateType, context: EmailContext): Promise<EmailServiceResponse> {
+  public async sendEmail(templateType: EmailTemplateType, context: EmailContext): Promise<EmailServiceResponse> {
     try {
       // Load and render template
       const template = await this.loadTemplate(templateType);
-      const htmlContent = this.renderTemplate(template, context);
-      const textContent = this.generatePlainText(htmlContent);
+      const htmlContent = EmailRenderer.renderTemplate(template, context);
+      const textContent = EmailRenderer.generatePlainText(htmlContent);
 
       // Prepare EmailJS parameters
       const templateParams = {
@@ -410,13 +72,13 @@ export class EmailTemplateService {
       if (!this.simulationMode) {
         const response = await emailjs.send(
           EMAILJS_SERVICE_ID,
-          this.getEmailJSTemplateId(templateType),
+          EmailTemplateRegistry.getEmailJSTemplateId(templateType),
           templateParams,
           EMAILJS_PUBLIC_KEY
         );
 
         // Update analytics
-        this.updateAnalytics(templateType, 'sent', 1);
+        this.analyticsService.updateAnalytics(templateType, 'sent');
 
         return {
           success: true,
@@ -438,11 +100,11 @@ export class EmailTemplateService {
           subject: templateParams.subject,
           htmlLength: htmlContent.length,
           textLength: textContent.length,
-          mode: this.simulationMode ? 'simulation' : 'production'
+          mode: 'simulation'
         });
 
         // Update analytics
-        this.updateAnalytics(templateType, 'sent', 1);
+        this.analyticsService.updateAnalytics(templateType, 'sent');
 
         return {
           success: true,
@@ -460,7 +122,7 @@ export class EmailTemplateService {
       console.error('Email sending failed:', error);
 
       // Update analytics for failed send
-      this.updateAnalytics(templateType, 'bounced', 1);
+      this.analyticsService.updateAnalytics(templateType, 'bounced');
 
       return {
         success: false,
@@ -559,41 +221,15 @@ export class EmailTemplateService {
         carrier: context.carrier,
         estimated_delivery: context.estimatedDeliveryDate
       },
-      // Add more template-specific params as needed...
     };
 
     return { ...baseParams, ...(templateParams[templateType] || {}) };
   }
 
   /**
-   * Update analytics counters
-   */
-  private updateAnalytics(templateType: EmailTemplateType, metric: keyof EmailAnalytics, count: number): void {
-    const analytics = this.analytics.get(templateType);
-    if (analytics) {
-      (analytics[metric] as number) += count;
-
-      // Recalculate rates
-      if (analytics.sent > 0) {
-        analytics.deliveryRate = (analytics.delivered / analytics.sent) * 100;
-        analytics.openRate = (analytics.opened / analytics.sent) * 100;
-        analytics.clickRate = (analytics.clicked / analytics.sent) * 100;
-        analytics.bounceRate = (analytics.bounced / analytics.sent) * 100;
-        analytics.complaintRate = (analytics.complained / analytics.sent) * 100;
-        analytics.unsubscribedRate = (analytics.unsubscribed / analytics.sent) * 100;
-      }
-
-      this.analytics.set(templateType, analytics);
-    }
-  }
-
-  /**
    * Public methods for sending specific email types
    */
 
-  /**
-   * Send welcome email
-   */
   public async sendWelcomeEmail(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -610,9 +246,6 @@ export class EmailTemplateService {
     return this.sendEmail('welcome', fullContext);
   }
 
-  /**
-   * Send email verification
-   */
   public async sendEmailVerification(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -628,9 +261,6 @@ export class EmailTemplateService {
     return this.sendEmail('email-verification', fullContext);
   }
 
-  /**
-   * Send password reset email
-   */
   public async sendPasswordReset(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -649,9 +279,6 @@ export class EmailTemplateService {
     return this.sendEmail('password-reset', fullContext);
   }
 
-  /**
-   * Send password changed confirmation
-   */
   public async sendPasswordChanged(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -674,9 +301,6 @@ export class EmailTemplateService {
     return this.sendEmail('password-changed', fullContext);
   }
 
-  /**
-   * Send order confirmation email
-   */
   public async sendOrderConfirmation(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -696,9 +320,6 @@ export class EmailTemplateService {
     return this.sendEmail('order-confirmation', fullContext);
   }
 
-  /**
-   * Send order shipped email
-   */
   public async sendOrderShipped(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -719,9 +340,6 @@ export class EmailTemplateService {
     return this.sendEmail('order-shipped', fullContext);
   }
 
-  /**
-   * Send login alert email
-   */
   public async sendLoginAlert(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const fullContext: EmailContext = {
       ...context,
@@ -733,9 +351,9 @@ export class EmailTemplateService {
       currentYear: new Date().getFullYear().toString(),
       loginTime: new Date().toLocaleString(),
       loginLocation: context.location || 'Unknown Location',
-      deviceType: context.deviceType || this.detectDeviceType(),
-      browser: context.browser || this.detectBrowser(),
-      operatingSystem: context.operatingSystem || this.detectOS(),
+      deviceType: context.deviceType || this.deviceDetector.detectDeviceType(),
+      browser: context.browser || this.deviceDetector.detectBrowser(),
+      operatingSystem: context.operatingSystem || this.deviceDetector.detectOS(),
       ipAddress: context.ipAddress || 'Unknown',
       location: context.location || 'Unknown',
       confirmLoginUrl: `${window.location.origin}/account/security/confirm-login`,
@@ -750,12 +368,9 @@ export class EmailTemplateService {
     return this.sendEmail('login-alert', fullContext);
   }
 
-  /**
-   * Send GDPR consent email
-   */
   public async sendGDPRConsent(context: Omit<EmailContext, 'templateType' | 'companyName' | 'supportEmail' | 'supportPhone' | 'baseUrl' | 'currentYear'> & { toEmail: string }): Promise<EmailServiceResponse> {
     const consentDeadline = new Date();
-    consentDeadline.setDate(consentDeadline.getDate() + 30); // 30 days from now
+    consentDeadline.setDate(consentDeadline.getDate() + 30);
 
     const fullContext: EmailContext = {
       ...context,
@@ -775,76 +390,14 @@ export class EmailTemplateService {
     return this.sendEmail('gdpr-consent', fullContext);
   }
 
-  /**
-   * Utility methods for device detection
-   */
-  private detectDeviceType(): string {
-    const userAgent = navigator.userAgent;
-    if (/tablet|ipad|playbook|silk/i.test(userAgent)) {
-      return 'Tablet';
-    }
-    if (/mobile|iphone|ipod|android|blackberry|opera|mini|windows\sce|palm|smartphone|iemobile/i.test(userAgent)) {
-      return 'Mobile';
-    }
-    return 'Desktop';
+  public getAnalytics(templateType?: EmailTemplateType): EmailAnalytics | EmailAnalytics[] {
+    return this.analyticsService.getAnalytics(templateType);
   }
 
-  private detectBrowser(): string {
-    const userAgent = navigator.userAgent;
-    if (userAgent.includes('Chrome')) return 'Chrome';
-    if (userAgent.includes('Firefox')) return 'Firefox';
-    if (userAgent.includes('Safari')) return 'Safari';
-    if (userAgent.includes('Edge')) return 'Edge';
-    if (userAgent.includes('Opera')) return 'Opera';
-    return 'Unknown';
-  }
-
-  private detectOS(): string {
-    const userAgent = navigator.userAgent;
-    if (userAgent.includes('Windows')) return 'Windows';
-    if (userAgent.includes('Mac')) return 'macOS';
-    if (userAgent.includes('Linux')) return 'Linux';
-    if (userAgent.includes('Android')) return 'Android';
-    if (userAgent.includes('iOS')) return 'iOS';
-    return 'Unknown';
-  }
-
-  /**
-   * Get analytics for a specific template type
-   */
-  public getAnalytics(templateType?: EmailTemplateType): EmailAnalytics | Map<EmailTemplateType, EmailAnalytics> {
-    if (templateType) {
-      return this.analytics.get(templateType) || {
-        templateType,
-        sent: 0,
-        delivered: 0,
-        opened: 0,
-        clicked: 0,
-        bounced: 0,
-        complained: 0,
-        unsubscribed: 0,
-        deliveryRate: 0,
-        openRate: 0,
-        clickRate: 0,
-        bounceRate: 0,
-        complaintRate: 0,
-        unsubscribedRate: 0,
-        period: 'current'
-      };
-    }
-    return this.analytics;
-  }
-
-  /**
-   * Reset analytics data
-   */
   public resetAnalytics(): void {
-    this.initializeAnalytics();
+    this.analyticsService.resetAnalytics();
   }
 
-  /**
-   * Generate email preview
-   */
   public async generatePreview(templateType: EmailTemplateType, context: Partial<EmailContext>): Promise<{
     html: string;
     text: string;
@@ -861,8 +414,8 @@ export class EmailTemplateService {
     } as EmailContext;
 
     const template = await this.loadTemplate(templateType);
-    const html = this.renderTemplate(template, fullContext);
-    const text = this.generatePlainText(html);
+    const html = EmailRenderer.renderTemplate(template, fullContext);
+    const text = EmailRenderer.generatePlainText(html);
     const subject = this.getEmailSubject(templateType, fullContext);
 
     return { html, text, subject };

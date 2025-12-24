@@ -14,7 +14,7 @@ const securityService = new InMemorySecurityService();
 // Domain Services / Application Layer
 export const orderService = new OrderService(orderRepository);
 export const emailOrderService = new EmailOrderService(orderService, emailTemplateService);
-export const emailNotificationService = new EmailNotificationService(emailTemplateService);
+export const emailNotificationService = new EmailNotificationService(emailTemplateService, emailOrderService);
 export const stripeWebhookHandler = new StripeWebhookHandler(orderService, emailOrderService);
 
 // Security

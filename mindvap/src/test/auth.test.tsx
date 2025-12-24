@@ -16,7 +16,7 @@ import { SupabaseAuth } from '../infrastructure/lib/supabase';
 import { User } from '../domain/entities/auth';
 
 // Mock Supabase
-jest.mock('../lib/supabase', () => ({
+jest.mock('../infrastructure/lib/supabase', () => ({
   supabase: {
     auth: {
       onAuthStateChange: jest.fn(() => ({ data: { subscription: { unsubscribe: jest.fn() } } })),
@@ -41,7 +41,7 @@ jest.mock('../lib/supabase', () => ({
   },
 }));
 
-jest.mock('../lib/token-manager', () => ({
+jest.mock('../infrastructure/lib/token-manager', () => ({
   TokenManager: {
     verifyAccessToken: jest.fn().mockResolvedValue({ valid: false }),
   },
@@ -49,7 +49,7 @@ jest.mock('../lib/token-manager', () => ({
   generateSessionId: jest.fn(() => 'mock-session-id'),
 }));
 
-jest.mock('../services/security-service', () => ({
+jest.mock('../application/services/security-service', () => ({
   SecurityService: {
     checkRateLimit: jest.fn(() => ({ allowed: true })),
     generateDeviceFingerprint: jest.fn(() => 'mock-fingerprint'),
@@ -60,7 +60,7 @@ jest.mock('../services/security-service', () => ({
   },
 }));
 
-jest.mock('../lib/mock-auth-service', () => ({
+jest.mock('../infrastructure/lib/mock-auth-service', () => ({
   MockAuthService: {
     getSession: jest.fn(),
     login: jest.fn(),

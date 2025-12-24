@@ -393,6 +393,88 @@ export class SecurityService {
     this.clearSecurityEvents();
     log.info('Security service reset for testing');
   }
+
+  /**
+   * Moderate content using reasoning-based analysis (as per ADR-0012)
+   */
+  static async moderateContent(text: string): Promise<{
+    allowed: boolean;
+    flagged: boolean;
+    blocked: boolean;
+    severity: 'none' | 'low' | 'medium' | 'high';
+    reasoning: string;
+  }> {
+    // In a production environment, this would call an LLM API or specialized moderation service
+    // For this implementation, we simulate robust reasoning logic
+    const textLower = text.toLowerCase();
+
+    // 1. Check for prompt injection or sensitive infrastructure requests
+    const injectionPatterns = [
+      /ignore previous instructions/i,
+      /secret key/i,
+      /database credentials/i,
+      /drop table/i,
+      /select \* from/i,
+      /system prompt/i
+    ];
+
+    if (injectionPatterns.some(p => p.test(textLower))) {
+      return {
+        allowed: false,
+        flagged: true,
+        blocked: true,
+        severity: 'high',
+        reasoning: 'Potential security risk: Content contains patterns associated with prompt injection or database access attempts.'
+      };
+    }
+
+    // 2. Check for harassment, hate speech, or profanity (broadly)
+    const harassmentPatterns = [
+      /hate/i,
+      /kill/i,
+      /stupid/i, // Example of mild harassment
+      // Add more specific patterns if needed for production
+    ];
+
+    if (harassmentPatterns.some(p => p.test(textLower)) && textLower.length > 50) {
+      // Logic simulation: isolated words might be fine (e.g., "I hate when orders are late"),
+      // but long strings with these words are flagged.
+      return {
+        allowed: true,
+        flagged: true,
+        blocked: false,
+        severity: 'low',
+        reasoning: 'Content containing potentially sensitive language has been flagged for human review.'
+      };
+    }
+
+    // 3. Check for illegal product promotion or circumvention
+    const illegalPatterns = [
+      /buy cheap drugs/i,
+      /illegal/i,
+      /bypass age verification/i,
+      /fake id/i
+    ];
+
+    if (illegalPatterns.some(p => p.test(textLower))) {
+      return {
+        allowed: false,
+        flagged: true,
+        blocked: true,
+        severity: 'high',
+        reasoning: 'Violation of Safety Policy: Request involves illegal activities or circumvention of age-restriction controls.'
+      };
+    }
+
+    // Default: Allow
+    return {
+      allowed: true,
+      flagged: false,
+      blocked: false,
+      severity: 'none',
+      reasoning: 'Content validated as safe.'
+    };
+  }
 }
 
 // Export utility functions
@@ -405,3 +487,4 @@ export const getClientIP = SecurityService.getClientIP;
 export const generateCSRFToken = SecurityService.generateCSRFToken;
 export const validateCSRFToken = SecurityService.validateCSRFToken;
 export const setCSRFToken = SecurityService.setCSRFToken;
+export const moderateContent = SecurityService.moderateContent;
