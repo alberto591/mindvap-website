@@ -5,7 +5,7 @@ import { useLanguage } from '../../contexts/language-context';
 import { useAuth } from '../../contexts/auth-context';
 import LanguageSelector from '../language-selector';
 import UnifiedAuthButton from '../auth/unified-auth-button';
-import Search from '../search';
+import Search from '../Search';
 import { useCart } from '../../contexts/cart-context';
 
 export default function Header() {

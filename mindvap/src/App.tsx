@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import Header from './presentation/components/layout/header';
-import Footer from './presentation/components/layout/footer';
+import Header from './presentation/components/layout/Header';
+import Footer from './presentation/components/layout/Footer';
 
 // Lazy load pages for code splitting
 const HomePage = lazy(() => import('./presentation/pages/home-page'));
@@ -41,7 +41,7 @@ const FormulationAgentPage = lazy(() => import('./presentation/pages/admin/formu
 const AdminTutorialsPage = lazy(() => import('./presentation/pages/admin/admin-tutorials-page'));
 
 // Chat Component
-import Chat from './presentation/components/chat/chat';
+import Chat from './presentation/components/chat/Chat';
 
 import ProtectedRoute from './presentation/components/auth/protected-route';
 import { LanguageProvider } from './presentation/contexts/language-context';
