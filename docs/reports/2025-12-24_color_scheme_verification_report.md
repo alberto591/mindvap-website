@@ -1,5 +1,5 @@
 # Color Scheme Verification Report
-## Website: https://mgjv5vds6642.space.minimax.io
+## Website: https://mindvap-sigma.vercel.app/
 
 **Test Date:** November 9, 2025  
 **Testing Scope:** Homepage, Shop Page, Product Detail Page  
