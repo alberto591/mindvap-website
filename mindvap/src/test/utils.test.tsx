@@ -5,7 +5,7 @@
  * input sanitization, validation, and security helpers.
  */
 
-import { sanitizeEmail, sanitizePassword, sanitizeInput } from '../lib/utils';
+import { sanitizeEmail, sanitizePassword, sanitizeInput } from '../infrastructure/lib/utils';
 
 describe('Utility Functions', () => {
   describe('sanitizeEmail', () => {

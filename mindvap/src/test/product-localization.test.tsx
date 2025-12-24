@@ -1,7 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import { render, mockProduct } from './utils';
-import ProductCard from '../components/ui/product-card';
+import ProductCard from '../presentation/components/ui/product-card';
 
 describe('Product Localization', () => {
     beforeEach(() => {

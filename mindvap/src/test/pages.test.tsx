@@ -1,8 +1,8 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import HomePage from '../pages/home-page';
-import ShopPage from '../pages/shop-page';
+import HomePage from '../presentation/pages/home-page';
+import ShopPage from '../presentation/pages/shop-page';
 import { MemoryRouter } from 'react-router-dom';
-import { LanguageProvider } from '../contexts/language-context';
+import { LanguageProvider } from '../presentation/contexts/language-context';
 
 // Mock Lucide icons
 jest.mock('lucide-react', () => ({

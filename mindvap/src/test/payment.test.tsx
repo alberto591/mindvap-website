@@ -1,4 +1,4 @@
-import { createPaymentIntent } from '../services/payment';
+import { createPaymentIntent } from '../application/services/payment';
 
 // Mock global fetch
 const mockFetch = jest.fn();

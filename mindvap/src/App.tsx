@@ -1,52 +1,52 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
-import Header from './components/layout/header';
-import Footer from './components/layout/footer';
+import Header from './presentation/components/layout/header';
+import Footer from './presentation/components/layout/footer';
 
 // Lazy load pages for code splitting
-const HomePage = lazy(() => import('./pages/home-page'));
-const ShopPage = lazy(() => import('./pages/shop-page'));
-const ProductDetailPage = lazy(() => import('./pages/product-detail-page'));
-const AboutPage = lazy(() => import('./pages/about-page'));
-const EducationPage = lazy(() => import('./pages/education-page'));
-const ContactPage = lazy(() => import('./pages/contact-page'));
-const CartPage = lazy(() => import('./pages/cart-page'));
-const CheckoutPage = lazy(() => import('./pages/checkout-page'));
-const RegistrationPage = lazy(() => import('./pages/registration-page'));
-const LoginPage = lazy(() => import('./pages/login-page'));
-const ShippingReturnsPage = lazy(() => import('./pages/shipping-returns-page'));
-const PrivacyPolicyPage = lazy(() => import('./pages/privacy-policy-page'));
-const TermsOfServicePage = lazy(() => import('./pages/terms-of-service-page'));
-const GuestOrderTrackingPage = lazy(() => import('./pages/guest-order-tracking-page'));
-const CheckoutSuccessPage = lazy(() => import('./pages/checkout-success-page'));
+const HomePage = lazy(() => import('./presentation/pages/home-page'));
+const ShopPage = lazy(() => import('./presentation/pages/shop-page'));
+const ProductDetailPage = lazy(() => import('./presentation/pages/product-detail-page'));
+const AboutPage = lazy(() => import('./presentation/pages/about-page'));
+const EducationPage = lazy(() => import('./presentation/pages/education-page'));
+const ContactPage = lazy(() => import('./presentation/pages/contact-page'));
+const CartPage = lazy(() => import('./presentation/pages/cart-page'));
+const CheckoutPage = lazy(() => import('./presentation/pages/checkout-page'));
+const RegistrationPage = lazy(() => import('./presentation/pages/registration-page'));
+const LoginPage = lazy(() => import('./presentation/pages/login-page'));
+const ShippingReturnsPage = lazy(() => import('./presentation/pages/shipping-returns-page'));
+const PrivacyPolicyPage = lazy(() => import('./presentation/pages/privacy-policy-page'));
+const TermsOfServicePage = lazy(() => import('./presentation/pages/terms-of-service-page'));
+const GuestOrderTrackingPage = lazy(() => import('./presentation/pages/guest-order-tracking-page'));
+const CheckoutSuccessPage = lazy(() => import('./presentation/pages/checkout-success-page'));
 
 // Account Management Pages (lazy loaded)
-const AccountDashboardPage = lazy(() => import('./pages/account-dashboard-page'));
-const ProfileManagementPage = lazy(() => import('./pages/profile-management-page'));
-const AddressManagementPage = lazy(() => import('./pages/address-management-page'));
-const OrderHistoryPage = lazy(() => import('./pages/order-history-page'));
-const PaymentMethodsPage = lazy(() => import('./pages/payment-methods-page'));
-const WishlistPage = lazy(() => import('./pages/wishlist-page'));
-const AccountSettingsPage = lazy(() => import('./pages/account-settings-page'));
-const SecurityPage = lazy(() => import('./pages/security-page'));
-const PrivacyPage = lazy(() => import('./pages/privacy-page'));
+const AccountDashboardPage = lazy(() => import('./presentation/pages/account-dashboard-page'));
+const ProfileManagementPage = lazy(() => import('./presentation/pages/profile-management-page'));
+const AddressManagementPage = lazy(() => import('./presentation/pages/address-management-page'));
+const OrderHistoryPage = lazy(() => import('./presentation/pages/order-history-page'));
+const PaymentMethodsPage = lazy(() => import('./presentation/pages/payment-methods-page'));
+const WishlistPage = lazy(() => import('./presentation/pages/wishlist-page'));
+const AccountSettingsPage = lazy(() => import('./presentation/pages/account-settings-page'));
+const SecurityPage = lazy(() => import('./presentation/pages/security-page'));
+const PrivacyPage = lazy(() => import('./presentation/pages/privacy-page'));
 
 // Admin Pages
-const AdminLayout = lazy(() => import('./components/admin/admin-layout'));
-const AdminRoute = lazy(() => import('./components/admin/admin-route'));
-const AdminDashboardPage = lazy(() => import('./pages/admin/admin-dashboard-page'));
-const SourcingAgentPage = lazy(() => import('./pages/admin/sourcing-agent-page'));
-const LegalResearchPage = lazy(() => import('./pages/admin/legal-research-page'));
-const FormulationAgentPage = lazy(() => import('./pages/admin/formulation-agent-page'));
-const AdminTutorialsPage = lazy(() => import('./pages/admin/admin-tutorials-page'));
+const AdminLayout = lazy(() => import('./presentation/components/admin/admin-layout'));
+const AdminRoute = lazy(() => import('./presentation/components/admin/admin-route'));
+const AdminDashboardPage = lazy(() => import('./presentation/pages/admin/admin-dashboard-page'));
+const SourcingAgentPage = lazy(() => import('./presentation/pages/admin/sourcing-agent-page'));
+const LegalResearchPage = lazy(() => import('./presentation/pages/admin/legal-research-page'));
+const FormulationAgentPage = lazy(() => import('./presentation/pages/admin/formulation-agent-page'));
+const AdminTutorialsPage = lazy(() => import('./presentation/pages/admin/admin-tutorials-page'));
 
 // Chat Component
-import Chat from './components/chat/chat';
+import Chat from './presentation/components/chat/chat';
 
-import ProtectedRoute from './components/auth/protected-route';
-import { LanguageProvider } from './contexts/language-context';
-import { AuthProvider } from './contexts/auth-context';
-import { CartProvider } from './contexts/cart-context';
+import ProtectedRoute from './presentation/components/auth/protected-route';
+import { LanguageProvider } from './presentation/contexts/language-context';
+import { AuthProvider } from './presentation/contexts/auth-context';
+import { CartProvider } from './presentation/contexts/cart-context';
 
 // Loading component
 const PageLoader = () => (

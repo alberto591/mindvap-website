@@ -1,25 +1,21 @@
-import { OrderService } from '../services/order-service';
-import { supabase } from '../lib/supabase';
-
-// Mock Supabase
-jest.mock('../lib/supabase', () => ({
-    supabase: {
-        from: jest.fn(() => ({
-            insert: jest.fn().mockReturnThis(),
-            select: jest.fn().mockReturnThis(),
-            single: jest.fn(),
-            eq: jest.fn().mockReturnThis(),
-            update: jest.fn().mockReturnThis(),
-            order: jest.fn().mockReturnThis(),
-            limit: jest.fn().mockReturnThis(),
-            delete: jest.fn().mockReturnThis(),
-        })),
-    },
-}));
+import { OrderService } from '../application/services/order-service';
+import { IOrderRepository } from '../domain/ports/i-order-repository';
 
 describe('OrderService', () => {
+    let orderService: OrderService;
+    let mockOrderRepository: jest.Mocked<IOrderRepository>;
+
     beforeEach(() => {
-        jest.clearAllMocks();
+        mockOrderRepository = {
+            createOrder: jest.fn(),
+            getOrder: jest.fn(),
+            getOrderByPaymentIntent: jest.fn(),
+            getUserOrders: jest.fn(),
+            getOrderItems: jest.fn(),
+            updateOrderStatus: jest.fn(),
+            getOrderStats: jest.fn(),
+        };
+        orderService = new OrderService(mockOrderRepository);
     });
 
     const mockOrderData = {
@@ -34,71 +30,49 @@ describe('OrderService', () => {
 
     const mockOrderRecord = {
         id: 'o_123',
-        ...mockOrderData
+        stripe_payment_intent_id: 'pi_123',
+        status: 'pending' as const,
+        total_amount: 50.00,
+        currency: 'usd',
+        shipping_address: {},
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
     };
 
     it('should create order successfully', async () => {
-        const fromSpy = jest.spyOn(supabase, 'from');
+        mockOrderRepository.createOrder.mockResolvedValue(mockOrderRecord);
 
-        // Mock successful order creation
-        (supabase.from as any).mockImplementationOnce(() => ({
-            insert: jest.fn().mockReturnThis(),
-            select: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: mockOrderRecord, error: null })
-        }));
-
-        // Mock successful order items creation
-        (supabase.from as any).mockImplementationOnce(() => ({
-            insert: jest.fn().mockResolvedValue({ error: null })
-        }));
-
-        const result = await OrderService.createOrder(mockOrderData);
+        const result = await orderService.createOrder(mockOrderData);
 
         expect(result).toEqual(mockOrderRecord);
-        expect(supabase.from).toHaveBeenCalledWith('orders');
-        expect(supabase.from).toHaveBeenCalledWith('order_items');
+        expect(mockOrderRepository.createOrder).toHaveBeenCalledWith(mockOrderData);
     });
 
     it('should throw error if order creation fails', async () => {
-        (supabase.from as any).mockImplementationOnce(() => ({
-            insert: jest.fn().mockReturnThis(),
-            select: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: null, error: { message: 'DB Error' } })
-        }));
+        mockOrderRepository.createOrder.mockRejectedValue(new Error('DB Error'));
 
-        await expect(OrderService.createOrder(mockOrderData)).rejects.toThrow('Failed to create order: DB Error');
+        await expect(orderService.createOrder(mockOrderData)).rejects.toThrow('DB Error');
     });
 
     it('should get order by ID', async () => {
-        (supabase.from as any).mockImplementation(() => ({
-            select: jest.fn().mockReturnThis(),
-            eq: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: mockOrderRecord, error: null })
-        }));
+        mockOrderRepository.getOrder.mockResolvedValue(mockOrderRecord);
 
-        const result = await OrderService.getOrder('o_123');
+        const result = await orderService.getOrder('o_123');
         expect(result).toEqual(mockOrderRecord);
     });
 
-    it('should return null if order not found (PGRST116)', async () => {
-        (supabase.from as any).mockImplementation(() => ({
-            select: jest.fn().mockReturnThis(),
-            eq: jest.fn().mockReturnThis(),
-            single: jest.fn().mockResolvedValue({ data: null, error: { code: 'PGRST116' } })
-        }));
+    it('should return null if order not found', async () => {
+        mockOrderRepository.getOrder.mockResolvedValue(null);
 
-        const result = await OrderService.getOrder('o_999');
+        const result = await orderService.getOrder('o_999');
         expect(result).toBeNull();
     });
 
     it('should update order status', async () => {
-        (supabase.from as any).mockImplementation(() => ({
-            update: jest.fn().mockReturnThis(),
-            eq: jest.fn().mockResolvedValue({ error: null })
-        }));
+        mockOrderRepository.updateOrderStatus.mockResolvedValue(undefined);
 
-        await OrderService.updateOrderStatus('o_123', 'shipped');
+        await orderService.updateOrderStatus('o_123', 'shipped');
 
-        expect(supabase.from).toHaveBeenCalledWith('orders');
+        expect(mockOrderRepository.updateOrderStatus).toHaveBeenCalledWith('o_123', 'shipped');
     });
 });

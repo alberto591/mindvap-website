@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderHook, act } from '@testing-library/react';
-import { LanguageProvider, useLanguage } from '../contexts/language-context';
+import { LanguageProvider, useLanguage } from '../presentation/contexts/language-context';
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
     <LanguageProvider>{children}</LanguageProvider>

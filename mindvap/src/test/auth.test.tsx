@@ -8,12 +8,12 @@
 import React, { useState } from 'react';
 import { act, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { AuthProvider, useAuth } from '../contexts/auth-context';
+import { AuthProvider, useAuth } from '../presentation/contexts/auth-context';
 import { render } from './utils';
-import { MockAuthService } from '../lib/mock-auth-service';
-import { SecurityService } from '../services/security-service';
-import { SupabaseAuth } from '../lib/supabase';
-import { User } from '../types/auth';
+import { MockAuthService } from '../infrastructure/lib/mock-auth-service';
+import { SecurityService } from '../application/services/security-service';
+import { SupabaseAuth } from '../infrastructure/lib/supabase';
+import { User } from '../domain/entities/auth';
 
 // Mock Supabase
 jest.mock('../lib/supabase', () => ({
