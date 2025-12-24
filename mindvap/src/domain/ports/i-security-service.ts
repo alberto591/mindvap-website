@@ -1,3 +1,15 @@
+/**
+ * @deprecated This interface violates ISP (Interface Segregation Principle)
+ * Use the following focused interfaces instead:
+ * - IRateLimitService for rate limiting
+ * - ICSRFProtectionService for CSRF protection
+ * - ISecurityEventLogger for event logging
+ * - IThreatDetectionService for threat detection
+ * 
+ * This file is kept for backwards compatibility during migration.
+ * It will be removed once all consumers are updated.
+ */
+
 export interface RateLimitResult {
     allowed: boolean;
     remaining: number;
@@ -19,6 +31,9 @@ export interface SecurityEvent {
     timestamp: string;
 }
 
+/**
+ * @deprecated - Split into focused interfaces (ISP)
+ */
 export interface ISecurityService {
     // Rate limiting
     checkRateLimit(identifier: string, action: string): RateLimitResult;
@@ -47,3 +62,4 @@ export interface ISecurityService {
     generateDeviceFingerprint(): string;
     getClientIP(): Promise<string>;
 }
+
