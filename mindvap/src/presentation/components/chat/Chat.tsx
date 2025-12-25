@@ -197,7 +197,7 @@ export default function Chat() {
     if (!baseCustomProduct) return;
     const customItem: CustomFormula = {
       id: `custom-${Date.now()}`,
-      name: { en: formula.name, es: formula.name, it: formula.name },
+      name: formula.name,
       price: 49.99,
       ingredients: formula.ingredients,
       instructions: formula.instructions,

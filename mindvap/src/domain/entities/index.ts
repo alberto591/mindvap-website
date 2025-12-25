@@ -55,10 +55,12 @@ export interface FormulaIngredient {
 export interface CustomFormula {
   id: string;
   name: string;
-  goal: string;
+  price?: number;
+  goal?: string;
   ingredients: FormulaIngredient[];
   instructions: string;
-  createdAt: string;
+  isCustom?: boolean;
+  createdAt?: string;
 }
 
 export interface CartItem {

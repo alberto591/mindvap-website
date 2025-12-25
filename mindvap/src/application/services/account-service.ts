@@ -92,6 +92,36 @@ export class AccountService {
     return AccountDashboardService.getDashboardStats();
   }
 
+  // Payment Methods
+  static async getPaymentMethods(): Promise<GetPaymentMethodsResponse> {
+    return PaymentMethodService.getPaymentMethods();
+  }
+
+  static async createPaymentMethod(paymentData: CreatePaymentMethodRequest): Promise<CreatePaymentMethodResponse> {
+    return PaymentMethodService.createPaymentMethod(paymentData);
+  }
+
+  static async deletePaymentMethod(id: string): Promise<DeletePaymentMethodResponse> {
+    return PaymentMethodService.deletePaymentMethod(id);
+  }
+
+  static async setDefaultPaymentMethod(id: string): Promise<SetDefaultPaymentMethodResponse> {
+    return PaymentMethodService.setDefaultPaymentMethod(id);
+  }
+
+  // Wishlist
+  static async getWishlist(): Promise<GetWishlistResponse> {
+    return WishlistService.getWishlist();
+  }
+
+  static async removeFromWishlist(id: string): Promise<RemoveWishlistItemResponse> {
+    return WishlistService.removeFromWishlist(id);
+  }
+
+  static async moveWishlistToCart(wishlistItemId: string, quantity: number = 1): Promise<MoveWishlistToCartResponse> {
+    return WishlistService.moveWishlistToCart(wishlistItemId, quantity);
+  }
+
   // Utility method to check if user has required data for orders
   static async validateOrderPrerequisites(): Promise<{ valid: boolean; missing: string[] }> {
     return OrderHistoryService.validateOrderPrerequisites();

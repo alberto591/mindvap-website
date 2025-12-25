@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Minimize2, Send, Clock, Leaf, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../../contexts/auth-context';
-import { ChatService } from '../../application/services/chat-service';
+import { ChatService } from '../../application/services/chat-service.js';
 import { useCart } from '../../contexts/cart-context';
 import { useLanguage } from '../../contexts/language-context';
+import { log } from '../../infrastructure/lib/logger.js';
 
 interface Message {
   id: string;
@@ -192,8 +193,8 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
         {messages.map((message) => (
           <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[80%] rounded-lg p-3 ${message.sender === 'user'
-                ? 'bg-brand text-white rounded-br-sm'
-                : 'bg-gray-100 text-gray-800 rounded-bl-sm'
+              ? 'bg-brand text-white rounded-br-sm'
+              : 'bg-gray-100 text-gray-800 rounded-bl-sm'
               }`}>
               <div className="text-sm">
                 <p>{message.text}</p>

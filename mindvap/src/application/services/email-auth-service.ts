@@ -1,5 +1,6 @@
 
-import { EmailTemplateService, EmailServiceResponse } from './email-template-service';
+import EmailTemplateService from './email-template-service';
+import { EmailServiceResponse } from './email-types';
 import { User } from '../../domain/entities/auth';
 import { log } from '../../infrastructure/lib/logger';
 

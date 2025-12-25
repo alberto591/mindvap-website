@@ -1,7 +1,9 @@
 // Comprehensive Email Notification Service
 // Integrates with authentication system and provides email triggers for all user interactions
 
-import { EmailTemplateService, EmailContext, EmailTemplateType, EmailServiceResponse } from './email-template-service';
+import EmailTemplateService from './email-template-service';
+import { EmailContext, EmailServiceResponse } from './email-types';
+import { EmailTemplateType } from './email-template-registry';
 import { User } from '../../domain/entities/auth';
 import { log } from '../../infrastructure/lib/logger';
 import CircuitBreaker from 'opossum';
@@ -201,33 +203,16 @@ export class EmailNotificationService {
    * Initialize rate limiting cache
    */
   private initializeRateLimiting(): void {
-    // Load rate limiting data from localStorage if available
-    try {
-      const stored = localStorage.getItem('email_rate_limits');
-      if (stored) {
-        const data = JSON.parse(stored);
-        Object.entries(data).forEach(([key, value]) => {
-          this.rateLimitCache.set(key, value as { lastSent: number; count: number });
-        });
-      }
-    } catch (error) {
-      log.warn('Failed to load rate limiting data', { error });
-    }
+    // Rate limiting is now handled by EmailRateLimiter service
+    // This method is kept for backwards compatibility but does nothing
   }
 
   /**
    * Save rate limiting data to localStorage
    */
   private saveRateLimitData(): void {
-    try {
-      const data: Record<string, { lastSent: number; count: number }> = {};
-      this.rateLimitCache.forEach((value, key) => {
-        data[key] = value;
-      });
-      localStorage.setItem('email_rate_limits', JSON.stringify(data));
-    } catch (error) {
-      log.warn('Failed to save rate limiting data', { error });
-    }
+    // Rate limiting is now handled by EmailRateLimiter service
+    // This method is kept for backwards compatibility but does nothing
   }
 
   /**
