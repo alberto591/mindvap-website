@@ -1,6 +1,16 @@
 import { useState, useEffect } from 'react';
-import { FlaskConical, Sparkles, ScrollText, Key, Leaf, Flame, Droplet, Coffee } from 'lucide-react';
+import { FlaskConical, Sparkles, ScrollText, Key, Leaf, Flame, Droplet, Coffee, AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { generateFormulation, type FormulationCriteria, type FormulationResult } from '../../../application/services/formulation-service';
+
+const AVAILABLE_CONSTRAINTS = [
+    { id: 'pregnancy', label: 'Pregnancy' },
+    { id: 'SSRIs', label: 'Anti-depressants (SSRIs)' },
+    { id: 'anticoagulants', label: 'Blood Thinners (Anticoagulants)' },
+    { id: 'thyroid_disease', label: 'Thyroid Disease' },
+    { id: 'liver_disease', label: 'Liver Disease' },
+    { id: 'compositae_allergy', label: 'Chamomile/Daisy Allergy' },
+    { id: 'GERD', label: 'Acid Reflux (GERD)' }
+];
 
 export default function FormulationAgentPage() {
     const [apiKey, setApiKey] = useState('');
@@ -27,6 +37,15 @@ export default function FormulationAgentPage() {
     const handleCriteriaChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const { name, value } = e.target;
         setCriteria(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleConstraintToggle = (constraintId: string) => {
+        setCriteria(prev => ({
+            ...prev,
+            constraints: prev.constraints.includes(constraintId)
+                ? prev.constraints.filter(id => id !== constraintId)
+                : [...prev.constraints, constraintId]
+        }));
     };
 
     const handleGenerate = async () => {
@@ -112,6 +131,23 @@ export default function FormulationAgentPage() {
                             </div>
 
                             <div>
+                                <label className="block text-sm font-medium text-text-secondary mb-2">Health Constraints</label>
+                                <div className="space-y-2 max-h-48 overflow-y-auto p-3 bg-gray-50 rounded-md border border-gray-200">
+                                    {AVAILABLE_CONSTRAINTS.map(c => (
+                                        <label key={c.id} className="flex items-center gap-2 text-sm text-text-primary cursor-pointer hover:bg-white p-1 rounded transition-colors">
+                                            <input
+                                                type="checkbox"
+                                                checked={criteria.constraints.includes(c.id)}
+                                                onChange={() => handleConstraintToggle(c.id)}
+                                                className="rounded text-brand-primary"
+                                            />
+                                            {c.label}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div>
                                 <label className="block text-sm font-medium text-text-secondary mb-1">Product Format</label>
                                 <select
                                     name="format"
@@ -137,7 +173,7 @@ export default function FormulationAgentPage() {
                                 Generate Formulation
                             </button>
                         </div>
-                        {error && <p className="text-red-500 text-xs mt-3">{error}</p>}
+                        {error && <p className="text-red-500 text-xs mt-3 bg-red-50 p-2 rounded border border-red-100">{error}</p>}
                     </div>
                 </div>
 
@@ -148,8 +184,19 @@ export default function FormulationAgentPage() {
                         <div className="bg-white rounded-lg shadow-sm border border-border-light overflow-hidden">
                             <div className="bg-gradient-to-r from-green-50 to-blue-50 px-8 py-6 border-b border-border-light">
                                 <div className="flex justify-between items-start">
-                                    <div>
-                                        <h2 className="font-headline font-bold text-2xl text-text-primary mb-1">{result.name}</h2>
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-1">
+                                            <h2 className="font-headline font-bold text-2xl text-text-primary">{result.name}</h2>
+                                            {result.safetyStatus?.safe ? (
+                                                <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-700 px-2 py-0.5 rounded-full border border-green-200">
+                                                    <CheckCircle2 size={10} /> Safe
+                                                </span>
+                                            ) : (
+                                                <span className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-red-100 text-red-700 px-2 py-0.5 rounded-full border border-red-200">
+                                                    <ShieldAlert size={10} /> Unsafe
+                                                </span>
+                                            )}
+                                        </div>
                                         <p className="text-text-secondary">{result.description}</p>
                                     </div>
                                     <span className="bg-white p-2 rounded-full shadow-sm text-brand-primary">
@@ -159,6 +206,21 @@ export default function FormulationAgentPage() {
                             </div>
 
                             <div className="p-8 space-y-8">
+
+                                {/* Safety Alerts */}
+                                {result.safetyStatus && result.safetyStatus.warnings.length > 0 && (
+                                    <div className={`p-4 rounded-lg flex gap-3 border ${result.safetyStatus.safe ? 'bg-amber-50 border-amber-100 text-amber-800' : 'bg-red-50 border-red-100 text-red-800'}`}>
+                                        <AlertTriangle className="flex-shrink-0" size={20} />
+                                        <div>
+                                            <p className="font-bold text-sm mb-1">{result.safetyStatus.safe ? 'Safety Considerations' : 'Safety Warning - Formulation Blocked'}</p>
+                                            <ul className="text-xs list-disc list-inside space-y-1 opacity-90">
+                                                {result.safetyStatus.warnings.map((w, i) => (
+                                                    <li key={i}>{w}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Ingredients Table */}
                                 <div>

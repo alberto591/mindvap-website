@@ -135,7 +135,7 @@ BEGIN
         SELECT tablename 
         FROM pg_tables 
         WHERE schemaname = 'public' 
-        AND tablename IN ('login_attempts', 'password_reset_tokens', 'email_verification_tokens', 'audit_log', 'security_alerts', 'orders', 'order_items')
+        AND tablename IN ('login_attempts', 'password_reset_tokens', 'email_verification_tokens', 'audit_log', 'security_alerts', 'orders', 'order_items', 'semantic_cache')
     LOOP
         EXECUTE 'ALTER TABLE ' || quote_ident(t) || ' ENABLE ROW LEVEL SECURITY;';
     END LOOP;

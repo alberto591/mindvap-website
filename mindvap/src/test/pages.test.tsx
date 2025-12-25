@@ -20,7 +20,7 @@ jest.mock('lucide-react', () => ({
 }));
 
 // Mock ProductCard
-jest.mock('../components/ui/product-card', () => ({
+jest.mock('../presentation/components/ui/product-card', () => ({
     default: ({ product }: any) => <div data-testid="product-card">{product.name.en}</div>
 }));
 

@@ -777,5 +777,61 @@
       "es": "Hipérico: ALTO riesgo de interacción vía inducción de CYP3A4; evite con muchos medicamentos. Consulte al médico. Damiana: Segura con moderación. Rosa: Sin contraindicazioni. Manzanilla: Precaución por alergia. No usar con antidepresivos sin supervisión médica.",
       "it": "Erba di San Giovanni: ALTO rischio di interazione via induzione del CYP3A4; evitare con molti farmaci. Consultare un medico. Damiana: Sicura con moderazione. Rosa: Nessuna controindicazione. Camomilla: Cautela per le allergie. Non usare con antidepressivi senza supervisione medica."
     }
+  },
+  {
+    "id": "master-herbalist-custom-blend",
+    "name": {
+      "en": "Master Herbalist Custom Blend",
+      "es": "Mezcla Personalizada del Maestro Herbalista",
+      "it": "Miscela Personalizzata del Maestro Erborista"
+    },
+    "price": 49.99,
+    "category": {
+      "en": "Custom",
+      "es": "Personalizado",
+      "it": "Personalizzato"
+    },
+    "image": "/images/placeholder-product.webp",
+    "shortDescription": {
+      "en": "AI-generated tailored herbal mix",
+      "es": "Mezcla herbal a medida generada por IA",
+      "it": "Mix erboristico su misura generato dall'IA"
+    },
+    "herbs": [],
+    "temperature": "Custom based on formula",
+    "inStock": true,
+    "stockLevel": 999,
+    "rating": 5.0,
+    "reviews": 0,
+    "description": {
+      "en": "A fully customized herbal blend generated specifically for your needs by our Master Herbalist AI.",
+      "es": "Una mezcla de hierbas totalmente personalizada generada específicamente para sus necesidades por nuestra IA Maestro Herbalista.",
+      "it": "Una miscela di erbe completamente personalizzata generata specificamente per le tue esigenze dalla nostra IA Maestro Erborista."
+    },
+    "benefits": {
+      "en": [
+        "Tailored to your specific wellness goals",
+        "Optimized herb ratios based on latest research"
+      ],
+      "es": [
+        "Adaptado a sus objetivos específicos de bienestar",
+        "Proporciones de hierbas optimizadas basadas en las últimas investigaciones"
+      ],
+      "it": [
+        "Su misura per i tuoi specifici obiettivi di benessere",
+        "Rapporti di erbe ottimizzati sulla base delle ultime ricerche"
+      ]
+    },
+    "usage": {
+      "en": "Refer to the custom instructions provided with your generated formula.",
+      "es": "Consulte las instrucciones personalizadas proporcionadas con su fórmula generada.",
+      "it": "Fare riferimento alle istruzioni personalizzate fornite con la formula generata."
+    },
+    "safety": {
+      "en": "Safety checks are performed during the generation process. Please review warnings carefully.",
+      "es": "Los controles de seguridad se realizan durante el proceso de generación. Revise las advertencias cuidadosamente.",
+      "it": "I controlli di sicurezza vengono eseguiti durante il processo di generazione. Si prega di leggere attentamente le avvertenze."
+    },
+    "isCustomizable": true
   }
 ]

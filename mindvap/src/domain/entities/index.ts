@@ -43,11 +43,28 @@ export interface Product {
     es: string;
     it: string;
   };
+  isCustomizable?: boolean;
+}
+
+export interface FormulaIngredient {
+  name: string;
+  percentage: number;
+  reason?: string;
+}
+
+export interface CustomFormula {
+  id: string;
+  name: string;
+  goal: string;
+  ingredients: FormulaIngredient[];
+  instructions: string;
+  createdAt: string;
 }
 
 export interface CartItem {
   product: Product;
   quantity: number;
+  customFormula?: CustomFormula;
 }
 
 export interface AgeVerification {

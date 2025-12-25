@@ -3,7 +3,7 @@ import { log } from '../../infrastructure/lib/logger';
 
 export interface SecurityMetric {
     timestamp: string;
-    type: 'rate_limit' | 'circuit_breaker' | 'content_moderation' | 'auth_failure';
+    type: 'rate_limit' | 'circuit_breaker' | 'content_moderation' | 'auth_failure' | 'ai_formulation';
     identifier: string;
     action: string;
     metadata?: Record<string, any>;

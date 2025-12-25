@@ -1,6 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Minimize2, Send, Clock } from 'lucide-react';
+import { MessageCircle, X, Minimize2, Send, Clock, Leaf, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../../contexts/auth-context';
+import { ChatService } from '../../application/services/chat-service';
+import { useCart } from '../../contexts/cart-context';
+import { useLanguage } from '../../contexts/language-context';
 
 interface Message {
   id: string;
@@ -8,6 +11,7 @@ interface Message {
   sender: 'user' | 'bot';
   timestamp: Date;
   quickReplies?: string[];
+  metadata?: any;
 }
 
 interface ChatWindowProps {
@@ -21,6 +25,9 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { addToCart } = useCart();
+  const { language } = useLanguage();
+  const [isHerbalistMode, setIsHerbalistMode] = useState(false);
 
   // Initialize chat with welcome message
   useEffect(() => {
@@ -43,43 +50,43 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
 
   const generateBotResponse = (userMessage: string): string => {
     const message = userMessage.toLowerCase();
-    
+
     if (message.includes('track') || message.includes('order')) {
       return 'Please provide your order number and we\'ll help you track it. You can also check your order status in your account dashboard.';
     }
-    
+
     if (message.includes('shipping')) {
       return 'We offer standard shipping (5-7 days) and express shipping (2-3 days). Free shipping on orders over $50 (€75 in Europe). You can track your shipment once it\'s dispatched.';
     }
-    
+
     if (message.includes('return') || message.includes('refund')) {
       return 'Our return policy allows returns within 30 days of purchase. Items must be in original condition. Contact support@mindvap.com for return instructions.';
     }
-    
+
     if (message.includes('payment') || message.includes('stripe') || message.includes('card')) {
       return 'We accept all major credit cards securely through Stripe. Your payment information is encrypted and protected. We also support PayPal and other secure payment methods.';
     }
-    
+
     if (message.includes('product') || message.includes('herb')) {
       return 'Our herbal blends are carefully crafted using premium ingredients. Each product page contains detailed information about ingredients, benefits, and usage. What specific product are you interested in?';
     }
-    
+
     if (message.includes('age') || message.includes('21') || message.includes('verification')) {
       return 'Yes, you must be 21 years or older to purchase our herbal products. This is required by law and we take age verification seriously.';
     }
-    
+
     if (message.includes('international') || message.includes('europe')) {
       return 'Yes, we ship internationally! We currently ship to 30+ European countries with European shipping rates and VAT calculations. Delivery typically takes 3-5 business days.';
     }
-    
+
     if (message.includes('contact') || message.includes('email') || message.includes('support')) {
       return 'You can reach our support team at support@mindvap.com or through this chat. We typically respond within 2-4 hours during business hours.';
     }
-    
+
     if (message.includes('price') || message.includes('cost') || message.includes('money')) {
       return 'Our prices vary by product and quantity. You can find all pricing information on our product pages. We offer competitive rates and free shipping on orders over $50.';
     }
-    
+
     // Default response
     return 'Thanks for your message! A support agent will respond shortly. For immediate assistance, you can also email us at support@mindvap.com or call us at +1 (555) 123-4567.';
   };
@@ -98,19 +105,41 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
     setInputValue('');
     setIsTyping(true);
 
-    // Simulate typing delay
-    setTimeout(() => {
-      const botResponse: Message = {
+    try {
+      let botResponse: any;
+
+      if (isHerbalistMode || text.toLowerCase().includes('herbalist') || text.toLowerCase().includes('consultation')) {
+        if (!isHerbalistMode) setIsHerbalistMode(true);
+
+        // Get API key from localStorage (same as admin page for now)
+        const apiKey = localStorage.getItem('openai_api_key') || undefined;
+        botResponse = await ChatService.handleHerbalistConsultation(text, apiKey);
+      } else {
+        botResponse = ChatService.generateBotResponse(text);
+      }
+
+      const responseMessage: Message = {
         id: (Date.now() + 1).toString(),
-        text: generateBotResponse(text),
+        text: botResponse.response,
         sender: 'bot',
         timestamp: new Date(),
-        quickReplies: ['Track my order', 'Shipping info', 'Product questions', 'Contact support']
+        quickReplies: botResponse.quickReplies || ['Track my order', 'Consult Herbalist', 'Shipping info', 'Contact support'],
+        metadata: botResponse.metadata
       };
 
-      setMessages(prev => [...prev, botResponse]);
+      setMessages(prev => [...prev, responseMessage]);
+    } catch (error) {
+      log.error('Chat bot error', { error });
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'I\'m sorry, I encountered an error. Please try again later.',
+        sender: 'bot',
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 2000); // Random delay between 1-3 seconds
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -127,9 +156,20 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
   return (
     <div className="fixed bottom-6 right-6 w-96 h-[500px] bg-white rounded-lg shadow-2xl z-50 flex flex-col animate-in slide-in-from-bottom-4 duration-300">
       {/* Chat Header */}
-      <div className="bg-brand text-white p-4 rounded-t-lg flex items-center justify-between">
-        <h3 className="font-semibold text-lg">Customer Support</h3>
+      <div className={`${isHerbalistMode ? 'bg-emerald-800' : 'bg-brand'} text-white p-4 rounded-t-lg flex items-center justify-between transition-colors`}>
+        <div className="flex items-center gap-2">
+          {isHerbalistMode ? <Leaf className="w-5 h-5 text-emerald-300" /> : <MessageCircle className="w-5 h-5" />}
+          <h3 className="font-semibold text-lg">{isHerbalistMode ? 'AI Master Herbalist' : 'Customer Support'}</h3>
+        </div>
         <div className="flex gap-2">
+          {isHerbalistMode && (
+            <button
+              onClick={() => setIsHerbalistMode(false)}
+              className="text-xs bg-emerald-700 hover:bg-emerald-600 px-2 py-1 rounded transition-colors mr-2"
+            >
+              Exit Herbalist
+            </button>
+          )}
           <button
             onClick={onToggle}
             className="text-white hover:text-gray-200 transition-colors"
@@ -151,17 +191,52 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] rounded-lg p-3 ${
-              message.sender === 'user' 
-                ? 'bg-brand text-white rounded-br-sm' 
+            <div className={`max-w-[80%] rounded-lg p-3 ${message.sender === 'user'
+                ? 'bg-brand text-white rounded-br-sm'
                 : 'bg-gray-100 text-gray-800 rounded-bl-sm'
-            }`}>
-              <p className="text-sm">{message.text}</p>
+              }`}>
+              <div className="text-sm">
+                <p>{message.text}</p>
+
+                {/* Formulation Details Card */}
+                {message.metadata?.formulation && (
+                  <div className="mt-3 p-3 bg-white/90 rounded border border-emerald-100 text-gray-800">
+                    <p className="font-bold text-xs text-emerald-800 uppercase tracking-wider mb-1">Custom Formulation</p>
+                    <div className="space-y-1 mb-3">
+                      {message.metadata.formulation.ingredients.map((ing: any, i: number) => (
+                        <div key={i} className="flex justify-between text-xs">
+                          <span>{ing.name}</span>
+                          <span className="font-medium">{ing.percentage}%</span>
+                        </div>
+                      ))}
+                    </div>
+                    <button
+                      onClick={async () => {
+                        try {
+                          const res = await fetch('/data/products.json');
+                          const products = await res.json();
+                          const baseProduct = products.find((p: any) => p.id === 'herbal-harmony');
+                          if (baseProduct) {
+                            addToCart(baseProduct, 1, message.metadata.formulation);
+                            handleSendMessage('I\'ve added the ' + message.metadata.formulation.name + ' to my cart!');
+                          }
+                        } catch (e) {
+                          console.error('Failed to add custom mix to cart', e);
+                        }
+                      }}
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold py-2 rounded flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <ShoppingCart className="w-3 h-3" />
+                      Add to Cart - $34.99
+                    </button>
+                  </div>
+                )}
+              </div>
               <div className="flex items-center gap-1 mt-2 text-xs opacity-70">
                 <Clock className="w-3 h-3" />
                 <span>{message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
               </div>
-              
+
               {/* Quick Replies */}
               {message.quickReplies && (
                 <div className="mt-3 space-y-2">
@@ -179,7 +254,7 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
             </div>
           </div>
         ))}
-        
+
         {/* Typing Indicator */}
         {isTyping && (
           <div className="flex justify-start">
@@ -192,7 +267,7 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
             </div>
           </div>
         )}
-        
+
         <div ref={messagesEndRef} />
       </div>
 
@@ -215,7 +290,7 @@ export default function ChatWindow({ isOpen, onToggle }: ChatWindowProps) {
             <Send className="w-4 h-4" />
           </button>
         </form>
-        
+
         {/* Agent Transfer Button */}
         <button
           onClick={() => handleSendMessage('Speak to a human')}

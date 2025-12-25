@@ -428,6 +428,24 @@ const translations = {
     'chat.response.pricing': 'Our prices vary by product and quantity. You can find all pricing information on our product pages. We offer competitive rates and free shipping on orders over $50.',
     'chat.response.fallback': 'Thanks for your message! A support agent will respond shortly. You can also email us at support@mindvap.com.',
 
+    // Master Herbalist Flow
+    'chat.quickReplies.customBlend': 'Request a Custom Blend',
+    'chat.masterHerbalist.intro': 'Welcome to the Master Herbalist. I can create a tailored herbal mix just for you based on your needs and safety profile.',
+    'chat.masterHerbalist.askGoal': 'What is your primary wellness goal today?',
+    'chat.masterHerbalist.askFormat': 'How do you prefer to use your herbs?',
+    'chat.masterHerbalist.askSafety': 'For your safety, please let us know if any of these apply to you:',
+    'chat.masterHerbalist.generating': 'I am now formulating your perfect blend based on clinical research...',
+    'chat.masterHerbalist.success': 'Your custom formulation is ready!',
+    'chat.masterHerbalist.addToCart': 'Add to Cart',
+    'chat.masterHerbalist.goal.anxiety': 'Anxiety Relief',
+    'chat.masterHerbalist.goal.sleep': 'Sleep Support',
+    'chat.masterHerbalist.goal.focus': 'Focus & Clarity',
+    'chat.masterHerbalist.format.tea': 'Tea / Infusion',
+    'chat.masterHerbalist.format.smoking_blend': 'Smoking Blend / Vaporization',
+    'chat.masterHerbalist.safety.none': 'None of these',
+    'chat.masterHerbalist.safety.pregnancy': 'Pregnancy / Nursing',
+    'chat.masterHerbalist.safety.medication': 'Taking Medications (e.g. SSRIs)',
+
     // Authentication - merged from auth.ts
     ...authTranslations.en
   },
@@ -834,6 +852,24 @@ const translations = {
     'chat.response.pricing': 'Nuestros precios varían según el producto y cantidad. Puedes encontrar toda la información de precios en nuestras páginas de productos. Ofrecemos tarifas competitivas y envío gratis en pedidos superiores a $50.',
     'chat.response.fallback': '¡Gracias por tu mensaje! Un agente de soporte responderá pronto. También puedes enviarnos un email a support@mindvap.com.',
 
+    // Master Herbalist Flow
+    'chat.quickReplies.customBlend': 'Solicitar una Mezcla Personalizada',
+    'chat.masterHerbalist.intro': 'Bienvenido al Maestro Herbalista. Puedo crear una mezcla herbal a medida solo para ti basada en tus necesidades y perfil de seguridad.',
+    'chat.masterHerbalist.askGoal': '¿Cuál es tu principal objetivo de bienestar hoy?',
+    'chat.masterHerbalist.askFormat': '¿Cómo prefieres usar tus hierbas?',
+    'chat.masterHerbalist.askSafety': 'Por tu seguridad, infórmanos si alguno de estos se aplica a ti:',
+    'chat.masterHerbalist.generating': 'Ahora estoy formulando tu mezcla perfecta basada en investigación clínica...',
+    'chat.masterHerbalist.success': '¡Tu formulación personalizada está lista!',
+    'chat.masterHerbalist.addToCart': 'Añadir al Carrito',
+    'chat.masterHerbalist.goal.anxiety': 'Alivio de Ansiedad',
+    'chat.masterHerbalist.goal.sleep': 'Apoyo para el Sueño',
+    'chat.masterHerbalist.goal.focus': 'Enfoque y Claridad',
+    'chat.masterHerbalist.format.tea': 'Té / Infusión',
+    'chat.masterHerbalist.format.smoking_blend': 'Mezcla para Fumar / Vaporización',
+    'chat.masterHerbalist.safety.none': 'Ninguno de estos',
+    'chat.masterHerbalist.safety.pregnancy': 'Embarazo / Lactancia',
+    'chat.masterHerbalist.safety.medication': 'Tomando Medicamentos (ej. ISRS)',
+
     // Authentication - merged from auth.ts
     ...authTranslations.es
   },
@@ -1239,6 +1275,24 @@ const translations = {
     'chat.response.contact': 'Puoi contattare il nostro team di supporto a support@mindvap.com o attraverso questa chat. Típicamente rispondiamo entro 2-4 ore durante gli orari di lavoro.',
     'chat.response.pricing': 'I nostri prezzi variano per prodotto e quantità. Puoi trovare tutte le informazioni sui prezzi nelle nostre pagine prodotto. Offriamo tariffe competitive e spedizione gratuita su ordini superiori a $50.',
     'chat.response.fallback': 'Grazie per il tuo messaggio! Un agente di supporto risponderà a breve. Puoi anche inviarci un\'email a support@mindvap.com.',
+
+    // Master Herbalist Flow
+    'chat.quickReplies.customBlend': 'Richiedi una Miscela Personalizzata',
+    'chat.masterHerbalist.intro': 'Benvenuto dal Maestro Erborista. Posso creare un mix erboristico su misura per te in base alle tue esigenze e al tuo profilo di sicurezza.',
+    'chat.masterHerbalist.askGoal': 'Qual è il tuo principale obiettivo di benessere oggi?',
+    'chat.masterHerbalist.askFormat': 'Come preferisci usare le tue erbe?',
+    'chat.masterHerbalist.askSafety': 'Per la tua sicurezza, facci sapere se qualcuno di questi ti riguarda:',
+    'chat.masterHerbalist.generating': 'Sto formulando il tuo mix perfetto basandomi sulla ricerca clinica...',
+    'chat.masterHerbalist.success': 'La tua formulazione personalizzata è pronta!',
+    'chat.masterHerbalist.addToCart': 'Aggiungi al Carrello',
+    'chat.masterHerbalist.goal.anxiety': 'Sollievo dall\'Ansia',
+    'chat.masterHerbalist.goal.sleep': 'Supporto per il Sonno',
+    'chat.masterHerbalist.goal.focus': 'Focus e Chiarezza',
+    'chat.masterHerbalist.format.tea': 'Tè / Infusione',
+    'chat.masterHerbalist.format.smoking_blend': 'Miscela da Fumare / Vaporizzazione',
+    'chat.masterHerbalist.safety.none': 'Nessuno di questi',
+    'chat.masterHerbalist.safety.pregnancy': 'Gravidanza / Allattamento',
+    'chat.masterHerbalist.safety.medication': 'Assunzione di Farmaci (es. SSRI)',
 
     // Authentication - merged from auth.ts
     ...authTranslations.it

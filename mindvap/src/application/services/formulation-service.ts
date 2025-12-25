@@ -1,3 +1,8 @@
+import { SafetyService } from './safety-service';
+import { SecurityMetricService } from './security-metric-service';
+import { log } from '../../infrastructure/lib/logger';
+import { FormulaIngredient } from '../../domain/entities/index';
+
 export interface FormulationCriteria {
     goal: 'calm' | 'relaxation' | 'mood_support' | 'energy' | 'focus' | 'mind_clarity' | 'sleep';
     format: 'tea' | 'smoking_blend' | 'incense' | 'tincture';
@@ -5,9 +10,7 @@ export interface FormulationCriteria {
     apiKey?: string;
 }
 
-export interface Ingredient {
-    name: string;
-    percentage: number;
+export interface Ingredient extends FormulaIngredient {
     reason: string;
 }
 
@@ -18,67 +21,117 @@ export interface FormulationResult {
     flavorProfile: string;
     synergyNotes: string;
     instructions: string;
+    safetyStatus?: {
+        safe: boolean;
+        warnings: string[];
+    };
 }
 
+const SYSTEM_PROMPT = `
+You are the MindVap Master Herbalist, an expert in creating personalized herbal blends.
+Your goal is to formulate a blend based on the user's goal, format (tea, smoking_blend, etc.), and health constraints.
+
+GUIDELINES:
+1. Use only high-quality, research-backed herbs.
+2. Ensure synergy between ingredients.
+3. Respect the user's constraints (allergies, medications, conditions).
+4. Provide a clear reason for each ingredient based on herbal research.
+5. Return ONLY a valid JSON object matching the requested structure.
+
+RESEARCH DATA REFERENCE:
+- Ashwagandha: Stress/Anxiety, GABAergic modulation. 300-600mg equivalency.
+- Chamomile: Anxiety, Apigenin/GABA. Inhalation/Oral.
+- Lavender: Anxiolytic, Linalool.
+- Peppermint: Memory/Alertness, Menthol.
+- Holy Basil (Tulsi): Stress resilience, Cortisol modulation.
+- Ginger: Attention/Cognition, Gingerols.
+- Turmeric (Curcumin): Mood/Depression, Anti-inflammatory.
+- Rosemary: Focus/Attention, 1,8-cineole.
+- Passionflower: Anxiety/Sleep, GABAergic.
+- Lemon Balm: Anxiety/Sleep, combinations with Valerian.
+- Valerian Root: Sedation, Sleep aid.
+- St. John's Wort: Mild-to-moderate depression. (CAUTION: High interactions).
+
+OUTPUT FORMAT:
+{
+  "name": "Blend Name",
+  "description": "Short description",
+  "ingredients": [
+    { "name": "Herb Name", "percentage": 40, "reason": "Why it's included" }
+  ],
+  "flavorProfile": "Taste experience",
+  "synergyNotes": "How ingredients work together",
+  "instructions": "Usage guide"
+}
+`;
+
 export const generateFormulation = async (criteria: FormulationCriteria): Promise<FormulationResult> => {
-    // varied delay to simulate AI thinking
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    const { apiKey, goal, format, constraints } = criteria;
 
-    if (!criteria.apiKey) {
-        throw new Error("API Key is required for custom AI formulation.");
+    // ADR-0004: Fast fail if no key
+    if (!apiKey) {
+        throw new Error('OpenAI API Key is required for formulation generation');
     }
 
-    // Mock Logic to demonstrate the agent's capability
-    // In production, this would use the apiKey to call OpenAI with a specialized system prompt.
+    // Track request security metric
+    SecurityMetricService.trackEvent({
+        type: 'ai_formulation',
+        identifier: 'formulation_agent',
+        action: 'generate_formulation',
+        metadata: { goal, format, constraintCount: constraints.length }
+    });
 
-    if (criteria.goal === 'focus' || criteria.goal === 'mind_clarity' || criteria.goal === 'energy') {
-        return {
-            name: "Cognitive Clarity Blend",
-            description: "A bright, stimulating blend designed to clear brain fog and enhance concentration without the jitters of caffeine.",
-            ingredients: [
-                { name: "Gotu Kola", percentage: 40, reason: "Traditional cerebral tonic, improves circulation to the brain." },
-                { name: "Ginkgo Biloba", percentage: 30, reason: "Enhances cognitive function and memory." },
-                { name: "Peppermint", percentage: 20, reason: "Invigorating scent that wakes up the senses." },
-                { name: "Lemon Balm", percentage: 10, reason: "Reduces anxiety to allow focused attention." }
-            ],
-            flavorProfile: "Fresh, minty with slight earthy undertones.",
-            synergyNotes: "Peppermint provides immediate alertness while Gotu Kola and Ginkgo work over time to support sustained focus. Lemon balm smooths out any nervous energy.",
-            instructions: criteria.format === 'tea'
-                ? "Steep 1 tbsp per cup for 7-10 minutes. Cover while steeping to retain peppermint oils."
-                : "Blend dried herbs thoroughly. Use in small amounts."
+    try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${criteria.apiKey}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o', // Or gpt-3.5-turbo for cost efficiency
+                messages: [
+                    { role: 'system', content: SYSTEM_PROMPT },
+                    {
+                        role: 'user',
+                        content: `Create a ${criteria.format} for the goal: ${criteria.goal}. User constraints: ${criteria.constraints.join(', ')}.`
+                    }
+                ],
+                response_format: { type: "json_object" },
+                temperature: 0.7
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`OpenAI API Error: ${errorData.error?.message || response.statusText}`);
+        }
+
+        const data = await response.json();
+        const result: FormulationResult = JSON.parse(data.choices[0].message.content);
+
+        // --- Post-Generation Safety Check ---
+        const safety = SafetyService.checkSafety(
+            result.ingredients.map(i => ({ name: i.name, percentage: i.percentage })),
+            criteria.constraints
+        );
+
+        result.safetyStatus = {
+            safe: safety.safe,
+            warnings: safety.warnings
         };
-    }
 
-    if (criteria.goal === 'sleep' || criteria.goal === 'relaxation' || criteria.goal === 'calm') {
-        return {
-            name: "Deep Rest Night Blend",
-            description: "A heavy, grounding blend specifically formulated to lower cortisol levels and induce deep, restorative sleep.",
-            ingredients: [
-                { name: "Valerian Root", percentage: 30, reason: "Strong sedative action for deep sleep." },
-                { name: "Passionflower", percentage: 30, reason: "Stops 'looping thoughts' and quiets the mind." },
-                { name: "Chamomile", percentage: 20, reason: "Gentle relaxant and digestive aid." },
-                { name: "Lavender", percentage: 20, reason: "Aromatic relaxant that works via scent and ingestion." }
-            ],
-            flavorProfile: "Earthy, slightly musky (from Valerian) balanced by floral sweetness.",
-            synergyNotes: "Valerian provides the 'knockout' power, while Passionflower handles mental chatter. Chamomile and Lavender ensure the physical body relaxes.",
-            instructions: criteria.format === 'tea'
-                ? "Decoct (simmer) Valerian root for 15 mins first, then pour over other herbs and steep for 10 mins."
-                : "Best used as a tea or tincture. Smoking Valerian is harsh and not recommended."
-        };
-    }
+        if (!safety.safe) {
+            log.warn('AI generated an unsafe formulation', { criteria, result, safety });
+            // We could either return it with warnings or throw error. 
+            // For now, we return it so the UI can show the "Blocked" status.
+        }
 
-    // Default / Mood Support
-    return {
-        name: "Sunshine Mood Lift",
-        description: "A cheerful, uplifting blend to combat low spirits and bring a sense of warmth to the solar plexus.",
-        ingredients: [
-            { name: "St. John's Wort", percentage: 40, reason: "Classic mood brightener (Avoid if on SSRIs)." },
-            { name: "Lemon Verbena", percentage: 30, reason: "Uplifting citrus aromatic." },
-            { name: "Damiana", percentage: 20, reason: "Mild euphoric and nervine tonic." },
-            { name: "Rose Petals", percentage: 10, reason: "Heart-opening and visually beautiful." }
-        ],
-        flavorProfile: "Citrusy, floral, and grassy.",
-        synergyNotes: "St. John's Wort provides the baseline mood support, while Damiana adds a spark of creativity. Lemon Verbena and Rose act on the olfactory system to trigger happiness.",
-        instructions: "Steep 5-7 minutes. Add honey to enhance the floral notes."
-    };
+        return result;
+
+    } catch (error: any) {
+        log.error('Failed to generate formulation', { error, criteria });
+        throw error;
+    }
 };
+

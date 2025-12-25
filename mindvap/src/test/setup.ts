@@ -62,7 +62,12 @@ Object.defineProperty(global, 'crypto', {
 });
 
 // Mock fetch
-(global as any).fetch = () => Promise.resolve({ ok: true });
+(global as any).fetch = jest.fn(() =>
+  Promise.resolve({
+    ok: true,
+    json: () => Promise.resolve({}),
+  })
+);
 
 // Mock scrollTo
 Object.defineProperty(window, 'scrollTo', {

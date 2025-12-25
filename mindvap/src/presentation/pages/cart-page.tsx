@@ -44,74 +44,103 @@ export default function CartPage() {
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-6">
-            {cartItems.map((item) => (
-              <div key={item.product.id} className="bg-white rounded-lg p-6 shadow-sm">
-                <div className="flex gap-6">
-                  <img
-                    src={item.product.image}
-                    alt={item.product.name[language]}
-                    loading="lazy"
-                    className="w-32 h-32 object-cover rounded-lg"
-                  />
-                  <div className="flex-1">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <Link
-                          to={`/product/${item.product.id}`}
-                          className="font-serif text-xl text-text-primary hover:text-brand transition-colors"
-                        >
-                          {item.product.name[language]}
-                        </Link>
-                        <p className="text-sm text-text-secondary mt-1">
-                          {item.product.category[language]}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => removeFromCart(item.product.id)}
-                        className="text-text-tertiary hover:text-red-600 transition-colors"
-                        aria-label="Remove item"
-                      >
-                        <Trash2 className="w-5 h-5" />
-                      </button>
-                    </div>
+            {cartItems.map((item) => {
+              const itemKey = item.customFormula ? `${item.product.id}-${item.customFormula.id}` : item.product.id;
 
-                    <p className="text-sm text-text-secondary mb-4">
-                      {item.product.herbs.join(', ')}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
+              return (
+                <div key={itemKey} className="bg-white rounded-lg p-6 shadow-sm border border-border-light">
+                  <div className="flex flex-col md:flex-row gap-6">
+                    <img
+                      src={item.product.image}
+                      alt={item.product.name[language]}
+                      loading="lazy"
+                      className="w-32 h-32 object-cover rounded-lg bg-gray-50"
+                    />
+                    <div className="flex-1">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <Link
+                              to={`/product/${item.product.id}`}
+                              className="font-serif text-xl text-text-primary hover:text-brand transition-colors"
+                            >
+                              {item.product.name[language]}
+                            </Link>
+                            {item.customFormula && (
+                              <span className="text-[10px] font-bold uppercase tracking-wider bg-brand-light text-brand-primary px-2 py-0.5 rounded-full border border-brand-outline">
+                                Custom Mix
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-sm text-text-secondary mt-1">
+                            {item.product.category[language]}
+                          </p>
+                        </div>
                         <button
-                          onClick={() => updateCartQuantity(item.product.id, item.quantity - 1)}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-brand-light transition-colors"
-                          disabled={item.quantity <= 1}
+                          onClick={() => removeFromCart(itemKey)}
+                          className="text-text-tertiary hover:text-red-600 transition-colors"
+                          aria-label="Remove item"
                         >
-                          <Minus className="w-4 h-4" />
-                        </button>
-                        <span className="text-text-primary font-medium w-8 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() => updateCartQuantity(item.product.id, item.quantity + 1)}
-                          className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-brand-light transition-colors"
-                          disabled={item.quantity >= item.product.stockLevel}
-                        >
-                          <Plus className="w-4 h-4" />
+                          <Trash2 className="w-5 h-5" />
                         </button>
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-semibold text-text-primary">
-                          ${(item.product.price * item.quantity).toFixed(2)}
+
+                      {item.customFormula ? (
+                        <div className="mb-4 p-3 bg-gray-50 rounded border border-gray-100">
+                          <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">AI Formulation: {item.customFormula.name}</p>
+                          <ul className="text-xs space-y-1 text-text-secondary">
+                            {item.customFormula.ingredients.map((ing, i) => (
+                              <li key={i} className="flex justify-between">
+                                <span>{ing.name} ({ing.percentage}%)</span>
+                                <span className="text-[10px] text-gray-400 italic">Target: {item.customFormula?.goal}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <p className="text-[10px] text-blue-600 mt-2 font-medium italic">
+                            Instructions: {item.customFormula.instructions}
+                          </p>
+                        </div>
+                      ) : (
+                        <p className="text-sm text-text-secondary mb-4 italic">
+                          {item.product.herbs.join(', ')}
                         </p>
-                        <p className="text-sm text-text-secondary">
-                          ${item.product.price.toFixed(2)} each
-                        </p>
+                      )}
+
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => updateCartQuantity(itemKey, item.quantity - 1)}
+                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-brand-light transition-colors"
+                            disabled={item.quantity <= 1}
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="text-text-primary font-medium w-8 text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() => updateCartQuantity(itemKey, item.quantity + 1)}
+                            className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-brand-light transition-colors"
+                            disabled={item.quantity >= item.product.stockLevel}
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-semibold text-text-primary">
+                            ${(item.product.price * item.quantity).toFixed(2)}
+                          </p>
+                          <p className="text-sm text-text-secondary">
+                            ${item.product.price.toFixed(2)} each
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
+
           </div>
 
           {/* Order Summary */}
